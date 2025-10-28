@@ -1,0 +1,148 @@
+.landing-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.landing-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+/* Light blue transparent overlay */
+.landing-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(173, 216, 230, 0.6);
+    /* lightblue with transparency */
+    z-index: 1;
+}
+
+/* Top bar */
+.landing-topbar {
+    width: 100%;
+    padding: 16px 24px;
+    display: flex;
+    justify-content: flex-end;
+    /* keep on the right */
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+.landing-login-btn {
+    border: 1px solid black;
+    color: black;
+    background: transparent;
+    padding: 6px 16px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-right: 20px;
+    /* 👈 shifts it slightly left */
+}
+
+.landing-login-btn:hover {
+    background: #fff;
+    color: lightblue;
+}
+
+
+/* Center content */
+/* Center content */
+.landing-content {
+    text-align: center;
+    padding: 0 24px;
+    max-width: 500px;
+    z-index: 2;
+
+    /* 👇 raise everything higher */
+    margin-top: -60px;
+}
+
+.landing-title {
+    font-size: 32px;
+    font-weight: 800;
+    color: black;
+    margin-bottom: 16px;
+}
+
+.landing-subtext {
+    font-size: 16px;
+    color: black;
+    line-height: 1.5;
+    margin-bottom: 24px;
+}
+
+/* Logo under text */
+.landing-logo-center {
+    height: 100px;
+    /* 👈 bigger */
+    opacity: 0.9;
+}
+
+
+/* Centered logo */
+.landing-logo-center {
+    height: 160px;
+    opacity: 0.85;
+}
+
+/* Footer button */
+.landing-footer {
+    width: 100%;
+    padding: 24px;
+    display: flex;
+    justify-content: center;
+    z-index: 2;
+}
+
+.landing-start-btn {
+    background: #fff;
+    color: black;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.landing-start-btn:hover {
+    background: #e6f7ff;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .landing-title {
+        font-size: 24px;
+    }
+
+    .landing-subtext {
+        font-size: 14px;
+    }
+
+    .landing-logo-center {
+        height: 350px;
+    }
+
+    .landing-start-btn {
+        width: 100%;
+        max-width: 300px;
+    }
+}
