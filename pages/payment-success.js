@@ -8,7 +8,7 @@ export default function PaymentSuccess() {
   const [isRefreshing, setIsRefreshing] = useState(true);
   const [retryCount, setRetryCount] = useState(0);
   const MAX_RETRIES = 5;
-
+ 
   useEffect(() => {
     const refreshSessionAndCheck = async () => {
       try {
