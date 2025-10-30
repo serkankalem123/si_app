@@ -48,50 +48,64 @@ export async function POST(request) {
 
     // Handle successful checkout
     if (event.type === 'checkout.session.completed') {
-      const session = event.data.object;
-      
-      console.log('Checkout completed:', {
-        sessionId: session.id,
-        email: session.customer_email,
-        metadata: session.metadata
-      });
+  const session = event.data.object;
+  
+  console.log('💰 Checkout completed:', {
+    sessionId: session.id,
+    email: session.customer_email,
+    metadata: session.metadata
+  });
 
-      const userId = session.metadata?.userId || session.metadata?.supabase_user_id;
+  const userId = session.metadata?.userId || session.metadata?.supabase_user_id;
 
-      if (!userId) {
-        console.error('❌ No userId found in metadata');
-        return NextResponse.json(
-          { error: 'No userId in metadata' },
-          { status: 400 }
-        );
+  if (!userId) {
+    console.error('❌ No userId in metadata');
+    return NextResponse.json({ error: 'No userId in metadata' }, { status: 400 });
+  }
+
+  console.log('🔄 Updating user to premium:', userId);
+
+  // ✅ Update auth metadata
+  const { data: authData, error: authError } = await supabaseAdmin.auth.admin.updateUserById(
+    userId,
+    {
+      user_metadata: {
+        is_premium: true,
+        stripe_customer_id: session.customer,
+        subscription_id: session.subscription,
+        premium_since: new Date().toISOString()
       }
-
-      console.log('Updating user to premium:', userId);
-
-      // Update user metadata in Supabase Auth
-      const { data, error } = await supabaseAdmin.auth.admin.updateUserById(
-        userId,
-        {
-          user_metadata: {
-            is_premium: true,
-            stripe_customer_id: session.customer,
-            subscription_id: session.subscription,
-            premium_since: new Date().toISOString()
-          }
-        }
-      );
-
-      if (error) {
-        console.error('❌ Error updating user:', error);
-        return NextResponse.json(
-          { error: 'Failed to update user' },
-          { status: 500 }
-        );
-      }
-
-      console.log('✅ User upgraded to premium successfully');
-      console.log('Updated user data:', data);
     }
+  );
+
+  if (authError) {
+    console.error('❌ Error updating auth:', authError);
+    return NextResponse.json({ error: 'Failed to update auth' }, { status: 500 });
+  }
+
+  console.log('✅ Auth metadata updated');
+
+  // ✅ NEW: Update profiles table
+  const { error: profileError } = await supabaseAdmin
+    .from('profiles')
+    .update({
+      is_premium: true,
+      stripe_customer_id: session.customer,
+      subscription_id: session.subscription,
+      premium_since: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    })
+    .eq('id', userId);
+
+  if (profileError) {
+    console.error('❌ Error updating profile:', profileError);
+    // Don't fail webhook if profile update fails
+  } else {
+    console.log('✅ Profile updated to premium');
+  }
+
+  console.log('🎉 USER UPGRADED TO PREMIUM SUCCESSFULLY');
+}
 
     // Handle subscription cancellation
     if (event.type === 'customer.subscription.deleted') {

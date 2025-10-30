@@ -214,6 +214,7 @@ async function compressAndUploadImage(file) {
 function App() {
   const [showSplash, setShowSplash] = useState(true)
   const [session, setSession] = useState(null)
+  const [profile, setProfile] = useState(null)
   const [searchTerm, setSearchTerm] = useState("")
   const [businesses, setBusinesses] = useState([])
   const [justSignedUp, setJustSignedUp] = useState(false)
@@ -241,7 +242,19 @@ function App() {
   const [tagFilter, setTagFilter] = useState("")
   const [isAdmin, setIsAdmin] = useState(false)
 
-  const isPremium = session?.user?.user_metadata?.is_premium === true
+  const isPremium = session?.user?.user_metadata?.is_premium === true || profile?.is_premium === true
+
+  useEffect(() => {
+  if (session?.user) {
+    console.log('═══════════════════════════════════════');
+    console.log('User:', session.user.email);
+    console.log('Auth Meta:', session.user.user_metadata);
+    console.log('Profile:', profile);
+    console.log('isPremium:', isPremium);
+    console.log('Nav Items:', navItems.map(n => n.label));
+    console.log('═══════════════════════════════════════');
+  }
+}, [session, profile, isPremium]);
 
   const [selectedNav, setSelectedNav] = useState("Highlighted Business")
 
@@ -253,60 +266,60 @@ function App() {
   ]
 
   useEffect(() => {
-    const initializeFirebase = async () => {
-      try {
-        let app
-        if (getApps().length === 0) {
-          app = initializeApp(firebaseConfig)
-          console.log("Firebase app initialized")
-        } else {
-          app = getApp()
-          console.log("Firebase app already exists")
-        }
-
-        const messaging = getMessaging(app)
-
-        const permission = await Notification.requestPermission()
-        if (permission === "granted") {
-          console.log("Notification permission granted")
-
-          const token = await getToken(messaging, {
-            vapidKey: "BOgqakg5aBxNszM1Ji6H4ADnNMtexhho5CWWpijJqNxdyD8MtYGSc7ZX3yRz2ybsVs8YIHKi_NZ0mz8zAQ25lQk",
-          })
-
-          if (token) {
-            console.log("FCM Token:", token)
-            handleFcmTokenReceived(token)
-          } else {
-            console.log("No FCM token received")
-          }
-        } else {
-          console.log("Notification permission denied")
-        }
-
-        onMessage(messaging, (payload) => {
-          console.log("Message received in foreground:", payload)
-          if (payload.notification) {
-            new Notification(payload.notification.title, {
-              body: payload.notification.body,
-              icon: payload.notification.icon,
-            })
-          }
-        })
-      } catch (error) {
-        console.error("Error initializing Firebase messaging:", error)
+  const initializeFirebase = async () => {
+    try {
+      let app
+      if (getApps().length === 0) {
+        app = initializeApp(firebaseConfig)
+        console.log("Firebase app initialized")
+      } else {
+        app = getApp()
+        console.log("Firebase app already exists")
       }
-    }
 
-    initializeFirebase()
-  }, [])
+      const messaging = getMessaging(app)
+
+      const permission = await Notification.requestPermission()
+      if (permission === "granted") {
+        console.log("Notification permission granted")
+
+        const token = await getToken(messaging, {
+          vapidKey: "BOgqakg5aBxNszM1Ji6H4ADnNMtexhho5CWWpijJqNxdyD8MtYGSc7ZX3yRz2ybsVs8YIHKi_NZ0mz8zAQ25lQk",
+        })
+
+        if (token) {
+          console.log("FCM Token:", token)
+          handleFcmTokenReceived(token)
+        } else {
+          console.log("No FCM token received")
+        }
+      } else {
+        console.log("Notification permission denied")
+      }
+
+      onMessage(messaging, (payload) => {
+        console.log("Message received in foreground:", payload)
+        if (payload.notification) {
+          new Notification(payload.notification.title, {
+            body: payload.notification.body,
+            icon: payload.notification.icon,
+          })
+        }
+      })
+    } catch (error) {
+      console.error("Error initializing Firebase messaging:", error)
+    }
+  }
+
+  initializeFirebase()
+}, [])
 
   useEffect(() => {
-    if (session?.user?.email) {
-      const adminEmails = ["serkankalem99@gmail.com"]
-      setIsAdmin(adminEmails.includes(session.user.email.toLowerCase()))
-    }
-  }, [session])
+  if (session?.user?.email) {
+    const adminEmails = ["serkankalem99@gmail.com"]
+    setIsAdmin(adminEmails.includes(session.user.email.toLowerCase()))
+  }
+}, [session])
 
   const getBusinessImage = (business, size = "small") => {
     if (
@@ -507,35 +520,94 @@ function App() {
   }, [])
 
  
-  useEffect(() => {
-    // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-    });
-  
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      console.log('Auth event:', _event);
-      setSession(session);
-    });
-  
-    return () => {
-      subscription?.unsubscribe();
-    };
-  }, []);
-
-  // Add this useEffect to refresh session on mount
 useEffect(() => {
-  const refreshUserSession = async () => {
-    const { data: { session: refreshedSession } } = await supabase.auth.refreshSession();
-    if (refreshedSession) {
-      setSession(refreshedSession);
+  let mounted = true;
+
+  const loadData = async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!mounted) return;
+    
+    console.log('📍 Initial session loaded');
+    setSession(session);
+    
+    if (session?.user) {
+      // Load profile from database
+      const { data: profileData, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', session.user.id)
+        .single();
+      
+      if (error) {
+        console.error('❌ Profile error:', error);
+      } else {
+        console.log('✅ Profile loaded:', profileData);
+        setProfile(profileData);
+      }
     }
   };
-  
-  // Refresh session when component mounts
-  refreshUserSession();
+
+  loadData();
+
+  // Listen for auth changes
+  const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+    console.log('🔔 Auth event:', event);
+    if (!mounted) return;
+    
+    setSession(session);
+    
+    if (session?.user) {
+      const { data: profileData } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', session.user.id)
+        .single();
+      setProfile(profileData);
+    } else {
+      setProfile(null);
+    }
+  });
+
+  return () => {
+    mounted = false;
+    subscription?.unsubscribe();
+  };
 }, []);
+
+useEffect(() => {
+  if (!session?.user?.id) return;
+
+  const refreshData = async () => {
+    try {
+      // Refresh auth
+      const { data: { session: newSession } } = await supabase.auth.refreshSession();
+      
+      // Refresh profile
+      const { data: newProfile } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', session.user.id)
+        .single();
+
+      const oldPremium = isPremium;
+      const newPremium = 
+        newSession?.user?.user_metadata?.is_premium === true ||
+        newProfile?.is_premium === true;
+
+      if (oldPremium !== newPremium) {
+        console.log('🎉 Premium status changed!', oldPremium, '→', newPremium);
+        setSession(newSession);
+        setProfile(newProfile);
+      }
+    } catch (error) {
+      console.error('Refresh error:', error);
+    }
+  };
+
+  refreshData();
+  const interval = setInterval(refreshData, 10000);
+  return () => clearInterval(interval);
+}, [session?.user?.id]);
 
   // Add this new useEffect after your existing useEffects
 useEffect(() => {
@@ -575,32 +647,51 @@ useEffect(() => {
   }, [])
 
   useEffect(() => {
-    if (session?.user) {
-      const metadata = session.user.user_metadata || {}
-      setDisplayName(metadata.display_name || "")
-      setEditingName(metadata.display_name || "")
-      setAvatarUrl(metadata.avatar_url || "")
-    }
-  }, [session])
+  if (profile) {
+    setDisplayName(profile.display_name || profile.full_name || "");
+    setEditingName(profile.display_name || profile.full_name || "");
+    setAvatarUrl(profile.avatar_url || "");
+  } else if (session?.user?.user_metadata) {
+    setDisplayName(session.user.user_metadata.display_name || "");
+    setEditingName(session.user.user_metadata.display_name || "");
+    setAvatarUrl(session.user.user_metadata.avatar_url || "");
+  }
+}, [session, profile]);
 
   const saveName = async () => {
-    setIsSaving(true)
-    setSaveStatus(null)
-    const { data, error } = await supabase.auth.updateUser({
+  setIsSaving(true);
+  setSaveStatus(null);
+  
+  try {
+    // Update auth metadata
+    const { data: authData, error: authError } = await supabase.auth.updateUser({
       data: {
         display_name: editingName,
         avatar_url: avatarUrl,
       },
-    })
-    if (!error && data?.user) {
-      setDisplayName(editingName)
-      setSession((prev) => ({ ...prev, user: data.user }))
-      setSaveStatus("success")
-    } else {
-      setSaveStatus("error")
-    }
-    setIsSaving(false)
+    });
+    if (authError) throw authError;
+
+    // ✅ NEW: Update profile table
+    const { error: profileError } = await supabase
+      .from('profiles')
+      .update({
+        display_name: editingName,
+        full_name: editingName,
+        avatar_url: avatarUrl,
+      })
+      .eq('id', session.user.id);
+    if (profileError) throw profileError;
+
+    setDisplayName(editingName);
+    setSession((prev) => ({ ...prev, user: authData.user }));
+    setSaveStatus('success');
+  } catch (error) {
+    console.error('Save error:', error);
+    setSaveStatus('error');
   }
+  setIsSaving(false);
+};
 
   const handleFileUpload = async (e) => {
     const file = e.target.files[0]
@@ -638,15 +729,16 @@ useEffect(() => {
   }
 
   const handleLogout = async () => {
-    const { error } = await supabase.auth.signOut()
-    if (!error) {
-      setSession(null)
-      setDisplayName("")
-      setEditingName("")
-      setAvatarUrl("")
-      setSelectedNav(navItems[0].label)
-    }
+  const { error } = await supabase.auth.signOut();
+  if (!error) {
+    setSession(null);
+    setProfile(null); // ✅ ADD THIS LINE
+    setDisplayName("");
+    setEditingName("");
+    setAvatarUrl("");
+    setSelectedNav("Highlighted Business");
   }
+};
 
   if (showSplash) {
     return (
