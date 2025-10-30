@@ -10,60 +10,70 @@ export default function PaymentSuccess() {
   const MAX_RETRIES = 5;
  
   useEffect(() => {
-    const refreshSessionAndCheck = async () => {
-      try {
-        console.log('🔄 Refreshing session... Attempt:', retryCount + 1);
-        
-        // Refresh the session to get updated user metadata
-        const { data: { session }, error } = await supabase.auth.refreshSession();
-        
-        if (error) {
-          console.error('Error refreshing session:', error);
-          throw error;
-        }
+  const refreshSessionAndCheck = async () => {
+    try {
+      console.log(`🔄 Attempt ${retryCount + 1}/${MAX_RETRIES}`);
+      
+      // Refresh auth session
+      const { data: { session }, error: sessionError } = 
+        await supabase.auth.refreshSession();
+      
+      if (sessionError) throw sessionError;
 
-        console.log('Session refreshed:', session?.user?.user_metadata);
+      const authPremium = session?.user?.user_metadata?.is_premium === true;
+      console.log('📋 Auth premium:', authPremium);
+
+      // ✅ NEW: Also check profile table
+      const { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('is_premium')
+        .eq('id', session.user.id)
+        .single();
+
+      if (profileError) {
+        console.warn('⚠️ Profile check failed:', profileError);
+      }
+
+      const profilePremium = profile?.is_premium === true;
+      console.log('💾 Profile premium:', profilePremium);
+      
+      const isPremium = authPremium || profilePremium;
+      
+      if (isPremium) {
+        console.log('═══════════════════════════════════════');
+        console.log('🎉 PREMIUM STATUS CONFIRMED!');
+        console.log('═══════════════════════════════════════');
+        setIsRefreshing(false);
         
-        // Check if premium status is updated
-        const isPremium = session?.user?.user_metadata?.is_premium;
+        setTimeout(() => {
+          router.push("/?showCard=true");
+        }, 2000);
+      } else {
+        console.log('⏳ Not premium yet, retrying...');
         
-        if (isPremium) {
-          console.log('✅ Premium status confirmed!');
+        if (retryCount < MAX_RETRIES) {
+          setTimeout(() => {
+            setRetryCount(prev => prev + 1);
+          }, 3000);
+        } else {
+          console.log('⚠️ Max retries reached');
           setIsRefreshing(false);
-          
-          // Redirect after 2 seconds with showCard parameter
           setTimeout(() => {
             router.push("/?showCard=true");
           }, 2000);
-        } else {
-          console.log('⏳ Premium status not yet updated, retrying...');
-          
-          // If not premium yet and haven't exceeded retries, try again
-          if (retryCount < MAX_RETRIES) {
-            setTimeout(() => {
-              setRetryCount(prev => prev + 1);
-            }, 2000);
-          } else {
-            console.log('⚠️ Max retries reached, redirecting anyway');
-            setIsRefreshing(false);
-            setTimeout(() => {
-              router.push("/?showCard=true");
-            }, 2000);
-          }
         }
-      } catch (error) {
-        console.error('Error in refresh process:', error);
-        setIsRefreshing(false);
-        
-        // Redirect anyway after error
-        setTimeout(() => {
-          router.push("/");
-        }, 3000);
       }
-    };
+    } catch (error) {
+      console.error('❌ Error:', error);
+      setIsRefreshing(false);
+      setTimeout(() => {
+        router.push("/");
+      }, 3000);
+    }
+  };
 
-    refreshSessionAndCheck();
-  }, [router, retryCount]);
+  refreshSessionAndCheck();
+}, [router, retryCount]);
 
   return (
     <div style={{ 

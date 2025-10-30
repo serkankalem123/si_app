@@ -84,24 +84,32 @@ function Auth({ onAuthSuccess, isLoginProp }) {
           email: trimmedEmail,
           password,
         });
-      
+
         if (loginError) {
           setError(`Login failed: ${loginError.message}`);
-        } else if (!data.session) {
-          setInfoMessage('No active session received. Check if email confirmation is required.');
-        } else {
-          // 🩵 Fetch fresh user data including metadata
-          const { data: userData, error: userError } = await supabase.auth.getUser();
-          if (userError) {
-            console.error('Failed to fetch user data:', userError);
-          } else if (userData?.user) {
-            data.user = userData.user; // attach full user with metadata
-          }
-          onAuthSuccess(data, false);
+          return;
         }
-      
-      
-      } else {
+
+        if (!data.session) {
+          setInfoMessage('No active session received. Check if email confirmation is required.');
+          return;
+        }
+
+        // ✅ NEW: Fetch fresh user data with metadata
+        console.log('🔄 Fetching fresh user metadata...');
+        const { data: userData, error: userError } = await supabase.auth.getUser();
+        
+        if (userError) {
+          console.error('❌ Failed to fetch user data:', userError);
+        } else if (userData?.user) {
+          data.user = userData.user;
+          console.log('User data loaded:', userData.user.email);
+          console.log('User metadata:', userData.user.user_metadata);
+          console.log('Is premium:', userData.user.user_metadata?.is_premium);
+        }
+        onAuthSuccess(data, false);
+      }
+      else {
         const { data, error: signUpError } = await supabase.auth.signUp({
           email: trimmedEmail,
           password,
