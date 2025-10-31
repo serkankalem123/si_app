@@ -832,16 +832,7 @@ const handleLogout = async () => {
   try {
     console.log('🚪 Starting logout process...');
     
-    // Sign out from Supabase
-    const { error } = await supabase.auth.signOut();
-    
-    if (error) {
-      console.error('❌ Supabase signOut error:', error);
-    } else {
-      console.log('✅ Supabase signOut successful');
-    }
-    
-    // Clear all state immediately
+    // Clear all state FIRST
     setSession(null);
     setProfile(null);
     setDisplayName("");
@@ -853,17 +844,30 @@ const handleLogout = async () => {
     localStorage.clear();
     sessionStorage.clear();
     
+    console.log('🔄 Signing out from Supabase...');
+    
+    // Sign out from Supabase (await it!)
+    const { error } = await supabase.auth.signOut();
+    
+    if (error) {
+      console.error('❌ Supabase signOut error:', error);
+      // Don't return here, continue with reload
+    } else {
+      console.log('✅ Supabase signOut successful');
+    }
+    
+    // CRITICAL: Small delay to ensure signout completes
+    await new Promise(resolve => setTimeout(resolve, 300));
+    
     console.log('🔄 Reloading page...');
     
-    // Force reload
-    setTimeout(() => {
-      window.location.replace('/');
-    }, 100);
+    // Force full page reload (clears all React state)
+    window.location.href = '/';
     
   } catch (err) {
     console.error('❌ Logout error:', err);
-    // Force reload anyway
-    window.location.replace('/');
+    // Force reload anyway to clear state
+    window.location.href = '/';
   }
 };
 
