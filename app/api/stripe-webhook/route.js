@@ -5,7 +5,6 @@ import Stripe from 'stripe';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-// Create Supabase admin client
 const supabaseAdmin = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -17,7 +16,6 @@ export async function POST(request) {
     const signature = request.headers.get('stripe-signature');
 
     console.log('=== Webhook Received ===');
-    console.log('Webhook secret exists:', !!process.env.STRIPE_WEBHOOK_SECRET);
 
     if (!process.env.STRIPE_WEBHOOK_SECRET) {
       console.error('❌ STRIPE_WEBHOOK_SECRET is missing');
@@ -30,7 +28,6 @@ export async function POST(request) {
     let event;
 
     try {
-      // Verify the webhook signature
       event = stripe.webhooks.constructEvent(
         body,
         signature,
@@ -48,96 +45,137 @@ export async function POST(request) {
 
     // Handle successful checkout
     if (event.type === 'checkout.session.completed') {
-  const session = event.data.object;
-  
-  console.log('💰 Checkout completed:', {
-    sessionId: session.id,
-    email: session.customer_email,
-    metadata: session.metadata
-  });
+      const session = event.data.object;
+      
+      console.log('💰 Checkout completed:', {
+        sessionId: session.id,
+        email: session.customer_email,
+        metadata: session.metadata
+      });
 
-  const userId = session.metadata?.userId || session.metadata?.supabase_user_id;
+      const userId = session.metadata?.userId || session.metadata?.supabase_user_id;
 
-  if (!userId) {
-    console.error('❌ No userId in metadata');
-    return NextResponse.json({ error: 'No userId in metadata' }, { status: 400 });
-  }
+      if (!userId) {
+        console.error('❌ No userId in metadata');
+        return NextResponse.json({ error: 'No userId in metadata' }, { status: 400 });
+      }
 
-  console.log('🔄 Updating user to premium:', userId);
+      console.log('🔄 Updating user to premium:', userId);
 
-  // ✅ Update auth metadata
-  const { data: authData, error: authError } = await supabaseAdmin.auth.admin.updateUserById(
-    userId,
-    {
-      user_metadata: {
-        is_premium: true,
-        stripe_customer_id: session.customer,
-        subscription_id: session.subscription,
-        premium_since: new Date().toISOString()
+      // Update auth metadata
+      await supabaseAdmin.auth.admin.updateUserById(
+        userId,
+        {
+          user_metadata: {
+            is_premium: true,
+            stripe_customer_id: session.customer,
+            subscription_id: session.subscription,
+            premium_since: new Date().toISOString(),
+            subscription_status: 'active',
+          }
+        }
+      );
+
+      // Update profiles table
+      await supabaseAdmin
+        .from('profiles')
+        .update({
+          is_premium: true,
+          stripe_customer_id: session.customer,
+          subscription_id: session.subscription,
+          premium_since: new Date().toISOString(),
+          subscription_status: 'active',
+          subscription_cancel_at: null,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', userId);
+
+      console.log('🎉 USER UPGRADED TO PREMIUM SUCCESSFULLY');
+    }
+
+    // Handle subscription updated (e.g., when user cancels but keeps access until period end)
+    if (event.type === 'customer.subscription.updated') {
+      const subscription = event.data.object;
+      
+      console.log('📝 Subscription updated:', subscription.id);
+
+      // Find user with this subscription ID
+      const { data: profile } = await supabaseAdmin
+        .from('profiles')
+        .select('id')
+        .eq('subscription_id', subscription.id)
+        .single();
+
+      if (profile) {
+        const isCanceling = subscription.cancel_at_period_end;
+        const cancelAt = subscription.cancel_at 
+          ? new Date(subscription.cancel_at * 1000).toISOString()
+          : null;
+
+        console.log(`${isCanceling ? '⚠️' : '✅'} Subscription ${isCanceling ? 'will be canceled' : 'is active'}`);
+        if (cancelAt) console.log('📅 Cancel at:', cancelAt);
+
+        // Update auth metadata
+        await supabaseAdmin.auth.admin.updateUserById(
+          profile.id,
+          {
+            user_metadata: {
+              subscription_status: isCanceling ? 'canceling' : 'active',
+              subscription_cancel_at: cancelAt,
+            }
+          }
+        );
+
+        // Update profile
+        await supabaseAdmin
+          .from('profiles')
+          .update({
+            subscription_status: isCanceling ? 'canceling' : 'active',
+            subscription_cancel_at: cancelAt,
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', profile.id);
       }
     }
-  );
 
-  if (authError) {
-    console.error('❌ Error updating auth:', authError);
-    return NextResponse.json({ error: 'Failed to update auth' }, { status: 500 });
-  }
-
-  console.log('✅ Auth metadata updated');
-
-  // ✅ NEW: Update profiles table
-  const { error: profileError } = await supabaseAdmin
-    .from('profiles')
-    .update({
-      is_premium: true,
-      stripe_customer_id: session.customer,
-      subscription_id: session.subscription,
-      premium_since: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    })
-    .eq('id', userId);
-
-  if (profileError) {
-    console.error('❌ Error updating profile:', profileError);
-    // Don't fail webhook if profile update fails
-  } else {
-    console.log('✅ Profile updated to premium');
-  }
-
-  console.log('🎉 USER UPGRADED TO PREMIUM SUCCESSFULLY');
-}
-
-    // Handle subscription cancellation
+    // Handle subscription deletion (when it actually expires)
     if (event.type === 'customer.subscription.deleted') {
       const subscription = event.data.object;
       
-      console.log('Subscription cancelled:', subscription.id);
+      console.log('🚫 Subscription deleted:', subscription.id);
 
-      // Query to find user with this subscription ID
-      const { data: { users }, error: listError } = await supabaseAdmin.auth.admin.listUsers();
+      // Find user with this subscription ID
+      const { data: profile } = await supabaseAdmin
+        .from('profiles')
+        .select('id')
+        .eq('subscription_id', subscription.id)
+        .single();
 
-      if (listError) {
-        console.error('Error listing users:', listError);
-      } else {
-        // Find user with matching subscription_id in metadata
-        const user = users.find(u => 
-          u.user_metadata?.subscription_id === subscription.id
+      if (profile) {
+        // Update auth metadata
+        await supabaseAdmin.auth.admin.updateUserById(
+          profile.id,
+          {
+            user_metadata: {
+              is_premium: false,
+              subscription_status: 'canceled',
+              subscription_cancelled: new Date().toISOString()
+            }
+          }
         );
 
-        if (user) {
-          await supabaseAdmin.auth.admin.updateUserById(
-            user.id,
-            {
-              user_metadata: {
-                is_premium: false,
-                subscription_cancelled: new Date().toISOString()
-              }
-            }
-          );
-          console.log('✅ User premium access removed:', user.id);
-        } else {
-          console.log('⚠️ No user found with subscription:', subscription.id);
-        }
+        // Update profile
+        await supabaseAdmin
+          .from('profiles')
+          .update({
+            is_premium: false,
+            subscription_status: 'canceled',
+            subscription_cancel_at: null,
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', profile.id);
+
+        console.log('✅ User premium access removed:', profile.id);
       }
     }
 

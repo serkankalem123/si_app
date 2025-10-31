@@ -1,9 +1,8 @@
 // ProfileAndPayment.js
-import React from "react"
+import React, { useState } from "react"
 
 function ProfileAndPayment({
-  session, // ADD THIS - it was missing!
-  email,
+  session,
   displayName,
   editingName,
   setEditingName,
@@ -11,13 +10,19 @@ function ProfileAndPayment({
   isSaving,
   saveStatus,
   onLogout,
+  profile,
 }) {
-  // Check if user is premium from session metadata
-  const isPremium = session?.user?.user_metadata?.is_premium === true
-  const isFreeTrial = !isPremium
+  const [isLoadingPortal, setIsLoadingPortal] = useState(false);
+
+  const isPremium = profile?.is_premium === true || session?.user?.user_metadata?.is_premium === true;
+  const subscriptionStatus = profile?.subscription_status || session?.user?.user_metadata?.subscription_status;
+  const cancelAt = profile?.subscription_cancel_at || session?.user?.user_metadata?.subscription_cancel_at;
+  const stripeCustomerId = profile?.stripe_customer_id || session?.user?.user_metadata?.stripe_customer_id;
+
+  // ✅ Check if subscription is ending soon
+  const isCanceling = subscriptionStatus === 'canceling';
 
   const handleUpgrade = async () => {
-    // Add safety check for session
     if (!session?.user?.id || !session?.user?.email) {
       alert("Please sign in to upgrade to premium.")
       return
@@ -49,6 +54,40 @@ function ProfileAndPayment({
       alert("Error upgrading to premium. Please try again.")
     }
   }
+
+  // ✅ NEW: Open Stripe Customer Portal
+  const handleManageSubscription = async () => {
+    if (!stripeCustomerId) {
+      alert("No customer ID found. Please contact support.");
+      return;
+    }
+
+    setIsLoadingPortal(true);
+
+    try {
+      const res = await fetch("/api/create-portal-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          customerId: stripeCustomerId,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to open portal");
+      }
+
+      // Redirect to Stripe Customer Portal
+      window.location.href = data.url;
+
+    } catch (error) {
+      console.error("Error opening portal:", error);
+      alert(error.message || "Failed to open subscription portal.");
+      setIsLoadingPortal(false);
+    }
+  };
 
   return (
     <div className="profile-container">
@@ -98,12 +137,37 @@ function ProfileAndPayment({
               {isPremium ? "Premium" : "Free Trial"}
             </span>
           </div>
+
+          {/* Cancellation Warning */}
+          {isCanceling && cancelAt && (
+            <div style={{
+              background: '#fff3cd',
+              border: '1px solid #ffc107',
+              borderRadius: '8px',
+              padding: '12px',
+              marginTop: '12px',
+              marginBottom: '12px',
+            }}>
+              <div style={{ fontWeight: '600', color: '#856404', marginBottom: '4px' }}>
+                ⚠️ Subscription Ending
+              </div>
+              <div style={{ fontSize: '14px', color: '#856404' }}>
+                Your premium access will end on {new Date(cancelAt).toLocaleDateString()} at{' '}
+                {new Date(cancelAt).toLocaleTimeString()}
+              </div>
+            </div>
+          )}
+
           <div className="subscription-description">
             {isPremium 
-              ? "You have access to all premium features"
+              ? isCanceling
+                ? "You have access to premium features until the end of your billing period"
+                : "You have access to all premium features"
               : "Manage your subscription and billing information"
             }
           </div>
+
+          {/* Upgrade Button (Free users) */}
           {!isPremium && (
             <button
               onClick={handleUpgrade}
@@ -112,10 +176,44 @@ function ProfileAndPayment({
               Upgrade Plan
             </button>
           )}
+
+          {/* Manage Subscription Button (Premium users) */}
+          {isPremium && (
+            <button
+              onClick={handleManageSubscription}
+              disabled={isLoadingPortal}
+              style={{
+                width: '100%',
+                padding: '12px 16px',
+                background: '#1e3a8a',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '8px',
+                fontSize: '14px',
+                fontWeight: '500',
+                cursor: isLoadingPortal ? 'not-allowed' : 'pointer',
+                transition: 'all 0.2s ease',
+                marginTop: '12px',
+                opacity: isLoadingPortal ? 0.6 : 1,
+              }}
+              onMouseEnter={(e) => {
+                if (!isLoadingPortal) {
+                  e.target.style.background = '#1d4ed8';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!isLoadingPortal) {
+                  e.target.style.background = '#1e3a8a';
+                }
+              }}
+            >
+              {isLoadingPortal ? 'Opening...' : 'Manage Subscription'}
+            </button>
+          )}
         </div>
 
         {/* Premium Features Preview */}
-        {isFreeTrial && (
+        {!isPremium && (
           <div className="premium-preview">
             <h4 className="premium-title">Unlock Premium Features:</h4>
             <ul className="premium-features">
@@ -129,7 +227,17 @@ function ProfileAndPayment({
       </div>
 
       {/* Sign Out Button */}
-      <button onClick={onLogout} className="signout-button">
+      <button 
+        onClick={() => {
+          console.log('🔘 Sign out button clicked');
+          if (onLogout) {
+            onLogout();
+          } else {
+            console.error('❌ onLogout is undefined!');
+          }
+        }}
+        className="signout-button"
+      >
         Sign Out
       </button>
     </div>

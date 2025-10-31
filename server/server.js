@@ -36,12 +36,13 @@ app.post("/create-checkout-session", async (req, res) => {
       customer_email: email,
       line_items: [
         {
-          price: process.env.STRIPE_PRICE_ID, // e.g. "price_123"
+          // price: process.env.STRIPE_PRICE_ID,
+          price: 'price_1SOHe8RpPxkU3l7HkY8HhaFx',
           quantity: 1,
         },
       ],
-      success_url: "https://yourapp.com/account?success=true",
-      cancel_url: "https://yourapp.com/account?canceled=true",
+      success_url: "https://si-app-sigma.vercel.app/account?success=true",
+      cancel_url: "https://si-app-sigma.vercel.app/account?canceled=true",
     })
 
     return res.json({ url: session.url })
@@ -60,7 +61,7 @@ app.post("/create-portal-session", async (req, res) => {
 
     const session = await stripe.billingPortal.sessions.create({
       customer: customerId,
-      return_url: "https://yourapp.com/account",
+      return_url: "https://si-app-sigma.vercel.app/account",
     })
 
     res.json({ url: session.url })
