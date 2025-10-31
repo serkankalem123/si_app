@@ -32,6 +32,8 @@ const firebaseConfig = {
 function OptimizedImage({ src, alt, className, onClick }) {
   const [isLoading, setIsLoading] = useState(true)
 
+  
+
   return (
     <div style={{ position: "relative", overflow: "hidden", borderRadius: "8px" }}>
       <img
@@ -524,32 +526,46 @@ useEffect(() => {
   let mounted = true;
 
   const loadData = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
+    console.log('📍 Loading initial data...');
+    
+    // ✅ FIX: Force a fresh session from server
+    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
     if (!mounted) return;
     
-    console.log('📍 Initial session loaded');
+    if (sessionError) {
+      console.error('❌ Session error:', sessionError);
+      return;
+    }
+    
+    console.log('📍 Session loaded:', session?.user?.email);
     setSession(session);
     
     if (session?.user) {
-      // Load profile from database
-      const { data: profileData, error } = await supabase
+      // ✅ FIX: Always fetch fresh profile data from database
+      const { data: profileData, error: profileError } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', session.user.id)
         .single();
       
-      if (error) {
-        console.error('❌ Profile error:', error);
+      if (profileError) {
+        console.error('❌ Profile error:', profileError);
       } else {
-        console.log('✅ Profile loaded:', profileData);
+        console.log('✅ Profile loaded:', {
+          email: profileData.email,
+          is_premium: profileData.is_premium,
+          subscription_status: profileData.subscription_status,
+          subscription_cancel_at: profileData.subscription_cancel_at,
+        });
         setProfile(profileData);
       }
     }
   };
 
+  // ✅ FIX: Load data immediately on mount
   loadData();
 
-  // Listen for auth changes
+  // ✅ FIX: Listen for auth changes and storage events
   const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
     console.log('🔔 Auth event:', event);
     if (!mounted) return;
@@ -557,22 +573,94 @@ useEffect(() => {
     setSession(session);
     
     if (session?.user) {
+      // Always fetch fresh profile from database
       const { data: profileData } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', session.user.id)
         .single();
+      
+      console.log('🔔 Profile updated from auth change:', {
+        is_premium: profileData?.is_premium,
+        subscription_status: profileData?.subscription_status,
+      });
+      
       setProfile(profileData);
     } else {
       setProfile(null);
     }
   });
 
+  // ✅ NEW: Listen for storage events (page visibility changes)
+  const handleVisibilityChange = () => {
+    if (document.visibilityState === 'visible') {
+      console.log('👁️ Page became visible, reloading data...');
+      loadData();
+    }
+  };
+
+  document.addEventListener('visibilitychange', handleVisibilityChange);
+
   return () => {
     mounted = false;
     subscription?.unsubscribe();
+    document.removeEventListener('visibilitychange', handleVisibilityChange);
   };
 }, []);
+
+useEffect(() => {
+  if (!session?.user?.id) return;
+
+  const pollInterval = setInterval(async () => {
+    try {
+      console.log('🔄 Polling for profile updates...');
+      
+      // Fetch latest profile
+      const { data: newProfile, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', session.user.id)
+        .single();
+
+      if (error) {
+        console.error('❌ Poll error:', error);
+        return;
+      }
+
+      // Check if anything changed
+      const statusChanged = profile?.subscription_status !== newProfile?.subscription_status;
+      const premiumChanged = profile?.is_premium !== newProfile?.is_premium;
+      const cancelAtChanged = profile?.subscription_cancel_at !== newProfile?.subscription_cancel_at;
+
+      if (statusChanged || premiumChanged || cancelAtChanged) {
+        console.log('🔄 Profile data changed:', {
+          old: {
+            subscription_status: profile?.subscription_status,
+            is_premium: profile?.is_premium,
+            subscription_cancel_at: profile?.subscription_cancel_at,
+          },
+          new: {
+            subscription_status: newProfile?.subscription_status,
+            is_premium: newProfile?.is_premium,
+            subscription_cancel_at: newProfile?.subscription_cancel_at,
+          }
+        });
+        
+        setProfile(newProfile);
+        
+        // Also refresh auth session
+        const { data: { session: newSession } } = await supabase.auth.refreshSession();
+        if (newSession) {
+          setSession(newSession);
+        }
+      }
+    } catch (error) {
+      console.error('❌ Polling error:', error);
+    }
+  }, 3000); // Poll every 3 seconds
+
+  return () => clearInterval(pollInterval);
+}, [session?.user?.id, profile?.subscription_status, profile?.is_premium, profile?.subscription_cancel_at]);
 
 useEffect(() => {
   if (!session?.user?.id) return;
@@ -619,6 +707,18 @@ useEffect(() => {
     window.history.replaceState({}, '', '/');
   }
 }, [isPremium]);
+
+useEffect(() => {
+  // Check for navigation parameter
+  const urlParams = new URLSearchParams(window.location.search);
+  const navParam = urlParams.get('nav');
+  
+  if (navParam === 'profile') {
+    setSelectedNav('Profile and Payment');
+    // Clean up URL
+    window.history.replaceState({}, '', '/');
+  }
+}, []);
 
   const fetchBusinesses = async () => {
     console.log("Fetching businesses from database...")
@@ -728,15 +828,81 @@ useEffect(() => {
     setUploading(false)
   }
 
-  const handleLogout = async () => {
-  const { error } = await supabase.auth.signOut();
-  if (!error) {
+const handleLogout = async () => {
+  try {
+    console.log('🚪 Starting logout process...');
+    
+    // Sign out from Supabase
+    const { error } = await supabase.auth.signOut();
+    
+    if (error) {
+      console.error('❌ Supabase signOut error:', error);
+    } else {
+      console.log('✅ Supabase signOut successful');
+    }
+    
+    // Clear all state immediately
     setSession(null);
-    setProfile(null); // ✅ ADD THIS LINE
+    setProfile(null);
     setDisplayName("");
     setEditingName("");
     setAvatarUrl("");
     setSelectedNav("Highlighted Business");
+    
+    // Clear storage
+    localStorage.clear();
+    sessionStorage.clear();
+    
+    console.log('🔄 Reloading page...');
+    
+    // Force reload
+    setTimeout(() => {
+      window.location.replace('/');
+    }, 100);
+    
+  } catch (err) {
+    console.error('❌ Logout error:', err);
+    // Force reload anyway
+    window.location.replace('/');
+  }
+};
+
+const refreshUserData = async () => {
+  if (!session?.user?.id) return;
+  
+  try {
+    console.log('🔄 Refreshing user data...');
+    
+    // ✅ FIX: Fetch profile FIRST (most reliable)
+    const { data: newProfile, error: profileError } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', session.user.id)
+      .single();
+    
+    if (profileError) {
+      console.error('❌ Profile fetch error:', profileError);
+    } else if (newProfile) {
+      console.log('✅ Profile refreshed:', {
+        subscription_status: newProfile.subscription_status,
+        is_premium: newProfile.is_premium,
+        subscription_cancel_at: newProfile.subscription_cancel_at,
+      });
+      setProfile(newProfile);
+    }
+    
+    // Then refresh auth session
+    const { data: { session: newSession }, error: sessionError } = 
+      await supabase.auth.refreshSession();
+    
+    if (sessionError) {
+      console.error('❌ Session refresh error:', sessionError);
+    } else if (newSession) {
+      console.log('✅ Session refreshed');
+      setSession(newSession);
+    }
+  } catch (error) {
+    console.error('❌ Error refreshing data:', error);
   }
 };
 
@@ -754,6 +920,7 @@ useEffect(() => {
       </div>
     )
   }
+
 
   if (showLanding && !session) {
     return (
@@ -867,13 +1034,14 @@ useEffect(() => {
             <div className="profile-page-backdrop">
               <ProfileAndPayment
                 session={session}
+                profile={profile}
                 displayName={displayName}
                 onSaveName={saveName}
                 editingName={editingName}
                 setEditingName={setEditingName}
                 isSaving={isSaving}
                 saveStatus={saveStatus}
-                onLogout={handleLogout}
+                onLogout={handleLogout} 
               />
             </div>
           ) : selectedNav === "Highlighted Business" ? (
