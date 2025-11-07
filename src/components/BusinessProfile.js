@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import '@fontsource/montserrat/700.css'; 
 
 function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate }) {
   const [selectedPhoto, setSelectedPhoto] = useState(null);
@@ -113,11 +114,11 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate }) {
           overflowY: 'auto',
           boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)',
           position: 'relative',
-          fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+          fontFamily: "'Montserrat', sans-serif",
         }}>
           {/* Header with Gradient */}
           <div style={{
-            background: 'linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%)',
+            background: '#4BA3D9',
             borderRadius: '24px 24px 0 0',
             padding: '32px 32px 24px',
             position: 'relative',
@@ -158,7 +159,7 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate }) {
 
             <h2 style={{ 
               margin: 0, 
-              color: 'white', 
+              color: 'black', 
               fontSize: 32,
               fontWeight: '700',
               letterSpacing: '-0.5px',
@@ -364,7 +365,7 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate }) {
 
               {business.discount && (
                 <div style={{
-                  background: 'linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%)',
+                  background: '#4BA3D9',
                   padding: '16px 20px',
                   borderRadius: 12,
                   color: 'white',
