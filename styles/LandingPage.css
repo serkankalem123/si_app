@@ -9,6 +9,9 @@
     align-items: center;
 }
 
+
+
+
 .landing-bg {
     position: absolute;
     top: 0;
@@ -52,7 +55,8 @@
     font-weight: bold;
     cursor: pointer;
     transition: 0.3s;
-    margin-right: 20px;
+    margin-right: 0px;
+
     /* 👈 shifts it slightly left */
 }
 
@@ -64,15 +68,27 @@
 
 /* Center content */
 /* Center content */
+/* Give more space between login button and title */
 .landing-content {
     text-align: center;
     padding: 0 24px;
     max-width: 500px;
     z-index: 2;
-
-    /* 👇 raise everything higher */
-    margin-top: -60px;
+    margin-top: 40px;
+    /* was -60px before — move content lower */
 }
+
+/* Space between button and tagline */
+.landing-tagline {
+    margin-top: 16px;
+    /* increase from 10px for better spacing */
+    font-size: 1rem;
+    color: black;
+    text-align: center;
+    font-style: italic;
+    opacity: 0.9;
+}
+
 
 .landing-title {
     font-size: 32px;
@@ -107,9 +123,13 @@
     width: 100%;
     padding: 24px;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    /* stack items vertically */
+    align-items: center;
+    /* center horizontally */
     z-index: 2;
 }
+
 
 .landing-start-btn {
     background: #fff;

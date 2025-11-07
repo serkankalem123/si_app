@@ -1,7 +1,4 @@
 self.__BUILD_MANIFEST = {
-  "/_error": [
-    "static/chunks/pages/_error.js"
-  ],
   "/payment-success": [
     "static/chunks/pages/payment-success.js"
   ],

@@ -45,7 +45,7 @@ function OptimizedImage({ src, alt, className, onClick }) {
         style={{
           opacity: isLoading ? 0.7 : 1,
           transition: "opacity 0.3s ease-in-out",
-          backgroundColor: "#f0f0f0",
+          backgroundColor: "#f5f5f7",
         }}
       />
     </div>
@@ -998,6 +998,7 @@ const refreshUserData = async () => {
             0%, 100% { opacity: 0.6; }
             50% { opacity: 1; }
           }
+          
         `}
       </style>
       <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
@@ -1009,7 +1010,7 @@ const refreshUserData = async () => {
                 margin: 0,
                 width: "100vw",
                 minHeight: "calc(100vh - 60px)",
-                backgroundColor: "#ffffff",
+                backgroundColor: "#f5f5f7",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
@@ -1070,8 +1071,7 @@ const refreshUserData = async () => {
                     <option value="">Sort By</option>
                     <option value="az">A → Z</option>
                     <option value="za">Z → A</option>
-                    <option value="oldest">Oldest → Newest</option>
-                    <option value="newest">Newest → Oldest</option>
+
                     <option value="rating">Highest Rating</option>
                   </select>
                   <select value={zipSearch} onChange={(e) => setZipSearch(e.target.value)}>
@@ -1331,14 +1331,14 @@ const refreshUserData = async () => {
                   flexDirection: "column",
                   alignItems: "center",
                   justifyContent: "center",
-                  color: isSelected ? "darkblue" : "#666",
+                  color: isSelected ? "#4ba3d9" : "#667",
                   fontWeight: isSelected ? "bold" : "normal",
                   transition: "color 0.3s",
                   flex: 1,
                   maxWidth: "80px",
                 }}
               >
-                <Icon size={20} color={isSelected ? "darkblue" : "#666"} />
+                <Icon size={20} color={isSelected ? "#4BA3d9" : "#666"} />
                 <span
                   style={{
                     fontSize: "10px",
