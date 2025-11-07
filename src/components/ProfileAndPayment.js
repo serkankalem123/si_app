@@ -200,12 +200,12 @@ function ProfileAndPayment({
               }}
               onMouseEnter={(e) => {
                 if (!isLoadingPortal) {
-                  e.target.style.background = '#1d4ed8';
+                  e.target.style.background = '#3B8FC1';
                 }
               }}
               onMouseLeave={(e) => {
                 if (!isLoadingPortal) {
-                  e.target.style.background = '#1e3a8a';
+                  e.target.style.background = '#4BA3D9';
                 }
               }}
             >
