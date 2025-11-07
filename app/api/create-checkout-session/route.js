@@ -1,13 +1,18 @@
 // app/api/create-checkout-session/route.js
 import { NextResponse } from 'next/server';
+import Stripe from 'stripe';
+
+// Initialize Stripe outside the handler
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: '2023-10-16',
+});
 
 export async function POST(request) {
   try {
-    // Log environment check
     console.log('=== Stripe Checkout Debug ===');
     console.log('STRIPE_SECRET_KEY exists:', !!process.env.STRIPE_SECRET_KEY);
     console.log('STRIPE_SECRET_KEY prefix:', process.env.STRIPE_SECRET_KEY?.substring(0, 10));
-    
+
     // Check if Stripe key exists
     if (!process.env.STRIPE_SECRET_KEY) {
       console.error('❌ STRIPE_SECRET_KEY is missing from environment variables');
@@ -17,16 +22,10 @@ export async function POST(request) {
       );
     }
 
-    // Dynamic import of Stripe to avoid initialization issues
-    const Stripe = (await import('stripe')).default;
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-      apiVersion: '2023-10-16', // Use a specific API version
-    });
-
     // Parse and validate request body
     const body = await request.json();
     console.log('Request body:', body);
-    
+
     const { userId, email } = body;
 
     if (!userId || !email) {
@@ -38,7 +37,7 @@ export async function POST(request) {
     }
 
     // Get origin for redirect URLs
-    const origin = request.headers.get('origin') || 'http://localhost:3000';
+    const origin = request.headers.get('origin') || process.env.NEXT_PUBLIC_SITE_URL || 'http://si-app.sigma.vercel.app';
     console.log('Origin:', origin);
 
     // Verify price ID exists
@@ -50,7 +49,6 @@ export async function POST(request) {
         { status: 500 }
       );
     }
-
     console.log('Using price ID:', priceId);
 
     // Create checkout session
@@ -66,7 +64,7 @@ export async function POST(request) {
         },
       ],
       success_url: `${origin}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/profile`,
+      cancel_url: `${origin}/?nav=profile`,
       metadata: { 
         userId,
         supabase_user_id: userId 
@@ -92,7 +90,6 @@ export async function POST(request) {
     console.error('Error type:', err.type);
     console.error('Error code:', err.code);
     console.error('Error message:', err.message);
-    console.error('Full error:', JSON.stringify(err, null, 2));
 
     return NextResponse.json(
       { 
@@ -103,4 +100,16 @@ export async function POST(request) {
       { status: 500 }
     );
   }
+}
+
+// Optional: Add OPTIONS handler for CORS
+export async function OPTIONS(request) {
+  return new NextResponse(null, {
+    status: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    },
+  });
 }
