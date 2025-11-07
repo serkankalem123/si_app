@@ -187,7 +187,7 @@ function ProfileAndPayment({
               style={{
                 width: '100%',
                 padding: '12px 16px',
-                background: '#1e3a8a',
+                background: '#4BA3D9',
                 color: '#fff',
                 border: 'none',
                 borderRadius: '8px',
