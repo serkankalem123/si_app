@@ -102,7 +102,7 @@ export async function POST(request) {
             is_premium: true,
             subscription_status: 'active',
             stripe_customer_id: session.customer,
-            stripe_subscription_id: subscriptionId,
+            subscription_id: subscriptionId,
             updated_at: new Date().toISOString(),
           })
           .eq('id', userId)
