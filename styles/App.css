@@ -10,10 +10,9 @@ body {
   height: 100%;
   width: 100%;
   overflow-x: hidden;
-
-  /* optional — set your desired background */
+  background-color: white;
+  /* Changed from white to gray */
 }
-
 
 
 .splash-screen {
@@ -59,6 +58,17 @@ body {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   animation: taglineFadeIn 2s ease-out 0.5s both;
   letter-spacing: 1px;
+}
+
+.premium-note {
+  margin-top: 16px;
+  /* space between list and text */
+  font-size: 0.95rem;
+  color: black;
+  /* adjust if your box is green */
+  opacity: 0.9;
+  text-align: center;
+  line-height: 1.4;
 }
 
 /* Decorative sparkles */
@@ -575,7 +585,7 @@ body {
   padding: 16px 20px;
   flex-wrap: wrap;
   align-items: center;
-  background: #f9f9f9;
+  background: gray;
   border-radius: 12px;
   margin-top: -8px;
 }
@@ -671,7 +681,7 @@ body {
 
 /* Business card */
 .highlighted-business-card {
-  background: white;
+  background: gray;
   border-radius: 12px;
   margin-bottom: 14px;
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
@@ -730,7 +740,7 @@ body {
 
 /* Discount button */
 .highlighted-discount-button {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #4BA3D9 0%, #764ba2 100%);
   color: white;
   border: none;
   border-radius: 6px;
@@ -847,16 +857,8 @@ body {
 }
 
 /* Filter bar */
-.highlighted-filter-bar {
-  display: flex;
-  gap: 8px;
-  padding: 12px 20px;
-  flex-wrap: wrap;
-  align-items: center;
-  background: #f9f9f9;
-  border-radius: 12px;
-  margin-top: -6px;
-}
+
+/* Filter bar - Clean & Modern */
 
 /* Compact pill dropdowns */
 .highlighted-filter-bar select {
@@ -876,15 +878,7 @@ body {
 
 /* Business list container */
 
-.highlighted-filter-bar {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  padding: 12px 20px;
-  background: #f9f9f9;
-  border-radius: 12px;
-  flex-wrap: nowrap;
-}
+
 
 /* Shorter selects */
 .highlighted-filter-bar select {
@@ -1060,7 +1054,7 @@ body {
 }
 
 .profile-section {
-  background-color: #fafafa;
+  background-color: #f5f5f5;
   border-radius: 16px;
   padding: 24px;
   margin-bottom: 24px;
@@ -1074,7 +1068,7 @@ body {
 .section-title {
   font-size: 16px;
   font-weight: 600;
-  color: #1e3a8a;
+  color: #2e2e2e;
   margin: 0 0 16px 0;
 }
 
@@ -1096,12 +1090,12 @@ body {
 }
 
 .display-name-input:focus {
-  border-color: #007AFF;
+  border-color: #4BA3D9;
 }
 
 .save-button {
   padding: 12px 20px;
-  background-color: #1e3a8a;
+  background-color: #4BA3D9;
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -1113,7 +1107,7 @@ body {
 }
 
 .save-button:hover {
-  background-color: #1d4ed8;
+  background-color: #146da4;
 }
 
 .save-button:disabled {
@@ -1176,8 +1170,8 @@ body {
   width: 100%;
   padding: 12px 16px;
   background-color: #fff;
-  color: #1e3a8a;
-  border: 1px solid #1e3a8a;
+  color: #4BA3D9;
+  border: 1px solid #4BA3D9;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 500;
@@ -1186,7 +1180,7 @@ body {
 }
 
 .upgrade-button:hover {
-  background-color: #1e3a8a;
+  background-color: #1e5e86;
   color: #fff;
 }
 
@@ -1315,8 +1309,8 @@ body {
 /* Highlighted Business container */
 .highlighted-business-container {
   padding: 32px 20px 24px;
-  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
-  color: white;
+  background: linear-gradient(135deg, #4BA3D9 0%, #5b9ac1 100%);
+  color: black;
 }
 
 /* Header text */
@@ -1493,7 +1487,7 @@ body {
 /* Business card */
 /* Business card */
 .highlighted-business-card {
-  background: white;
+  background: #f5f5f5;
   border-radius: 0;
   margin-bottom: 0;
   border-bottom: 1px solid #e5e7eb;
@@ -1516,7 +1510,7 @@ body {
   flex-direction: column;
   gap: 12px;
   padding: 20px;
-  background: #ffffff;
+  background: gray;
   border-bottom: 1px solid #e5e7eb;
 }
 
@@ -1669,7 +1663,7 @@ body {
   flex-direction: column;
   gap: 12px;
   padding: 20px;
-  background: #ffffff;
+  background: #f5f5f5;
   border-bottom: 1px solid #e5e7eb;
 }
 

@@ -506,28 +506,32 @@ function PaymentSuccess() {
             const refreshSessionAndCheck = {
                 "PaymentSuccess.useEffect.refreshSessionAndCheck": async ()=>{
                     try {
-                        console.log('🔄 Refreshing session... Attempt:', retryCount + 1);
-                        // Refresh the session to get updated user metadata
-                        const { data: { session }, error } = await __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$src$2f$supabaseClient$2e$js__$5b$client$5d$__$28$ecmascript$29$__["supabase"].auth.refreshSession();
-                        if (error) {
-                            console.error('Error refreshing session:', error);
-                            throw error;
+                        console.log(`🔄 Attempt ${retryCount + 1}/${MAX_RETRIES}`);
+                        // Refresh auth session
+                        const { data: { session }, error: sessionError } = await __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$src$2f$supabaseClient$2e$js__$5b$client$5d$__$28$ecmascript$29$__["supabase"].auth.refreshSession();
+                        if (sessionError) throw sessionError;
+                        const authPremium = session?.user?.user_metadata?.is_premium === true;
+                        console.log('📋 Auth premium:', authPremium);
+                        // ✅ NEW: Also check profile table
+                        const { data: profile, error: profileError } = await __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$src$2f$supabaseClient$2e$js__$5b$client$5d$__$28$ecmascript$29$__["supabase"].from('profiles').select('is_premium').eq('id', session.user.id).single();
+                        if (profileError) {
+                            console.warn('⚠️ Profile check failed:', profileError);
                         }
-                        console.log('Session refreshed:', session?.user?.user_metadata);
-                        // Check if premium status is updated
-                        const isPremium = session?.user?.user_metadata?.is_premium;
+                        const profilePremium = profile?.is_premium === true;
+                        console.log('💾 Profile premium:', profilePremium);
+                        const isPremium = authPremium || profilePremium;
                         if (isPremium) {
-                            console.log('✅ Premium status confirmed!');
+                            console.log('═══════════════════════════════════════');
+                            console.log('🎉 PREMIUM STATUS CONFIRMED!');
+                            console.log('═══════════════════════════════════════');
                             setIsRefreshing(false);
-                            // Redirect after 2 seconds with showCard parameter
                             setTimeout({
                                 "PaymentSuccess.useEffect.refreshSessionAndCheck": ()=>{
                                     router.push("/?showCard=true");
                                 }
                             }["PaymentSuccess.useEffect.refreshSessionAndCheck"], 2000);
                         } else {
-                            console.log('⏳ Premium status not yet updated, retrying...');
-                            // If not premium yet and haven't exceeded retries, try again
+                            console.log('⏳ Not premium yet, retrying...');
                             if (retryCount < MAX_RETRIES) {
                                 setTimeout({
                                     "PaymentSuccess.useEffect.refreshSessionAndCheck": ()=>{
@@ -535,9 +539,9 @@ function PaymentSuccess() {
                                             "PaymentSuccess.useEffect.refreshSessionAndCheck": (prev)=>prev + 1
                                         }["PaymentSuccess.useEffect.refreshSessionAndCheck"]);
                                     }
-                                }["PaymentSuccess.useEffect.refreshSessionAndCheck"], 2000);
+                                }["PaymentSuccess.useEffect.refreshSessionAndCheck"], 3000);
                             } else {
-                                console.log('⚠️ Max retries reached, redirecting anyway');
+                                console.log('⚠️ Max retries reached');
                                 setIsRefreshing(false);
                                 setTimeout({
                                     "PaymentSuccess.useEffect.refreshSessionAndCheck": ()=>{
@@ -547,9 +551,8 @@ function PaymentSuccess() {
                             }
                         }
                     } catch (error) {
-                        console.error('Error in refresh process:', error);
+                        console.error('❌ Error:', error);
                         setIsRefreshing(false);
-                        // Redirect anyway after error
                         setTimeout({
                             "PaymentSuccess.useEffect.refreshSessionAndCheck": ()=>{
                                 router.push("/");
@@ -583,21 +586,21 @@ function PaymentSuccess() {
                 children: isRefreshing ? "🔄" : "✅"
             }, void 0, false, {
                 fileName: "[project]/si_app copy/pages/payment-success.js",
-                lineNumber: 78,
+                lineNumber: 88,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
                 children: "Payment Successful!"
             }, void 0, false, {
                 fileName: "[project]/si_app copy/pages/payment-success.js",
-                lineNumber: 81,
+                lineNumber: 91,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                 children: isRefreshing ? "Activating your premium features..." : "Premium features unlocked! Redirecting..."
             }, void 0, false, {
                 fileName: "[project]/si_app copy/pages/payment-success.js",
-                lineNumber: 82,
+                lineNumber: 92,
                 columnNumber: 7
             }, this),
             isRefreshing && retryCount > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -615,13 +618,13 @@ function PaymentSuccess() {
                 ]
             }, void 0, true, {
                 fileName: "[project]/si_app copy/pages/payment-success.js",
-                lineNumber: 89,
+                lineNumber: 99,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/si_app copy/pages/payment-success.js",
-        lineNumber: 69,
+        lineNumber: 79,
         columnNumber: 5
     }, this);
 }

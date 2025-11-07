@@ -208,7 +208,7 @@ const StatenIslandMap = ({ businesses }) => {
           top: 0,
           left: 0,
           right: 0,
-          background: "linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%)",
+          background: "linear-gradient(135deg, #4ba3d9 0%, #4ba3d9 100%)",
           padding: "24px 20px",
           borderBottomLeftRadius: 20,
           borderBottomRightRadius: 20,
@@ -319,7 +319,7 @@ const StatenIslandMap = ({ businesses }) => {
             style={{
               background: showList ? "#3b82f6" : "rgba(255,255,255,0.2)",
               border: "1px solid rgba(255,255,255,0.3)",
-              color: "white",
+              color: "black",
               padding: "10px 16px",
               borderRadius: 12,
               cursor: "pointer",
@@ -420,7 +420,7 @@ const StatenIslandMap = ({ businesses }) => {
             {/* Header */}
             <div
               style={{
-                background: "#1e3a8a",
+                background: "#4ba3d9",
                 color: "white",
                 padding: "20px",
                 display: "flex",
@@ -428,7 +428,7 @@ const StatenIslandMap = ({ businesses }) => {
                 alignItems: "center",
               }}
             >
-              <div style={{ fontWeight: "600", fontSize: "18px" }}>
+              <div style={{ fontWeight: "600", fontSize: "18px", color: "black" }}>
                 {filteredBusinesses.length}  Businesses
               </div>
               <button

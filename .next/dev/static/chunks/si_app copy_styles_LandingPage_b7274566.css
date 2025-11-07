@@ -46,7 +46,7 @@
   background: none;
   border: 1px solid #000;
   border-radius: 8px;
-  margin-right: 20px;
+  margin-right: 0;
   padding: 6px 16px;
   font-weight: bold;
   transition: all .3s;
@@ -61,8 +61,17 @@
   text-align: center;
   z-index: 2;
   max-width: 500px;
-  margin-top: -60px;
+  margin-top: 40px;
   padding: 0 24px;
+}
+
+.landing-tagline {
+  color: #000;
+  text-align: center;
+  opacity: .9;
+  margin-top: 16px;
+  font-size: 1rem;
+  font-style: italic;
 }
 
 .landing-title {
@@ -87,7 +96,8 @@
 
 .landing-footer {
   z-index: 2;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
   padding: 24px;
   display: flex;

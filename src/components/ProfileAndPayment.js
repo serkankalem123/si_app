@@ -90,7 +90,7 @@ function ProfileAndPayment({
   };
 
   return (
-    <div className="profile-container">
+    <div className="profile-container" style={{ background: '#ffffff', minHeight: '100vh' }}>
       {/* Header */}
       <div className="profile-header">
         <h1 className="profile-title">Account Settings</h1>
@@ -129,13 +129,15 @@ function ProfileAndPayment({
 
       {/* Subscription Section */}
       <div className="profile-section">
-        <h3 className="section-title">Subscription & Payment</h3>
+        <h3 className="section-title">Your Highlighting SI Epxerience Membership</h3>
         <div className="subscription-card">
-          <div className="subscription-header">
-            <span className="subscription-label">Current Plan</span>
-            <span className="subscription-plan">
+          <div style={{ marginBottom: '16px', display: 'flex', justifyContent: 'center' }}>
+            <span className="subscription-plan" style={{ fontSize: '16px', fontWeight: '600' }}>
               {isPremium ? "Premium" : "Free Trial"}
             </span>
+          </div>
+          <div style={{ marginBottom: '12px', textAlign: 'center' }}>
+            <span className="subscription-label">Manage your plan and billing below.</span>
           </div>
 
           {/* Cancellation Warning */}
@@ -163,7 +165,7 @@ function ProfileAndPayment({
               ? isCanceling
                 ? "You have access to premium features until the end of your billing period"
                 : "You have access to all premium features"
-              : "Manage your subscription and billing information"
+              : ""
             }
           </div>
 
@@ -173,7 +175,7 @@ function ProfileAndPayment({
               onClick={handleUpgrade}
               className="upgrade-button"
             >
-              Upgrade Plan
+              Upgrade to Full Membership
             </button>
           )}
 
@@ -215,12 +217,15 @@ function ProfileAndPayment({
         {/* Premium Features Preview */}
         {!isPremium && (
           <div className="premium-preview">
-            <h4 className="premium-title">Unlock Premium Features:</h4>
+            <h4 className="premium-title">What you Get as a Member</h4>
             <ul className="premium-features">
-              <li><span className="checkmark">✓</span> Unlimited access to all tools</li>
-              <li><span className="checkmark">✓</span> Priority support</li>
-              <li><span className="checkmark">✓</span> Advanced analytics</li>
-              <li><span className="checkmark">✓</span> Early access to new features</li>
+              <li><span className="checkmark">✓</span> 10% off all participating SI Businesses</li>
+              <li><span className="checkmark">✓</span> Access to new perks added each month.</li>
+              <li><span className="checkmark">✓</span> Members only updates and event invites.</li>
+              <p className="premium-note">
+      Your $5 per month membership keeps Staten Island saving local and supporting local.
+    </p>
+             
             </ul>
           </div>
         )}

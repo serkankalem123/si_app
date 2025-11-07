@@ -1,0 +1,12 @@
+var R=require("../../../chunks/[turbopack]_runtime.js")("server/app/api/stripe-webhook/route.js")
+R.c("server/chunks/90419_a562c08d._.js")
+R.c("server/chunks/90419_next_8f6b409e._.js")
+R.c("server/chunks/90419_@opentelemetry_api_build_esm_1d711992._.js")
+R.c("server/chunks/f3ba8_tr46_e77f9189._.js")
+R.c("server/chunks/90419_ws_e2197ef0._.js")
+R.c("server/chunks/90419_@supabase_auth-js_dist_module_4bcbd232._.js")
+R.c("server/chunks/90419_26144c44._.js")
+R.c("server/chunks/[root-of-the-server]__452d0b13._.js")
+R.c("server/chunks/si_app copy__next-internal_server_app_api_stripe-webhook_route_actions_d4facb86.js")
+R.m("[project]/si_app copy/node_modules/next/dist/esm/build/templates/app-route.js { INNER_APP_ROUTE => \"[project]/si_app copy/app/api/stripe-webhook/route.js [app-route] (ecmascript)\" } [app-route] (ecmascript)")
+module.exports=R.m("[project]/si_app copy/node_modules/next/dist/esm/build/templates/app-route.js { INNER_APP_ROUTE => \"[project]/si_app copy/app/api/stripe-webhook/route.js [app-route] (ecmascript)\" } [app-route] (ecmascript)").exports

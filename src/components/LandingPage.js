@@ -1,8 +1,6 @@
 "use client"
 import "../../styles/LandingPage.css" // Fixed CSS import path
 
- // Fixed image import - go up to src/, then into assets/
-
 const logo = "/Cartoon.PNG" // center logo
 
 function LandingPage({ onLoginClick, onGetStarted }) {
@@ -10,7 +8,6 @@ function LandingPage({ onLoginClick, onGetStarted }) {
     <div className="landing-container">
       {/* Background image */}
       <img src="/bridge.jpg" alt="Bridge" className="landing-bg" />
-
 
       {/* Light blue overlay */}
       <div className="landing-overlay"></div>
@@ -24,20 +21,23 @@ function LandingPage({ onLoginClick, onGetStarted }) {
 
       {/* Centered text */}
       <div className="landing-content">
-        <h1 className="landing-title">Get your place to stay & enjoy</h1>
+        <h1 className="landing-title">Experience the best of Staten Island — for less!</h1>
         <p className="landing-subtext">
-          Sagittis montes ultrices ipsum tincidunt cursus facilisis neque sem. Proin elit tellus arcu et.
+          Join HLSI X to get 10% off at top local restaurants, shops and services for just $5 per month. 
         </p>
 
         {/* Centered logo under text */}
         <img src={logo || "/placeholder.svg"} alt="Logo" className="landing-logo-center" />
       </div>
 
-      {/* Bottom button */}
+      {/* Bottom button and tagline */}
       <div className="landing-footer">
         <button className="landing-start-btn" onClick={onGetStarted}>
           Get started →
         </button>
+        <p className="landing-tagline">
+          <em>Because supporting local should feel rewarding.</em>
+        </p>
       </div>
     </div>
   )
