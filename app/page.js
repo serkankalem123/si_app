@@ -32,6 +32,8 @@ const firebaseConfig = {
 function OptimizedImage({ src, alt, className, onClick }) {
   const [isLoading, setIsLoading] = useState(true)
 
+  
+
   return (
     <div style={{ position: "relative", overflow: "hidden", borderRadius: "8px" }}>
       <img
@@ -43,7 +45,7 @@ function OptimizedImage({ src, alt, className, onClick }) {
         style={{
           opacity: isLoading ? 0.7 : 1,
           transition: "opacity 0.3s ease-in-out",
-          backgroundColor: "#f5f5f7",
+          backgroundColor: "#f0f0f0",
         }}
       />
     </div>
@@ -245,19 +247,16 @@ function App() {
   const isPremium = session?.user?.user_metadata?.is_premium === true || profile?.is_premium === true
 
   useEffect(() => {
-    if (session?.user) {
-      console.log("═══════════════════════════════════════")
-      console.log("User:", session.user.email)
-      console.log("Auth Meta:", session.user.user_metadata)
-      console.log("Profile:", profile)
-      console.log("isPremium:", isPremium)
-      console.log(
-        "Nav Items:",
-        navItems.map((n) => n.label),
-      )
-      console.log("═══════════════════════════════════════")
-    }
-  }, [session, profile, isPremium])
+  if (session?.user) {
+    console.log('═══════════════════════════════════════');
+    console.log('User:', session.user.email);
+    console.log('Auth Meta:', session.user.user_metadata);
+    console.log('Profile:', profile);
+    console.log('isPremium:', isPremium);
+    console.log('Nav Items:', navItems.map(n => n.label));
+    console.log('═══════════════════════════════════════');
+  }
+}, [session, profile, isPremium]);
 
   const [selectedNav, setSelectedNav] = useState("Highlighted Business")
 
@@ -269,60 +268,60 @@ function App() {
   ]
 
   useEffect(() => {
-    const initializeFirebase = async () => {
-      try {
-        let app
-        if (getApps().length === 0) {
-          app = initializeApp(firebaseConfig)
-          console.log("Firebase app initialized")
-        } else {
-          app = getApp()
-          console.log("Firebase app already exists")
-        }
-
-        const messaging = getMessaging(app)
-
-        const permission = await Notification.requestPermission()
-        if (permission === "granted") {
-          console.log("Notification permission granted")
-
-          const token = await getToken(messaging, {
-            vapidKey: "BOgqakg5aBxNszM1Ji6H4ADnNMtexhho5CWWpijJqNxdyD8MtYGSc7ZX3yRz2ybsVs8YIHKi_NZ0mz8zAQ25lQk",
-          })
-
-          if (token) {
-            console.log("FCM Token:", token)
-            handleFcmTokenReceived(token)
-          } else {
-            console.log("No FCM token received")
-          }
-        } else {
-          console.log("Notification permission denied")
-        }
-
-        onMessage(messaging, (payload) => {
-          console.log("Message received in foreground:", payload)
-          if (payload.notification) {
-            new Notification(payload.notification.title, {
-              body: payload.notification.body,
-              icon: payload.notification.icon,
-            })
-          }
-        })
-      } catch (error) {
-        console.error("Error initializing Firebase messaging:", error)
+  const initializeFirebase = async () => {
+    try {
+      let app
+      if (getApps().length === 0) {
+        app = initializeApp(firebaseConfig)
+        console.log("Firebase app initialized")
+      } else {
+        app = getApp()
+        console.log("Firebase app already exists")
       }
-    }
 
-    initializeFirebase()
-  }, [])
+      const messaging = getMessaging(app)
+
+      const permission = await Notification.requestPermission()
+      if (permission === "granted") {
+        console.log("Notification permission granted")
+
+        const token = await getToken(messaging, {
+          vapidKey: "BOgqakg5aBxNszM1Ji6H4ADnNMtexhho5CWWpijJqNxdyD8MtYGSc7ZX3yRz2ybsVs8YIHKi_NZ0mz8zAQ25lQk",
+        })
+
+        if (token) {
+          console.log("FCM Token:", token)
+          handleFcmTokenReceived(token)
+        } else {
+          console.log("No FCM token received")
+        }
+      } else {
+        console.log("Notification permission denied")
+      }
+
+      onMessage(messaging, (payload) => {
+        console.log("Message received in foreground:", payload)
+        if (payload.notification) {
+          new Notification(payload.notification.title, {
+            body: payload.notification.body,
+            icon: payload.notification.icon,
+          })
+        }
+      })
+    } catch (error) {
+      console.error("Error initializing Firebase messaging:", error)
+    }
+  }
+
+  initializeFirebase()
+}, [])
 
   useEffect(() => {
-    if (session?.user?.email) {
-      const adminEmails = ["serkankalem99@gmail.com"]
-      setIsAdmin(adminEmails.includes(session.user.email.toLowerCase()))
-    }
-  }, [session])
+  if (session?.user?.email) {
+    const adminEmails = ["serkankalem99@gmail.com"]
+    setIsAdmin(adminEmails.includes(session.user.email.toLowerCase()))
+  }
+}, [session])
 
   const getBusinessImage = (business, size = "small") => {
     if (
@@ -475,7 +474,6 @@ function App() {
     setBusinesses((prev) => [newBusiness, ...prev])
     setSelectedNav("Highlighted Business")
     notifyNewBusiness(newBusiness, userFcmToken)
-    setTimeout(() => fetchBusinesses(), 500)
   }
 
   async function notifyNewBusiness(newBusiness, userFcmToken) {
@@ -523,383 +521,217 @@ function App() {
     return () => clearTimeout(timer)
   }, [])
 
-  useEffect(() => {
-    let mounted = true
-
-    const loadData = async () => {
-      console.log("📍 Loading initial data...")
-
-      // ✅ FIX: Force a fresh session from server
-      const {
-        data: { session },
-        error: sessionError,
-      } = await supabase.auth.getSession()
-      if (!mounted) return
-
-      if (sessionError) {
-        console.error("❌ Session error:", sessionError)
-        return
-      }
-
-      console.log("📍 Session loaded:", session?.user?.email)
-      setSession(session)
-
-      if (session?.user) {
-        // ✅ FIX: Always fetch fresh profile data from database
-        const { data: profileData, error: profileError } = await supabase
-          .from("profiles")
-          .select("*")
-          .eq("id", session.user.id)
-          .single()
-
-        if (profileError) {
-          console.error("❌ Profile error:", profileError)
-        } else {
-          console.log("✅ Profile loaded:", {
-            email: profileData.email,
-            is_premium: profileData.is_premium,
-            subscription_status: profileData.subscription_status,
-            subscription_cancel_at: profileData.subscription_cancel_at,
-          })
-          setProfile(profileData)
-        }
-      }
-    }
-
-    // ✅ FIX: Load data immediately on mount
-    loadData()
-
-    // ✅ FIX: Listen for auth changes and storage events
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log("🔔 Auth event:", event)
-      if (!mounted) return
-
-      setSession(session)
-
-      if (session?.user) {
-        // Always fetch fresh profile from database
-        const { data: profileData } = await supabase.from("profiles").select("*").eq("id", session.user.id).single()
-
-        console.log("🔔 Profile updated from auth change:", {
-          is_premium: profileData?.is_premium,
-          subscription_status: profileData?.subscription_status,
-        })
-
-        setProfile(profileData)
-      } else {
-        setProfile(null)
-      }
-    })
-
-    // ✅ NEW: Listen for storage events (page visibility changes)
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === "visible") {
-        console.log("👁️ Page became visible, reloading data...")
-        loadData()
-      }
-    }
-
-    document.addEventListener("visibilitychange", handleVisibilityChange)
-
-    return () => {
-      mounted = false
-      subscription?.unsubscribe()
-      document.removeEventListener("visibilitychange", handleVisibilityChange)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (!session?.user?.id) return
-
-    const pollInterval = setInterval(async () => {
-      try {
-        console.log("🔄 Polling for profile updates...")
-
-        // Fetch latest profile
-        const { data: newProfile, error } = await supabase
-          .from("profiles")
-          .select("*")
-          .eq("id", session.user.id)
-          .single()
-
-        if (error) {
-          console.error("❌ Poll error:", error)
-          return
-        }
-
-        // Check if anything changed
-        const statusChanged = profile?.subscription_status !== newProfile?.subscription_status
-        const premiumChanged = profile?.is_premium !== newProfile?.is_premium
-        const cancelAtChanged = profile?.subscription_cancel_at !== newProfile?.subscription_cancel_at
-
-        if (statusChanged || premiumChanged || cancelAtChanged) {
-          console.log("🔄 Profile data changed:", {
-            old: {
-              subscription_status: profile?.subscription_status,
-              is_premium: profile?.is_premium,
-              subscription_cancel_at: profile?.subscription_cancel_at,
-            },
-            new: {
-              subscription_status: newProfile?.subscription_status,
-              is_premium: newProfile?.is_premium,
-              subscription_cancel_at: newProfile?.subscription_cancel_at,
-            },
-          })
-
-          setProfile(newProfile)
-
-          // Also refresh auth session
-          const {
-            data: { session: newSession },
-          } = await supabase.auth.refreshSession()
-          if (newSession) {
-            setSession(newSession)
-          }
-        }
-      } catch (error) {
-        console.error("❌ Polling error:", error)
-      }
-    }, 3000) // Poll every 3 seconds
-
-    return () => clearInterval(pollInterval)
-  }, [session?.user?.id, profile?.subscription_status, profile?.is_premium, profile?.subscription_cancel_at])
-
-  useEffect(() => {
-    if (!session?.user?.id) return
-
-    const refreshData = async () => {
-      try {
-        // Refresh auth
-        const {
-          data: { session: newSession },
-        } = await supabase.auth.refreshSession()
-
-        // Refresh profile
-        const { data: newProfile } = await supabase.from("profiles").select("*").eq("id", session.user.id).single()
-
-        const oldPremium = isPremium
-        const newPremium = newSession?.user?.user_metadata?.is_premium === true || newProfile?.is_premium === true
-
-        if (oldPremium !== newPremium) {
-          console.log("🎉 Premium status changed!", oldPremium, "→", newPremium)
-          setSession(newSession)
-          setProfile(newProfile)
-        }
-      } catch (error) {
-        console.error("Refresh error:", error)
-      }
-    }
-
-    refreshData()
-    const interval = setInterval(refreshData, 10000)
-    return () => clearInterval(interval)
-  }, [session?.user?.id])
-
-  useEffect(() => {
-    // Check if user was redirected from payment success
-    const urlParams = new URLSearchParams(window.location.search)
-    if (urlParams.get("showCard") === "true" && isPremium) {
-      setSelectedNav("Display My Card")
-      // Clear the URL parameter
-      window.history.replaceState({}, "", "/")
-    }
-  }, [isPremium])
-
-  useEffect(() => {
-    // Check for navigation parameter
-    const urlParams = new URLSearchParams(window.location.search)
-    const navParam = urlParams.get("nav")
-
-    if (navParam === "profile") {
-      setSelectedNav("Profile and Payment")
-      // Clean up URL
-      window.history.replaceState({}, "", "/")
-    }
-  }, [])
-
-// Replace your fetchBusinesses function with this improved version:
-
-const fetchBusinesses = async () => {
-  console.log("📍 Fetching businesses from database...")
-  
-  try {
-    const { data, error } = await supabase
-      .from("businesses")
-      .select("*")
-      .order("created_at", { ascending: false })
-
-    if (error) {
-      console.error("❌ Error fetching businesses:", error)
-      console.error("Error details:", {
-        message: error.message,
-        code: error.code,
-        hint: error.hint,
-      })
-      
-      // Show user-friendly error
-      alert("Failed to load businesses. Please refresh the page.")
-      return
-    }
-
-    if (data) {
-      console.log("✅ Fetched businesses:", data.length)
-      
-      // Parse tags if stored as JSON string
-      const processedData = data.map(business => ({
-        ...business,
-        tags: typeof business.tags === 'string' 
-          ? (business.tags ? JSON.parse(business.tags) : [])
-          : (Array.isArray(business.tags) ? business.tags : [])
-      }))
-      
-      setBusinesses(processedData)
-      preloadImages(processedData)
-    }
-  } catch (err) {
-    console.error("❌ Unexpected error fetching businesses:", err)
-    alert("An unexpected error occurred. Please refresh the page.")
-  }
-}
-
-// Replace your session/profile loading useEffect with this streamlined version:
-
+ 
 useEffect(() => {
-  let mounted = true
-  let fetchAttempts = 0
-  const MAX_ATTEMPTS = 3
+  let mounted = true;
 
   const loadData = async () => {
-    if (fetchAttempts >= MAX_ATTEMPTS) {
-      console.error("❌ Max fetch attempts reached")
-      return
+    console.log('📍 Loading initial data...');
+    
+    // ✅ FIX: Force a fresh session from server
+    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+    if (!mounted) return;
+    
+    if (sessionError) {
+      console.error('❌ Session error:', sessionError);
+      return;
     }
     
-    fetchAttempts++
-    console.log(`📍 Loading initial data (attempt ${fetchAttempts})...`)
-
-    try {
-      // Get session
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession()
-      
-      if (!mounted) return
-
-      if (sessionError) {
-        console.error("❌ Session error:", sessionError)
-        return
-      }
-
-      console.log("📍 Session loaded:", session?.user?.email)
-      setSession(session)
-
-      if (session?.user) {
-        // Fetch profile
-        const { data: profileData, error: profileError } = await supabase
-          .from("profiles")
-          .select("*")
-          .eq("id", session.user.id)
-          .single()
-
-        if (!mounted) return
-
-        if (profileError) {
-          console.error("❌ Profile error:", profileError)
-        } else {
-          console.log("✅ Profile loaded:", {
-            email: profileData.email,
-            is_premium: profileData.is_premium,
-          })
-          setProfile(profileData)
-        }
-      }
-
-      // CRITICAL: Fetch businesses after session is confirmed
-      await fetchBusinesses()
-      
-    } catch (error) {
-      console.error("❌ Error loading data:", error)
-      if (fetchAttempts < MAX_ATTEMPTS) {
-        setTimeout(loadData, 2000) // Retry after 2 seconds
-      }
-    }
-  }
-
-  loadData()
-
-  // Auth state change listener
-  const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-    console.log("🔔 Auth event:", event)
-    if (!mounted) return
-
-    setSession(session)
-
+    console.log('📍 Session loaded:', session?.user?.email);
+    setSession(session);
+    
     if (session?.user) {
-      const { data: profileData } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("id", session.user.id)
-        .single()
-
-      if (mounted) {
-        setProfile(profileData)
-        // Refetch businesses on auth change
-        await fetchBusinesses()
+      // ✅ FIX: Always fetch fresh profile data from database
+      const { data: profileData, error: profileError } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', session.user.id)
+        .single();
+      
+      if (profileError) {
+        console.error('❌ Profile error:', profileError);
+      } else {
+        console.log('✅ Profile loaded:', {
+          email: profileData.email,
+          is_premium: profileData.is_premium,
+          subscription_status: profileData.subscription_status,
+          subscription_cancel_at: profileData.subscription_cancel_at,
+        });
+        setProfile(profileData);
       }
+    }
+  };
+
+  // ✅ FIX: Load data immediately on mount
+  loadData();
+
+  // ✅ FIX: Listen for auth changes and storage events
+  const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+    console.log('🔔 Auth event:', event);
+    if (!mounted) return;
+    
+    setSession(session);
+    
+    if (session?.user) {
+      // Always fetch fresh profile from database
+      const { data: profileData } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', session.user.id)
+        .single();
+      
+      console.log('🔔 Profile updated from auth change:', {
+        is_premium: profileData?.is_premium,
+        subscription_status: profileData?.subscription_status,
+      });
+      
+      setProfile(profileData);
     } else {
-      setProfile(null)
-      setBusinesses([])
+      setProfile(null);
     }
-  })
+  });
 
-  // Page visibility handler
+  // ✅ NEW: Listen for storage events (page visibility changes)
   const handleVisibilityChange = () => {
-    if (document.visibilityState === "visible" && mounted) {
-      console.log("👁️ Page became visible, reloading businesses...")
-      fetchBusinesses()
+    if (document.visibilityState === 'visible') {
+      console.log('👁️ Page became visible, reloading data...');
+      loadData();
     }
-  }
+  };
 
-  document.addEventListener("visibilitychange", handleVisibilityChange)
+  document.addEventListener('visibilitychange', handleVisibilityChange);
 
   return () => {
-    mounted = false
-    subscription?.unsubscribe()
-    document.removeEventListener("visibilitychange", handleVisibilityChange)
-  }
-}, []) // Run only once on mount
-
-// REMOVE OR REDUCE the polling interval - it's causing unnecessary load
-// Replace the 3-second polling with this more conservative approach:
+    mounted = false;
+    subscription?.unsubscribe();
+    document.removeEventListener('visibilitychange', handleVisibilityChange);
+  };
+}, []);
 
 useEffect(() => {
-  if (!session?.user?.id) return
+  if (!session?.user?.id) return;
 
-  // Only poll profile changes, not businesses
   const pollInterval = setInterval(async () => {
     try {
-      const { data: newProfile } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("id", session.user.id)
-        .single()
+      console.log('🔄 Polling for profile updates...');
+      
+      // Fetch latest profile
+      const { data: newProfile, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', session.user.id)
+        .single();
 
-      if (newProfile && 
-          (profile?.subscription_status !== newProfile?.subscription_status ||
-           profile?.is_premium !== newProfile?.is_premium)) {
-        console.log("🔄 Profile changed, updating...")
-        setProfile(newProfile)
+      if (error) {
+        console.error('❌ Poll error:', error);
+        return;
+      }
+
+      // Check if anything changed
+      const statusChanged = profile?.subscription_status !== newProfile?.subscription_status;
+      const premiumChanged = profile?.is_premium !== newProfile?.is_premium;
+      const cancelAtChanged = profile?.subscription_cancel_at !== newProfile?.subscription_cancel_at;
+
+      if (statusChanged || premiumChanged || cancelAtChanged) {
+        console.log('🔄 Profile data changed:', {
+          old: {
+            subscription_status: profile?.subscription_status,
+            is_premium: profile?.is_premium,
+            subscription_cancel_at: profile?.subscription_cancel_at,
+          },
+          new: {
+            subscription_status: newProfile?.subscription_status,
+            is_premium: newProfile?.is_premium,
+            subscription_cancel_at: newProfile?.subscription_cancel_at,
+          }
+        });
+        
+        setProfile(newProfile);
+        
+        // Also refresh auth session
+        const { data: { session: newSession } } = await supabase.auth.refreshSession();
+        if (newSession) {
+          setSession(newSession);
+        }
       }
     } catch (error) {
-      console.error("❌ Poll error:", error)
+      console.error('❌ Polling error:', error);
     }
-  }, 10000) // Reduced to 10 seconds instead of 3
+  }, 3000); // Poll every 3 seconds
 
-  return () => clearInterval(pollInterval)
-}, [session?.user?.id, profile?.subscription_status, profile?.is_premium])
+  return () => clearInterval(pollInterval);
+}, [session?.user?.id, profile?.subscription_status, profile?.is_premium, profile?.subscription_cancel_at]);
 
-// REMOVE the second polling useEffect entirely (the one at line 10000)
-// It's redundant and causing conflicts
+useEffect(() => {
+  if (!session?.user?.id) return;
+
+  const refreshData = async () => {
+    try {
+      // Refresh auth
+      const { data: { session: newSession } } = await supabase.auth.refreshSession();
+      
+      // Refresh profile
+      const { data: newProfile } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', session.user.id)
+        .single();
+
+      const oldPremium = isPremium;
+      const newPremium = 
+        newSession?.user?.user_metadata?.is_premium === true ||
+        newProfile?.is_premium === true;
+
+      if (oldPremium !== newPremium) {
+        console.log('🎉 Premium status changed!', oldPremium, '→', newPremium);
+        setSession(newSession);
+        setProfile(newProfile);
+      }
+    } catch (error) {
+      console.error('Refresh error:', error);
+    }
+  };
+
+  refreshData();
+  const interval = setInterval(refreshData, 10000);
+  return () => clearInterval(interval);
+}, [session?.user?.id]);
+
+  // Add this new useEffect after your existing useEffects
+useEffect(() => {
+  // Check if user was redirected from payment success
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('showCard') === 'true' && isPremium) {
+    setSelectedNav("Display My Card");
+    // Clear the URL parameter
+    window.history.replaceState({}, '', '/');
+  }
+}, [isPremium]);
+
+useEffect(() => {
+  // Check for navigation parameter
+  const urlParams = new URLSearchParams(window.location.search);
+  const navParam = urlParams.get('nav');
+  
+  if (navParam === 'profile') {
+    setSelectedNav('Profile and Payment');
+    // Clean up URL
+    window.history.replaceState({}, '', '/');
+  }
+}, []);
+
+  const fetchBusinesses = async () => {
+    console.log("Fetching businesses from database...")
+    const { data, error } = await supabase.from("businesses").select("*").order("created_at", { ascending: false })
+
+    if (!error && data) {
+      console.log("Fetched businesses:", data.length)
+      setBusinesses(data)
+      preloadImages(data)
+    } else if (error) {
+      console.error("Error fetching businesses:", error)
+    }
+  }
 
   const preloadImages = (businessList) => {
     if (typeof window === "undefined") return
@@ -910,39 +742,56 @@ useEffect(() => {
     })
   }
 
-
-
   useEffect(() => {
     fetchBusinesses()
   }, [])
 
   useEffect(() => {
-    if (session?.user) {
-      const metadata = session.user.user_metadata || {}
-      setDisplayName(metadata.display_name || "")
-      setEditingName(metadata.display_name || "")
-      setAvatarUrl(metadata.avatar_url || "")
-    }
-  }, [session])
+  if (profile) {
+    setDisplayName(profile.display_name || profile.full_name || "");
+    setEditingName(profile.display_name || profile.full_name || "");
+    setAvatarUrl(profile.avatar_url || "");
+  } else if (session?.user?.user_metadata) {
+    setDisplayName(session.user.user_metadata.display_name || "");
+    setEditingName(session.user.user_metadata.display_name || "");
+    setAvatarUrl(session.user.user_metadata.avatar_url || "");
+  }
+}, [session, profile]);
 
   const saveName = async () => {
-    setIsSaving(true)
-    setSaveStatus(null)
-    const { data, error } = await supabase.auth.updateUser({
+  setIsSaving(true);
+  setSaveStatus(null);
+  
+  try {
+    // Update auth metadata
+    const { data: authData, error: authError } = await supabase.auth.updateUser({
       data: {
         display_name: editingName,
         avatar_url: avatarUrl,
       },
-    })
-    if (!error && data?.user) {
-      setDisplayName(editingName)
-      setSession((prev) => ({ ...prev, user: data.user }))
-      setSaveStatus("success")
-    } else {
-      setSaveStatus("error")
-    }
-    setIsSaving(false)
+    });
+    if (authError) throw authError;
+
+    // ✅ NEW: Update profile table
+    const { error: profileError } = await supabase
+      .from('profiles')
+      .update({
+        display_name: editingName,
+        full_name: editingName,
+        avatar_url: avatarUrl,
+      })
+      .eq('id', session.user.id);
+    if (profileError) throw profileError;
+
+    setDisplayName(editingName);
+    setSession((prev) => ({ ...prev, user: authData.user }));
+    setSaveStatus('success');
+  } catch (error) {
+    console.error('Save error:', error);
+    setSaveStatus('error');
   }
+  setIsSaving(false);
+};
 
   const handleFileUpload = async (e) => {
     const file = e.target.files[0]
@@ -979,88 +828,83 @@ useEffect(() => {
     setUploading(false)
   }
 
-  const handleLogout = async () => {
-    try {
-      console.log("🚪 Starting logout process...")
-
-      // Clear all state FIRST
-      setSession(null)
-      setProfile(null)
-      setDisplayName("")
-      setEditingName("")
-      setAvatarUrl("")
-      setSelectedNav("Highlighted Business")
-
-      // Clear storage
-      localStorage.clear()
-      sessionStorage.clear()
-
-      console.log("🔄 Signing out from Supabase...")
-
-      // Sign out from Supabase (await it!)
-      const { error } = await supabase.auth.signOut()
-
-      if (error) {
-        console.error("❌ Supabase signOut error:", error)
-        // Don't return here, continue with reload
-      } else {
-        console.log("✅ Supabase signOut successful")
-      }
-
-      // CRITICAL: Small delay to ensure signout completes
-      await new Promise((resolve) => setTimeout(resolve, 300))
-
-      console.log("🔄 Reloading page...")
-
-      // Force full page reload (clears all React state)
-      window.location.href = "/"
-    } catch (err) {
-      console.error("❌ Logout error:", err)
-      // Force reload anyway to clear state
-      window.location.href = "/"
+const handleLogout = async () => {
+  try {
+    console.log('🚪 Starting logout process...');
+    
+    // Sign out from Supabase
+    const { error } = await supabase.auth.signOut();
+    
+    if (error) {
+      console.error('❌ Supabase signOut error:', error);
+    } else {
+      console.log('✅ Supabase signOut successful');
     }
+    
+    // Clear all state immediately
+    setSession(null);
+    setProfile(null);
+    setDisplayName("");
+    setEditingName("");
+    setAvatarUrl("");
+    setSelectedNav("Highlighted Business");
+    
+    // Clear storage
+    localStorage.clear();
+    sessionStorage.clear();
+    
+    console.log('🔄 Reloading page...');
+    
+    // Force reload
+    setTimeout(() => {
+      window.location.replace('/');
+    }, 100);
+    
+  } catch (err) {
+    console.error('❌ Logout error:', err);
+    // Force reload anyway
+    window.location.replace('/');
   }
+};
 
-  const refreshUserData = async () => {
-    if (!session?.user?.id) return
-
-    try {
-      console.log("🔄 Refreshing user data...")
-
-      // ✅ FIX: Fetch profile FIRST (most reliable)
-      const { data: newProfile, error: profileError } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("id", session.user.id)
-        .single()
-
-      if (profileError) {
-        console.error("❌ Profile fetch error:", profileError)
-      } else if (newProfile) {
-        console.log("✅ Profile refreshed:", {
-          subscription_status: newProfile.subscription_status,
-          is_premium: newProfile.is_premium,
-          subscription_cancel_at: newProfile.subscription_cancel_at,
-        })
-        setProfile(newProfile)
-      }
-
-      // Then refresh auth session
-      const {
-        data: { session: newSession },
-        error: sessionError,
-      } = await supabase.auth.refreshSession()
-
-      if (sessionError) {
-        console.error("❌ Session refresh error:", sessionError)
-      } else if (newSession) {
-        console.log("✅ Session refreshed")
-        setSession(newSession)
-      }
-    } catch (error) {
-      console.error("❌ Error refreshing data:", error)
+const refreshUserData = async () => {
+  if (!session?.user?.id) return;
+  
+  try {
+    console.log('🔄 Refreshing user data...');
+    
+    // ✅ FIX: Fetch profile FIRST (most reliable)
+    const { data: newProfile, error: profileError } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', session.user.id)
+      .single();
+    
+    if (profileError) {
+      console.error('❌ Profile fetch error:', profileError);
+    } else if (newProfile) {
+      console.log('✅ Profile refreshed:', {
+        subscription_status: newProfile.subscription_status,
+        is_premium: newProfile.is_premium,
+        subscription_cancel_at: newProfile.subscription_cancel_at,
+      });
+      setProfile(newProfile);
     }
+    
+    // Then refresh auth session
+    const { data: { session: newSession }, error: sessionError } = 
+      await supabase.auth.refreshSession();
+    
+    if (sessionError) {
+      console.error('❌ Session refresh error:', sessionError);
+    } else if (newSession) {
+      console.log('✅ Session refreshed');
+      setSession(newSession);
+    }
+  } catch (error) {
+    console.error('❌ Error refreshing data:', error);
   }
+};
 
   if (showSplash) {
     return (
@@ -1076,6 +920,7 @@ useEffect(() => {
       </div>
     )
   }
+
 
   if (showLanding && !session) {
     return (
@@ -1149,7 +994,6 @@ useEffect(() => {
             0%, 100% { opacity: 0.6; }
             50% { opacity: 1; }
           }
-          
         `}
       </style>
       <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
@@ -1161,7 +1005,7 @@ useEffect(() => {
                 margin: 0,
                 width: "100vw",
                 minHeight: "calc(100vh - 60px)",
-                backgroundColor: "#f5f5f7",
+                backgroundColor: "#ffffff",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
@@ -1197,7 +1041,7 @@ useEffect(() => {
                 setEditingName={setEditingName}
                 isSaving={isSaving}
                 saveStatus={saveStatus}
-                onLogout={handleLogout}
+                onLogout={handleLogout} 
               />
             </div>
           ) : selectedNav === "Highlighted Business" ? (
@@ -1222,7 +1066,8 @@ useEffect(() => {
                     <option value="">Sort By</option>
                     <option value="az">A → Z</option>
                     <option value="za">Z → A</option>
-
+                    <option value="oldest">Oldest → Newest</option>
+                    <option value="newest">Newest → Oldest</option>
                     <option value="rating">Highest Rating</option>
                   </select>
                   <select value={zipSearch} onChange={(e) => setZipSearch(e.target.value)}>
@@ -1288,127 +1133,168 @@ useEffect(() => {
                 })
                 .map((biz) => (
                   <div
-                  key={biz.id}
-                  className="highlighted-business-card"
-                  onClick={() => setSelectedBusiness(biz)}
-                  style={{ cursor: "pointer" }}
-                >
-                  <div style={{ position: "relative" }}>
-                    {biz.uploading && (
-                      <div
-                        style={{
-                          position: "absolute",
-                          top: 0,
-                          left: 0,
-                          right: 0,
-                          bottom: 0,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          backgroundColor: "rgba(255,255,255,0.8)",
-                          borderRadius: "8px",
-                          zIndex: 10,
-                        }}
-                      >
-                        <div>Uploading...</div>
-                      </div>
-                    )}
-                    <OptimizedImage
-                      src={getBusinessImage(biz)}
-                      alt={biz.name}
-                      className="highlighted-business-logo"
-                    />
-                    {isAdmin && (
-                      <label
-                        style={{
-                          position: "absolute",
-                          bottom: -8,
-                          right: -8,
-                          backgroundColor: "#1e3a8a",
-                          color: "white",
-                          borderRadius: "50%",
-                          width: 28,
-                          height: 28,
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          cursor: "pointer",
-                          fontSize: "14px",
-                          boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
-                        }}
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        📷
-                        <input
-                          type="file"
-                          accept="image/*"
-                          style={{ display: "none" }}
-                          onChange={(e) => {
-                            if (e.target.files?.[0]) {
-                              handleLogoUpload(biz.id, e.target.files[0])
-                            }
-                          }}
-                        />
-                      </label>
-                    )}
-                  </div>
-
-                  <div className="highlighted-business-content">
-                    <div className="highlighted-business-name">{biz.name}</div>
-                    {biz.description && <div className="highlighted-business-description">{biz.description}</div>}
-
-                    <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <span
-                          key={star}
+                    key={biz.id}
+                    className="highlighted-business-card"
+                    onClick={() => setSelectedBusiness(biz)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    <div style={{ position: "relative" }}>
+                      {biz.uploading && (
+                        <div
                           style={{
-                            color: (biz.rating || 0) >= star ? "#f59e0b" : "#ccc",
-                            fontSize: 18,
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            backgroundColor: "rgba(255,255,255,0.8)",
+                            borderRadius: "8px",
+                            zIndex: 10,
                           }}
                         >
-                          ★
-                        </span>
-                      ))}
-                      <span style={{ fontSize: 13, color: "#f59e0b", fontWeight: 500 }}>
-                        {biz.rating || " 0.0"} ({biz.review_count || 0})
-                      </span>
+                          <div>Uploading...</div>
+                        </div>
+                      )}
+                      <OptimizedImage
+                        src={getBusinessImage(biz)}
+                        alt={biz.name}
+                        className="highlighted-business-logo"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setSelectedBusiness(biz)
+                        }}
+                      />
+                      {isAdmin && (
+                        <label
+                          style={{
+                            position: "absolute",
+                            bottom: -8,
+                            right: -8,
+                            backgroundColor: "#1e3a8a",
+                            color: "white",
+                            borderRadius: "50%",
+                            width: 28,
+                            height: 28,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            cursor: "pointer",
+                            fontSize: "14px",
+                            boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
+                          }}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          📷
+                          <input
+                            type="file"
+                            accept="image/*"
+                            style={{ display: "none" }}
+                            onChange={(e) => {
+                              if (e.target.files?.[0]) {
+                                handleLogoUpload(biz.id, e.target.files[0])
+                              }
+                            }}
+                          />
+                        </label>
+                      )}
                     </div>
 
-                    {Array.isArray(biz.tags) && biz.tags.length > 0 && (
-                      <div className="highlighted-business-tags">
-                        <span className="highlighted-tag-pill">
-                          <span>🏷️</span>
-                          <span>{biz.tags[0]}</span>
+                    <div className="highlighted-business-content">
+                      <div className="highlighted-business-name">{biz.name}</div>
+                      {biz.description && <div className="highlighted-business-description">{biz.description}</div>}
+
+                      <div
+                        style={{ display: "flex", alignItems: "center", gap: 4 }}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <span
+                            key={star}
+                            onClick={async (e) => {
+                              e.stopPropagation()
+                              if (!session?.user) {
+                                alert("Please sign in to rate this business.")
+                                return
+                              }
+                              try {
+                                const { error: insertError } = await supabase.from("reviews").insert({
+                                  business_id: biz.id,
+                                  user_id: session.user.id,
+                                  rating: star,
+                                })
+                                if (insertError) throw insertError
+
+                                const { data: allReviews, error: fetchError } = await supabase
+                                  .from("reviews")
+                                  .select("rating")
+                                  .eq("business_id", biz.id)
+
+                                if (fetchError) throw fetchError
+
+                                const total = allReviews.length
+                                const avg = total > 0 ? allReviews.reduce((a, r) => a + r.rating, 0) / total : 0
+
+                                const { error: updateError } = await supabase
+                                  .from("businesses")
+                                  .update({
+                                    rating: avg.toFixed(1),
+                                    review_count: total,
+                                  })
+                                  .eq("id", biz.id)
+
+                                if (updateError) throw updateError
+
+                                setBusinesses((prev) =>
+                                  prev.map((b) =>
+                                    b.id === biz.id ? { ...b, rating: avg.toFixed(1), review_count: total } : b,
+                                  ),
+                                )
+                              } catch (err) {
+                                console.error("Rating error:", err)
+                                alert("Error submitting your rating.")
+                              }
+                            }}
+                            style={{
+                              color: (biz.rating || 0) >= star ? "#f59e0b" : "#ccc",
+                              fontSize: 18,
+                              cursor: "pointer",
+                            }}
+                          >
+                            ★
+                          </span>
+                        ))}
+                        <span style={{ fontSize: 13, color: "#f59e0b", fontWeight: 500 }}>
+                          {biz.rating || " 0.0"} ({biz.review_count || 0})
                         </span>
                       </div>
-                    )}
+
+                      {Array.isArray(biz.tags) && biz.tags.length > 0 && (
+                        <div className="highlighted-business-tags">
+                          <span className="highlighted-tag-pill">
+                            <span>🏷️</span>
+                            <span>{biz.tags[0]}</span>
+                          </span>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
                 ))}
             </div>
           ) : (
             <div>{/* Any other routes */}</div>
           )}
         </main>
-    
-
-{selectedBusiness && (
-  <BusinessProfile
-    business={selectedBusiness}
-    onClose={() => setSelectedBusiness(null)}
-    isAdmin={isAdmin}
-    onPhotosUpdate={uploadBusinessPhotos}
-    session={session}  // ✅ ADD THIS LINE
-    onRatingUpdate={(updatedBusiness) => {
-      // Update the business in the businesses array
-      setBusinesses(prev => 
-        prev.map(biz => 
-          biz.id === updatedBusiness.id ? updatedBusiness : biz
-        )
-      )
-    }}
-  />
-)}
+        {selectedBusiness && (
+          <BusinessProfile
+            business={selectedBusiness}
+            onClose={() => setSelectedBusiness(null)}
+            isAdmin={isAdmin}
+            onPhotosUpdate={uploadBusinessPhotos}
+          />
+        )}
         <nav
           style={{
             display: "flex",
@@ -1441,14 +1327,14 @@ useEffect(() => {
                   flexDirection: "column",
                   alignItems: "center",
                   justifyContent: "center",
-                  color: isSelected ? "#4ba3d9" : "#667",
+                  color: isSelected ? "darkblue" : "#666",
                   fontWeight: isSelected ? "bold" : "normal",
                   transition: "color 0.3s",
                   flex: 1,
                   maxWidth: "80px",
                 }}
               >
-                <Icon size={20} color={isSelected ? "#4BA3d9" : "#666"} />
+                <Icon size={20} color={isSelected ? "darkblue" : "#666"} />
                 <span
                   style={{
                     fontSize: "10px",
