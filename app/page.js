@@ -1174,10 +1174,6 @@ function App() {
                         src={getBusinessImage(biz)}
                         alt={biz.name}
                         className="highlighted-business-logo"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          setSelectedBusiness(biz)
-                        }}
                       />
                       {isAdmin && (
                         <label
@@ -1218,61 +1214,13 @@ function App() {
                       <div className="highlighted-business-name">{biz.name}</div>
                       {biz.description && <div className="highlighted-business-description">{biz.description}</div>}
 
-                      <div
-                        style={{ display: "flex", alignItems: "center", gap: 4 }}
-                        onClick={(e) => e.stopPropagation()}
-                      >
+                      <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
                         {[1, 2, 3, 4, 5].map((star) => (
                           <span
                             key={star}
-                            onClick={async (e) => {
-                              e.stopPropagation()
-                              if (!session?.user) {
-                                alert("Please sign in to rate this business.")
-                                return
-                              }
-                              try {
-                                const { error: insertError } = await supabase.from("reviews").insert({
-                                  business_id: biz.id,
-                                  user_id: session.user.id,
-                                  rating: star,
-                                })
-                                if (insertError) throw insertError
-
-                                const { data: allReviews, error: fetchError } = await supabase
-                                  .from("reviews")
-                                  .select("rating")
-                                  .eq("business_id", biz.id)
-
-                                if (fetchError) throw fetchError
-
-                                const total = allReviews.length
-                                const avg = total > 0 ? allReviews.reduce((a, r) => a + r.rating, 0) / total : 0
-
-                                const { error: updateError } = await supabase
-                                  .from("businesses")
-                                  .update({
-                                    rating: avg.toFixed(1),
-                                    review_count: total,
-                                  })
-                                  .eq("id", biz.id)
-
-                                if (updateError) throw updateError
-
-                                setBusinesses((prev) =>
-                                  prev.map((b) =>
-                                    b.id === biz.id ? { ...b, rating: avg.toFixed(1), review_count: total } : b,
-                                  ),
-                                )
-                              } catch (err) {
-                                console.error("Rating error:", err)
-                                alert("Error submitting your rating.")
-                              }
-                            }}
                             style={{
                               color: (biz.rating || 0) >= star ? "#f59e0b" : "#ccc",
                               fontSize: 18,
-                              cursor: "pointer",
                             }}
                           >
                             ★

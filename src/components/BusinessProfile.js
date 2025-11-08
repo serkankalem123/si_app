@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import '@fontsource/montserrat/700.css'; 
 
-function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate }) {
+function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, onRatingUpdate }) {
   const [selectedPhoto, setSelectedPhoto] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [localPhotos, setLocalPhotos] = useState(business.photo_urls || []);
+  const [localBusiness, setLocalBusiness] = useState(business);
 
   useEffect(() => {
     setLocalPhotos(business.photo_urls || []);
-  }, [business.photo_urls]);
+    setLocalBusiness(business);
+  }, [business.photo_urls, business]);
 
   useEffect(() => {
     // Lock background scroll when modal is open
@@ -30,6 +32,60 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate }) {
   }, []);
 
   if (!business) return null;
+
+  const handleRating = async (star) => {
+    if (!session?.user) {
+      alert("Please sign in to rate this business.");
+      return;
+    }
+    
+    try {
+      const { supabase } = await import('../supabaseClient');
+      
+      const { error: insertError } = await supabase.from("reviews").insert({
+        business_id: business.id,
+        user_id: session.user.id,
+        rating: star,
+      });
+      
+      if (insertError) throw insertError;
+
+      const { data: allReviews, error: fetchError } = await supabase
+        .from("reviews")
+        .select("rating")
+        .eq("business_id", business.id);
+
+      if (fetchError) throw fetchError;
+
+      const total = allReviews.length;
+      const avg = total > 0 ? allReviews.reduce((a, r) => a + r.rating, 0) / total : 0;
+
+      const { error: updateError } = await supabase
+        .from("businesses")
+        .update({
+          rating: avg.toFixed(1),
+          review_count: total,
+        })
+        .eq("id", business.id);
+
+      if (updateError) throw updateError;
+
+      const updatedBusiness = {
+        ...localBusiness,
+        rating: avg.toFixed(1),
+        review_count: total,
+      };
+      
+      setLocalBusiness(updatedBusiness);
+      
+      if (onRatingUpdate) {
+        onRatingUpdate(updatedBusiness);
+      }
+    } catch (err) {
+      console.error("Rating error:", err);
+      alert("Error submitting your rating.");
+    }
+  };
 
   const handlePhotoUpload = async (e) => {
     const files = Array.from(e.target.files);
@@ -163,9 +219,55 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate }) {
               fontSize: 32,
               fontWeight: '700',
               letterSpacing: '-0.5px',
+              marginBottom: 16,
             }}>
               {business.name ?? 'N/A'}
             </h2>
+
+            {/* Rating Section */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
+              marginTop: 12,
+            }}>
+              <div style={{ display: 'flex', gap: 4 }}>
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <span
+                    key={star}
+                    onClick={() => handleRating(star)}
+                    style={{
+                      color: (localBusiness.rating || 0) >= star ? "#fbbf24" : "rgba(255,255,255,0.4)",
+                      fontSize: 24,
+                      cursor: session?.user ? 'pointer' : 'default',
+                      transition: 'all 0.2s',
+                      textShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                    }}
+                    onMouseEnter={(e) => {
+                      if (session?.user) {
+                        e.target.style.transform = 'scale(1.2)';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.transform = 'scale(1)';
+                    }}
+                  >
+                    ★
+                  </span>
+                ))}
+              </div>
+              <span style={{ 
+                fontSize: 15, 
+                color: 'white', 
+                fontWeight: '600',
+                backgroundColor: 'rgba(255,255,255,0.2)',
+                padding: '4px 12px',
+                borderRadius: 20,
+                backdropFilter: 'blur(10px)',
+              }}>
+                {localBusiness.rating || "0.0"} ({localBusiness.review_count || 0})
+              </span>
+            </div>
           </div>
 
           {/* Content */}
