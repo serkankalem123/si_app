@@ -1123,17 +1123,21 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules
 ;
 var _s = __turbopack_context__.k.signature();
 ;
-function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate }) {
+;
+function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, onRatingUpdate }) {
     _s();
     const [selectedPhoto, setSelectedPhoto] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const [uploading, setUploading] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [localPhotos, setLocalPhotos] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(business.photo_urls || []);
+    const [localBusiness, setLocalBusiness] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(business);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "BusinessProfile.useEffect": ()=>{
             setLocalPhotos(business.photo_urls || []);
+            setLocalBusiness(business);
         }
     }["BusinessProfile.useEffect"], [
-        business.photo_urls
+        business.photo_urls,
+        business
     ]);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "BusinessProfile.useEffect": ()=>{
@@ -1157,6 +1161,42 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate }) {
         }
     }["BusinessProfile.useEffect"], []);
     if (!business) return null;
+    const handleRating = async (star)=>{
+        if (!session?.user) {
+            alert("Please sign in to rate this business.");
+            return;
+        }
+        try {
+            const { supabase } = await __turbopack_context__.A("[project]/si_app copy/src/supabaseClient.js [app-client] (ecmascript, async loader)");
+            const { error: insertError } = await supabase.from("reviews").insert({
+                business_id: business.id,
+                user_id: session.user.id,
+                rating: star
+            });
+            if (insertError) throw insertError;
+            const { data: allReviews, error: fetchError } = await supabase.from("reviews").select("rating").eq("business_id", business.id);
+            if (fetchError) throw fetchError;
+            const total = allReviews.length;
+            const avg = total > 0 ? allReviews.reduce((a, r)=>a + r.rating, 0) / total : 0;
+            const { error: updateError } = await supabase.from("businesses").update({
+                rating: avg.toFixed(1),
+                review_count: total
+            }).eq("id", business.id);
+            if (updateError) throw updateError;
+            const updatedBusiness = {
+                ...localBusiness,
+                rating: avg.toFixed(1),
+                review_count: total
+            };
+            setLocalBusiness(updatedBusiness);
+            if (onRatingUpdate) {
+                onRatingUpdate(updatedBusiness);
+            }
+        } catch (err) {
+            console.error("Rating error:", err);
+            alert("Error submitting your rating.");
+        }
+    };
     const handlePhotoUpload = async (e)=>{
         const files = Array.from(e.target.files);
         if (!files.length || !onPhotosUpdate) return;
@@ -1239,12 +1279,12 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate }) {
                         overflowY: 'auto',
                         boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)',
                         position: 'relative',
-                        fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+                        fontFamily: "'Montserrat', sans-serif"
                     },
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             style: {
-                                background: 'linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%)',
+                                background: '#4BA3D9',
                                 borderRadius: '24px 24px 0 0',
                                 padding: '32px 32px 24px',
                                 position: 'relative'
@@ -1283,27 +1323,102 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate }) {
                                     children: "×"
                                 }, void 0, false, {
                                     fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                    lineNumber: 125,
+                                    lineNumber: 182,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
                                     style: {
                                         margin: 0,
-                                        color: 'white',
+                                        color: 'black',
                                         fontSize: 32,
                                         fontWeight: '700',
-                                        letterSpacing: '-0.5px'
+                                        letterSpacing: '-0.5px',
+                                        marginBottom: 16
                                     },
                                     children: business.name ?? 'N/A'
                                 }, void 0, false, {
                                     fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                    lineNumber: 159,
+                                    lineNumber: 216,
+                                    columnNumber: 13
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                    style: {
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: 8,
+                                        marginTop: 12
+                                    },
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                            style: {
+                                                display: 'flex',
+                                                gap: 4
+                                            },
+                                            children: [
+                                                1,
+                                                2,
+                                                3,
+                                                4,
+                                                5
+                                            ].map((star)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                    onClick: ()=>handleRating(star),
+                                                    style: {
+                                                        color: (localBusiness.rating || 0) >= star ? "#fbbf24" : "rgba(255,255,255,0.4)",
+                                                        fontSize: 24,
+                                                        cursor: session?.user ? 'pointer' : 'default',
+                                                        transition: 'all 0.2s',
+                                                        textShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                                                    },
+                                                    onMouseEnter: (e)=>{
+                                                        if (session?.user) {
+                                                            e.target.style.transform = 'scale(1.2)';
+                                                        }
+                                                    },
+                                                    onMouseLeave: (e)=>{
+                                                        e.target.style.transform = 'scale(1)';
+                                                    },
+                                                    children: "★"
+                                                }, star, false, {
+                                                    fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
+                                                    lineNumber: 236,
+                                                    columnNumber: 19
+                                                }, this))
+                                        }, void 0, false, {
+                                            fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
+                                            lineNumber: 234,
+                                            columnNumber: 15
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                            style: {
+                                                fontSize: 15,
+                                                color: 'white',
+                                                fontWeight: '600',
+                                                backgroundColor: 'rgba(255,255,255,0.2)',
+                                                padding: '4px 12px',
+                                                borderRadius: 20,
+                                                backdropFilter: 'blur(10px)'
+                                            },
+                                            children: [
+                                                localBusiness.rating || "0.0",
+                                                " (",
+                                                localBusiness.review_count || 0,
+                                                ")"
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
+                                            lineNumber: 259,
+                                            columnNumber: 15
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
+                                    lineNumber: 228,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                            lineNumber: 119,
+                            lineNumber: 176,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1355,7 +1470,7 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate }) {
                                                                 }
                                                             }, void 0, false, {
                                                                 fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                                                lineNumber: 185,
+                                                                lineNumber: 288,
                                                                 columnNumber: 23
                                                             }, this),
                                                             isAdmin && !photo.isLogo && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1390,13 +1505,13 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate }) {
                                                                 children: "×"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                                                lineNumber: 208,
+                                                                lineNumber: 311,
                                                                 columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, i, true, {
                                                         fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                                        lineNumber: 184,
+                                                        lineNumber: 287,
                                                         columnNumber: 21
                                                     }, this)),
                                                 isAdmin && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -1439,7 +1554,7 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate }) {
                                                             children: "Add Photos"
                                                         }, void 0, false, {
                                                             fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                                            lineNumber: 276,
+                                                            lineNumber: 379,
                                                             columnNumber: 38
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1453,19 +1568,19 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate }) {
                                                             onChange: handlePhotoUpload
                                                         }, void 0, false, {
                                                             fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                                            lineNumber: 277,
+                                                            lineNumber: 380,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                                    lineNumber: 245,
+                                                    lineNumber: 348,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                            lineNumber: 175,
+                                            lineNumber: 278,
                                             columnNumber: 17
                                         }, this),
                                         uploading && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1478,13 +1593,13 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate }) {
                                             children: "⏳ Uploading photos..."
                                         }, void 0, false, {
                                             fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                            lineNumber: 289,
+                                            lineNumber: 392,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                    lineNumber: 174,
+                                    lineNumber: 277,
                                     columnNumber: 15
                                 }, this),
                                 business.description && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1497,7 +1612,7 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate }) {
                                     children: business.description
                                 }, void 0, false, {
                                     fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                    lineNumber: 303,
+                                    lineNumber: 406,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1526,7 +1641,7 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate }) {
                                                     children: "📍 ADDRESS"
                                                 }, void 0, false, {
                                                     fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                                    lineNumber: 322,
+                                                    lineNumber: 425,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1538,13 +1653,13 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate }) {
                                                     children: business.address
                                                 }, void 0, false, {
                                                     fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                                    lineNumber: 325,
+                                                    lineNumber: 428,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                            lineNumber: 316,
+                                            lineNumber: 419,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1572,7 +1687,7 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate }) {
                                                             children: "🏷️    ZIP CODE"
                                                         }, void 0, false, {
                                                             fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                                            lineNumber: 339,
+                                                            lineNumber: 442,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1584,13 +1699,13 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate }) {
                                                             children: business.zip_code
                                                         }, void 0, false, {
                                                             fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                                            lineNumber: 342,
+                                                            lineNumber: 445,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                                    lineNumber: 333,
+                                                    lineNumber: 436,
                                                     columnNumber: 19
                                                 }, this),
                                                 business.phone_number && business.phone_number !== 'N/A' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1611,7 +1726,7 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate }) {
                                                             children: "📞  PHONE"
                                                         }, void 0, false, {
                                                             fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                                            lineNumber: 355,
+                                                            lineNumber: 458,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1623,24 +1738,24 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate }) {
                                                             children: business.phone_number
                                                         }, void 0, false, {
                                                             fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                                            lineNumber: 358,
+                                                            lineNumber: 461,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                                    lineNumber: 349,
+                                                    lineNumber: 452,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                            lineNumber: 331,
+                                            lineNumber: 434,
                                             columnNumber: 15
                                         }, this),
                                         business.discount && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             style: {
-                                                background: 'linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%)',
+                                                background: '#4BA3D9',
                                                 padding: '16px 20px',
                                                 borderRadius: 12,
                                                 color: 'white',
@@ -1657,7 +1772,7 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate }) {
                                                     children: "🎁 DISCOUNT"
                                                 }, void 0, false, {
                                                     fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                                    lineNumber: 373,
+                                                    lineNumber: 476,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1668,19 +1783,19 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate }) {
                                                     children: business.discount
                                                 }, void 0, false, {
                                                     fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                                    lineNumber: 376,
+                                                    lineNumber: 479,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                            lineNumber: 366,
+                                            lineNumber: 469,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                    lineNumber: 314,
+                                    lineNumber: 417,
                                     columnNumber: 13
                                 }, this),
                                 business.address && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1701,29 +1816,29 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate }) {
                                         src: `https://www.google.com/maps/embed/v1/place?key=AIzaSyDbunv4FltSPw8q9_jQJoVDrCJ7dPjsVaw&q=${encodeURIComponent(business.address)}`
                                     }, void 0, false, {
                                         fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                        lineNumber: 390,
+                                        lineNumber: 493,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                    lineNumber: 385,
+                                    lineNumber: 488,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                            lineNumber: 171,
+                            lineNumber: 274,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                    lineNumber: 107,
+                    lineNumber: 164,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                lineNumber: 95,
+                lineNumber: 152,
                 columnNumber: 7
             }, this),
             selectedPhoto && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1751,7 +1866,7 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate }) {
             `
                     }, void 0, false, {
                         fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                        lineNumber: 423,
+                        lineNumber: 526,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1788,7 +1903,7 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate }) {
                         children: "×"
                     }, void 0, false, {
                         fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                        lineNumber: 431,
+                        lineNumber: 534,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
@@ -1805,19 +1920,19 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate }) {
                         onClick: (e)=>e.stopPropagation()
                     }, void 0, false, {
                         fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                        lineNumber: 466,
+                        lineNumber: 569,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                lineNumber: 407,
+                lineNumber: 510,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true);
 }
-_s(BusinessProfile, "Q3Shzx92c2oWMAuJ+XUALXY+glA=");
+_s(BusinessProfile, "OR4rQiRr7vy0X8NRewMMlcdlXKE=");
 _c = BusinessProfile;
 const __TURBOPACK__default__export__ = BusinessProfile;
 var _c;
@@ -1837,8 +1952,9 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules
 "use client";
 ;
 ;
-const logo = "/Cartoon.PNG" // center logo
 ;
+;
+const logo = "/Cartoon.PNG"; // center logo
 function LandingPage({ onLoginClick, onGetStarted }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "landing-container",
@@ -1849,14 +1965,14 @@ function LandingPage({ onLoginClick, onGetStarted }) {
                 className: "landing-bg"
             }, void 0, false, {
                 fileName: "[project]/si_app copy/src/components/LandingPage.js",
-                lineNumber: 10,
+                lineNumber: 14,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "landing-overlay"
             }, void 0, false, {
                 fileName: "[project]/si_app copy/src/components/LandingPage.js",
-                lineNumber: 13,
+                lineNumber: 17,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1867,12 +1983,12 @@ function LandingPage({ onLoginClick, onGetStarted }) {
                     children: "Login"
                 }, void 0, false, {
                     fileName: "[project]/si_app copy/src/components/LandingPage.js",
-                    lineNumber: 17,
+                    lineNumber: 21,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/si_app copy/src/components/LandingPage.js",
-                lineNumber: 16,
+                lineNumber: 20,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1880,33 +1996,51 @@ function LandingPage({ onLoginClick, onGetStarted }) {
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
                         className: "landing-title",
+                        style: {
+                            fontFamily: "'Montserrat', sans-serif",
+                            fontWeight: 700,
+                            letterSpacing: "-0.5px"
+                        },
                         children: "Experience the best of Staten Island — for less!"
                     }, void 0, false, {
                         fileName: "[project]/si_app copy/src/components/LandingPage.js",
-                        lineNumber: 24,
+                        lineNumber: 28,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                         className: "landing-subtext",
+                        style: {
+                            fontFamily: "'Raleway', sans-serif",
+                            fontWeight: 400,
+                            lineHeight: "1.6em",
+                            color: "#f9fafb",
+                            maxWidth: "600px",
+                            margin: "0 auto"
+                        },
                         children: "Join HLSI X to get 10% off at top local restaurants, shops and services for just $5 per month."
                     }, void 0, false, {
                         fileName: "[project]/si_app copy/src/components/LandingPage.js",
-                        lineNumber: 25,
+                        lineNumber: 39,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
                         src: logo || "/placeholder.svg",
                         alt: "Logo",
-                        className: "landing-logo-center"
+                        className: "landing-logo-center",
+                        style: {
+                            marginTop: "20px",
+                            maxWidth: "160px",
+                            height: "auto"
+                        }
                     }, void 0, false, {
                         fileName: "[project]/si_app copy/src/components/LandingPage.js",
-                        lineNumber: 30,
+                        lineNumber: 54,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/si_app copy/src/components/LandingPage.js",
-                lineNumber: 23,
+                lineNumber: 27,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1918,7 +2052,7 @@ function LandingPage({ onLoginClick, onGetStarted }) {
                         children: "Get started →"
                     }, void 0, false, {
                         fileName: "[project]/si_app copy/src/components/LandingPage.js",
-                        lineNumber: 35,
+                        lineNumber: 68,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1927,24 +2061,24 @@ function LandingPage({ onLoginClick, onGetStarted }) {
                             children: "Because supporting local should feel rewarding."
                         }, void 0, false, {
                             fileName: "[project]/si_app copy/src/components/LandingPage.js",
-                            lineNumber: 39,
+                            lineNumber: 72,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/si_app copy/src/components/LandingPage.js",
-                        lineNumber: 38,
+                        lineNumber: 71,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/si_app copy/src/components/LandingPage.js",
-                lineNumber: 34,
+                lineNumber: 67,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/si_app copy/src/components/LandingPage.js",
-        lineNumber: 8,
+        lineNumber: 12,
         columnNumber: 5
     }, this);
 }
@@ -2810,6 +2944,9 @@ function ProfileAndPayment({ session, displayName, editingName, setEditingName, 
                                 onClick: onSaveName,
                                 disabled: isSaving,
                                 className: "save-button",
+                                style: {
+                                    color: 'black'
+                                },
                                 children: isSaving ? '...' : 'Save'
                             }, void 0, false, {
                                 fileName: "[project]/si_app copy/src/components/ProfileAndPayment.js",
@@ -2829,14 +2966,14 @@ function ProfileAndPayment({ session, displayName, editingName, setEditingName, 
                                 children: "✓"
                             }, void 0, false, {
                                 fileName: "[project]/si_app copy/src/components/ProfileAndPayment.js",
-                                lineNumber: 120,
+                                lineNumber: 121,
                                 columnNumber: 13
                             }, this),
                             " Saved successfully"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/si_app copy/src/components/ProfileAndPayment.js",
-                        lineNumber: 119,
+                        lineNumber: 120,
                         columnNumber: 11
                     }, this),
                     saveStatus === "error" && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2846,14 +2983,14 @@ function ProfileAndPayment({ session, displayName, editingName, setEditingName, 
                                 children: "✗"
                             }, void 0, false, {
                                 fileName: "[project]/si_app copy/src/components/ProfileAndPayment.js",
-                                lineNumber: 125,
+                                lineNumber: 126,
                                 columnNumber: 13
                             }, this),
                             " Failed to save"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/si_app copy/src/components/ProfileAndPayment.js",
-                        lineNumber: 124,
+                        lineNumber: 125,
                         columnNumber: 11
                     }, this)
                 ]
@@ -2870,7 +3007,7 @@ function ProfileAndPayment({ session, displayName, editingName, setEditingName, 
                         children: "Your Highlighting SI Epxerience Membership"
                     }, void 0, false, {
                         fileName: "[project]/si_app copy/src/components/ProfileAndPayment.js",
-                        lineNumber: 132,
+                        lineNumber: 133,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2891,12 +3028,12 @@ function ProfileAndPayment({ session, displayName, editingName, setEditingName, 
                                     children: isPremium ? "Premium" : "Free Trial"
                                 }, void 0, false, {
                                     fileName: "[project]/si_app copy/src/components/ProfileAndPayment.js",
-                                    lineNumber: 135,
+                                    lineNumber: 136,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/si_app copy/src/components/ProfileAndPayment.js",
-                                lineNumber: 134,
+                                lineNumber: 135,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2909,12 +3046,12 @@ function ProfileAndPayment({ session, displayName, editingName, setEditingName, 
                                     children: "Manage your plan and billing below."
                                 }, void 0, false, {
                                     fileName: "[project]/si_app copy/src/components/ProfileAndPayment.js",
-                                    lineNumber: 140,
+                                    lineNumber: 141,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/si_app copy/src/components/ProfileAndPayment.js",
-                                lineNumber: 139,
+                                lineNumber: 140,
                                 columnNumber: 11
                             }, this),
                             isCanceling && cancelAt && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2936,7 +3073,7 @@ function ProfileAndPayment({ session, displayName, editingName, setEditingName, 
                                         children: "⚠️ Subscription Ending"
                                     }, void 0, false, {
                                         fileName: "[project]/si_app copy/src/components/ProfileAndPayment.js",
-                                        lineNumber: 153,
+                                        lineNumber: 154,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2953,13 +3090,13 @@ function ProfileAndPayment({ session, displayName, editingName, setEditingName, 
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/si_app copy/src/components/ProfileAndPayment.js",
-                                        lineNumber: 156,
+                                        lineNumber: 157,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/si_app copy/src/components/ProfileAndPayment.js",
-                                lineNumber: 145,
+                                lineNumber: 146,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2967,7 +3104,7 @@ function ProfileAndPayment({ session, displayName, editingName, setEditingName, 
                                 children: isPremium ? isCanceling ? "You have access to premium features until the end of your billing period" : "You have access to all premium features" : ""
                             }, void 0, false, {
                                 fileName: "[project]/si_app copy/src/components/ProfileAndPayment.js",
-                                lineNumber: 163,
+                                lineNumber: 164,
                                 columnNumber: 11
                             }, this),
                             !isPremium && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2976,7 +3113,7 @@ function ProfileAndPayment({ session, displayName, editingName, setEditingName, 
                                 children: "Upgrade to Full Membership"
                             }, void 0, false, {
                                 fileName: "[project]/si_app copy/src/components/ProfileAndPayment.js",
-                                lineNumber: 174,
+                                lineNumber: 175,
                                 columnNumber: 13
                             }, this),
                             isPremium && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2985,8 +3122,8 @@ function ProfileAndPayment({ session, displayName, editingName, setEditingName, 
                                 style: {
                                     width: '100%',
                                     padding: '12px 16px',
-                                    background: '#1e3a8a',
-                                    color: '#fff',
+                                    background: '#4BA3D9',
+                                    color: 'black',
                                     border: 'none',
                                     borderRadius: '8px',
                                     fontSize: '14px',
@@ -2998,24 +3135,24 @@ function ProfileAndPayment({ session, displayName, editingName, setEditingName, 
                                 },
                                 onMouseEnter: (e)=>{
                                     if (!isLoadingPortal) {
-                                        e.target.style.background = '#1d4ed8';
+                                        e.target.style.background = '#3B8FC1';
                                     }
                                 },
                                 onMouseLeave: (e)=>{
                                     if (!isLoadingPortal) {
-                                        e.target.style.background = '#1e3a8a';
+                                        e.target.style.background = '#4BA3D9';
                                     }
                                 },
                                 children: isLoadingPortal ? 'Opening...' : 'Manage Subscription'
                             }, void 0, false, {
                                 fileName: "[project]/si_app copy/src/components/ProfileAndPayment.js",
-                                lineNumber: 184,
+                                lineNumber: 185,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/si_app copy/src/components/ProfileAndPayment.js",
-                        lineNumber: 133,
+                        lineNumber: 134,
                         columnNumber: 9
                     }, this),
                     !isPremium && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -3026,7 +3163,7 @@ function ProfileAndPayment({ session, displayName, editingName, setEditingName, 
                                 children: "What you Get as a Member"
                             }, void 0, false, {
                                 fileName: "[project]/si_app copy/src/components/ProfileAndPayment.js",
-                                lineNumber: 220,
+                                lineNumber: 221,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
@@ -3039,27 +3176,10 @@ function ProfileAndPayment({ session, displayName, editingName, setEditingName, 
                                                 children: "✓"
                                             }, void 0, false, {
                                                 fileName: "[project]/si_app copy/src/components/ProfileAndPayment.js",
-                                                lineNumber: 222,
-                                                columnNumber: 19
-                                            }, this),
-                                            " 10% off all participating SI Businesses"
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "[project]/si_app copy/src/components/ProfileAndPayment.js",
-                                        lineNumber: 222,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
-                                        children: [
-                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                className: "checkmark",
-                                                children: "✓"
-                                            }, void 0, false, {
-                                                fileName: "[project]/si_app copy/src/components/ProfileAndPayment.js",
                                                 lineNumber: 223,
                                                 columnNumber: 19
                                             }, this),
-                                            " Access to new perks added each month."
+                                            " 10% off all participating SI Businesses"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/si_app copy/src/components/ProfileAndPayment.js",
@@ -3076,11 +3196,28 @@ function ProfileAndPayment({ session, displayName, editingName, setEditingName, 
                                                 lineNumber: 224,
                                                 columnNumber: 19
                                             }, this),
-                                            " Members only updates and event invites."
+                                            " Access to new perks added each month."
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/si_app copy/src/components/ProfileAndPayment.js",
                                         lineNumber: 224,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                className: "checkmark",
+                                                children: "✓"
+                                            }, void 0, false, {
+                                                fileName: "[project]/si_app copy/src/components/ProfileAndPayment.js",
+                                                lineNumber: 225,
+                                                columnNumber: 19
+                                            }, this),
+                                            " Members only updates and event invites."
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/si_app copy/src/components/ProfileAndPayment.js",
+                                        lineNumber: 225,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -3088,25 +3225,25 @@ function ProfileAndPayment({ session, displayName, editingName, setEditingName, 
                                         children: "Your $5 per month membership keeps Staten Island saving local and supporting local."
                                     }, void 0, false, {
                                         fileName: "[project]/si_app copy/src/components/ProfileAndPayment.js",
-                                        lineNumber: 225,
+                                        lineNumber: 226,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/si_app copy/src/components/ProfileAndPayment.js",
-                                lineNumber: 221,
+                                lineNumber: 222,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/si_app copy/src/components/ProfileAndPayment.js",
-                        lineNumber: 219,
+                        lineNumber: 220,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/si_app copy/src/components/ProfileAndPayment.js",
-                lineNumber: 131,
+                lineNumber: 132,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -3122,7 +3259,7 @@ function ProfileAndPayment({ session, displayName, editingName, setEditingName, 
                 children: "Sign Out"
             }, void 0, false, {
                 fileName: "[project]/si_app copy/src/components/ProfileAndPayment.js",
-                lineNumber: 235,
+                lineNumber: 236,
                 columnNumber: 7
             }, this)
         ]
@@ -3217,12 +3354,12 @@ function OptimizedImage({ src, alt, className, onClick }) {
             }
         }, void 0, false, {
             fileName: "[project]/si_app copy/app/page.js",
-            lineNumber: 39,
+            lineNumber: 37,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/si_app copy/app/page.js",
-        lineNumber: 38,
+        lineNumber: 36,
         columnNumber: 5
     }, this);
 }
@@ -3393,15 +3530,15 @@ function App() {
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "App.useEffect": ()=>{
             if (session?.user) {
-                console.log('═══════════════════════════════════════');
-                console.log('User:', session.user.email);
-                console.log('Auth Meta:', session.user.user_metadata);
-                console.log('Profile:', profile);
-                console.log('isPremium:', isPremium);
-                console.log('Nav Items:', navItems.map({
+                console.log("═══════════════════════════════════════");
+                console.log("User:", session.user.email);
+                console.log("Auth Meta:", session.user.user_metadata);
+                console.log("Profile:", profile);
+                console.log("isPremium:", isPremium);
+                console.log("Nav Items:", navItems.map({
                     "App.useEffect": (n)=>n.label
                 }["App.useEffect"]));
-                console.log('═══════════════════════════════════════');
+                console.log("═══════════════════════════════════════");
             }
         }
     }["App.useEffect"], [
@@ -3626,6 +3763,7 @@ function App() {
             ]);
         setSelectedNav("Highlighted Business");
         notifyNewBusiness(newBusiness, userFcmToken);
+        setTimeout(()=>fetchBusinesses(), 500);
     };
     async function notifyNewBusiness(newBusiness, userFcmToken) {
         if (!userFcmToken) {
@@ -3688,23 +3826,23 @@ function App() {
             let mounted = true;
             const loadData = {
                 "App.useEffect.loadData": async ()=>{
-                    console.log('📍 Loading initial data...');
+                    console.log("📍 Loading initial data...");
                     // ✅ FIX: Force a fresh session from server
                     const { data: { session }, error: sessionError } = await __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$src$2f$supabaseClient$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["supabase"].auth.getSession();
                     if (!mounted) return;
                     if (sessionError) {
-                        console.error('❌ Session error:', sessionError);
+                        console.error("❌ Session error:", sessionError);
                         return;
                     }
-                    console.log('📍 Session loaded:', session?.user?.email);
+                    console.log("📍 Session loaded:", session?.user?.email);
                     setSession(session);
                     if (session?.user) {
                         // ✅ FIX: Always fetch fresh profile data from database
-                        const { data: profileData, error: profileError } = await __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$src$2f$supabaseClient$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["supabase"].from('profiles').select('*').eq('id', session.user.id).single();
+                        const { data: profileData, error: profileError } = await __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$src$2f$supabaseClient$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["supabase"].from("profiles").select("*").eq("id", session.user.id).single();
                         if (profileError) {
-                            console.error('❌ Profile error:', profileError);
+                            console.error("❌ Profile error:", profileError);
                         } else {
-                            console.log('✅ Profile loaded:', {
+                            console.log("✅ Profile loaded:", {
                                 email: profileData.email,
                                 is_premium: profileData.is_premium,
                                 subscription_status: profileData.subscription_status,
@@ -3720,13 +3858,13 @@ function App() {
             // ✅ FIX: Listen for auth changes and storage events
             const { data: { subscription } } = __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$src$2f$supabaseClient$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["supabase"].auth.onAuthStateChange({
                 "App.useEffect": async (event, session)=>{
-                    console.log('🔔 Auth event:', event);
+                    console.log("🔔 Auth event:", event);
                     if (!mounted) return;
                     setSession(session);
                     if (session?.user) {
                         // Always fetch fresh profile from database
-                        const { data: profileData } = await __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$src$2f$supabaseClient$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["supabase"].from('profiles').select('*').eq('id', session.user.id).single();
-                        console.log('🔔 Profile updated from auth change:', {
+                        const { data: profileData } = await __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$src$2f$supabaseClient$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["supabase"].from("profiles").select("*").eq("id", session.user.id).single();
+                        console.log("🔔 Profile updated from auth change:", {
                             is_premium: profileData?.is_premium,
                             subscription_status: profileData?.subscription_status
                         });
@@ -3739,18 +3877,18 @@ function App() {
             // ✅ NEW: Listen for storage events (page visibility changes)
             const handleVisibilityChange = {
                 "App.useEffect.handleVisibilityChange": ()=>{
-                    if (document.visibilityState === 'visible') {
-                        console.log('👁️ Page became visible, reloading data...');
+                    if (document.visibilityState === "visible") {
+                        console.log("👁️ Page became visible, reloading data...");
                         loadData();
                     }
                 }
             }["App.useEffect.handleVisibilityChange"];
-            document.addEventListener('visibilitychange', handleVisibilityChange);
+            document.addEventListener("visibilitychange", handleVisibilityChange);
             return ({
                 "App.useEffect": ()=>{
                     mounted = false;
                     subscription?.unsubscribe();
-                    document.removeEventListener('visibilitychange', handleVisibilityChange);
+                    document.removeEventListener("visibilitychange", handleVisibilityChange);
                 }
             })["App.useEffect"];
         }
@@ -3761,11 +3899,11 @@ function App() {
             const pollInterval = setInterval({
                 "App.useEffect.pollInterval": async ()=>{
                     try {
-                        console.log('🔄 Polling for profile updates...');
+                        console.log("🔄 Polling for profile updates...");
                         // Fetch latest profile
-                        const { data: newProfile, error } = await __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$src$2f$supabaseClient$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["supabase"].from('profiles').select('*').eq('id', session.user.id).single();
+                        const { data: newProfile, error } = await __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$src$2f$supabaseClient$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["supabase"].from("profiles").select("*").eq("id", session.user.id).single();
                         if (error) {
-                            console.error('❌ Poll error:', error);
+                            console.error("❌ Poll error:", error);
                             return;
                         }
                         // Check if anything changed
@@ -3773,7 +3911,7 @@ function App() {
                         const premiumChanged = profile?.is_premium !== newProfile?.is_premium;
                         const cancelAtChanged = profile?.subscription_cancel_at !== newProfile?.subscription_cancel_at;
                         if (statusChanged || premiumChanged || cancelAtChanged) {
-                            console.log('🔄 Profile data changed:', {
+                            console.log("🔄 Profile data changed:", {
                                 old: {
                                     subscription_status: profile?.subscription_status,
                                     is_premium: profile?.is_premium,
@@ -3793,10 +3931,11 @@ function App() {
                             }
                         }
                     } catch (error) {
-                        console.error('❌ Polling error:', error);
+                        console.error("❌ Polling error:", error);
                     }
                 }
-            }["App.useEffect.pollInterval"], 3000); // Poll every 3 seconds
+            }["App.useEffect.pollInterval"], 3000) // Poll every 3 seconds
+            ;
             return ({
                 "App.useEffect": ()=>clearInterval(pollInterval)
             })["App.useEffect"];
@@ -3816,16 +3955,16 @@ function App() {
                         // Refresh auth
                         const { data: { session: newSession } } = await __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$src$2f$supabaseClient$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["supabase"].auth.refreshSession();
                         // Refresh profile
-                        const { data: newProfile } = await __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$src$2f$supabaseClient$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["supabase"].from('profiles').select('*').eq('id', session.user.id).single();
+                        const { data: newProfile } = await __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$src$2f$supabaseClient$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["supabase"].from("profiles").select("*").eq("id", session.user.id).single();
                         const oldPremium = isPremium;
                         const newPremium = newSession?.user?.user_metadata?.is_premium === true || newProfile?.is_premium === true;
                         if (oldPremium !== newPremium) {
-                            console.log('🎉 Premium status changed!', oldPremium, '→', newPremium);
+                            console.log("🎉 Premium status changed!", oldPremium, "→", newPremium);
                             setSession(newSession);
                             setProfile(newProfile);
                         }
                     } catch (error) {
-                        console.error('Refresh error:', error);
+                        console.error("Refresh error:", error);
                     }
                 }
             }["App.useEffect.refreshData"];
@@ -3838,15 +3977,14 @@ function App() {
     }["App.useEffect"], [
         session?.user?.id
     ]);
-    // Add this new useEffect after your existing useEffects
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "App.useEffect": ()=>{
             // Check if user was redirected from payment success
             const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('showCard') === 'true' && isPremium) {
+            if (urlParams.get("showCard") === "true" && isPremium) {
                 setSelectedNav("Display My Card");
                 // Clear the URL parameter
-                window.history.replaceState({}, '', '/');
+                window.history.replaceState({}, "", "/");
             }
         }
     }["App.useEffect"], [
@@ -3856,25 +3994,30 @@ function App() {
         "App.useEffect": ()=>{
             // Check for navigation parameter
             const urlParams = new URLSearchParams(window.location.search);
-            const navParam = urlParams.get('nav');
-            if (navParam === 'profile') {
-                setSelectedNav('Profile and Payment');
+            const navParam = urlParams.get("nav");
+            if (navParam === "profile") {
+                setSelectedNav("Profile and Payment");
                 // Clean up URL
-                window.history.replaceState({}, '', '/');
+                window.history.replaceState({}, "", "/");
             }
         }
     }["App.useEffect"], []);
     const fetchBusinesses = async ()=>{
-        console.log("Fetching businesses from database...");
+        console.log("📍 Fetching businesses from database...");
         const { data, error } = await __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$src$2f$supabaseClient$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["supabase"].from("businesses").select("*").order("created_at", {
             ascending: false
         });
         if (!error && data) {
-            console.log("Fetched businesses:", data.length);
+            console.log("✅ Fetched businesses:", data.length);
             setBusinesses(data);
             preloadImages(data);
         } else if (error) {
-            console.error("Error fetching businesses:", error);
+            console.error("❌ Error fetching businesses:", error);
+            console.error("Error details:", {
+                message: error.message,
+                code: error.code,
+                hint: error.hint
+            });
         }
     };
     const preloadImages = (businessList)=>{
@@ -3887,9 +4030,15 @@ function App() {
     };
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "App.useEffect": ()=>{
-            fetchBusinesses();
+            // Wait for session to be established before fetching businesses
+            if (session !== undefined) {
+                console.log("🔄 Session state changed, refreshing businesses...");
+                fetchBusinesses();
+            }
         }
-    }["App.useEffect"], []);
+    }["App.useEffect"], [
+        session
+    ]); // Added session as dependency to refetch when user logs in
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "App.useEffect": ()=>{
             if (profile) {
@@ -3919,21 +4068,21 @@ function App() {
             });
             if (authError) throw authError;
             // ✅ NEW: Update profile table
-            const { error: profileError } = await __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$src$2f$supabaseClient$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["supabase"].from('profiles').update({
+            const { error: profileError } = await __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$src$2f$supabaseClient$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["supabase"].from("profiles").update({
                 display_name: editingName,
                 full_name: editingName,
                 avatar_url: avatarUrl
-            }).eq('id', session.user.id);
+            }).eq("id", session.user.id);
             if (profileError) throw profileError;
             setDisplayName(editingName);
             setSession((prev)=>({
                     ...prev,
                     user: authData.user
                 }));
-            setSaveStatus('success');
+            setSaveStatus("success");
         } catch (error) {
-            console.error('Save error:', error);
-            setSaveStatus('error');
+            console.error("Save error:", error);
+            setSaveStatus("error");
         }
         setIsSaving(false);
     };
@@ -3978,7 +4127,7 @@ function App() {
     };
     const handleLogout = async ()=>{
         try {
-            console.log('🚪 Starting logout process...');
+            console.log("🚪 Starting logout process...");
             // Clear all state FIRST
             setSession(null);
             setProfile(null);
@@ -3989,36 +4138,36 @@ function App() {
             // Clear storage
             localStorage.clear();
             sessionStorage.clear();
-            console.log('🔄 Signing out from Supabase...');
+            console.log("🔄 Signing out from Supabase...");
             // Sign out from Supabase (await it!)
             const { error } = await __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$src$2f$supabaseClient$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["supabase"].auth.signOut();
             if (error) {
-                console.error('❌ Supabase signOut error:', error);
+                console.error("❌ Supabase signOut error:", error);
             // Don't return here, continue with reload
             } else {
-                console.log('✅ Supabase signOut successful');
+                console.log("✅ Supabase signOut successful");
             }
             // CRITICAL: Small delay to ensure signout completes
             await new Promise((resolve)=>setTimeout(resolve, 300));
-            console.log('🔄 Reloading page...');
+            console.log("🔄 Reloading page...");
             // Force full page reload (clears all React state)
-            window.location.href = '/';
+            window.location.href = "/";
         } catch (err) {
-            console.error('❌ Logout error:', err);
+            console.error("❌ Logout error:", err);
             // Force reload anyway to clear state
-            window.location.href = '/';
+            window.location.href = "/";
         }
     };
     const refreshUserData = async ()=>{
         if (!session?.user?.id) return;
         try {
-            console.log('🔄 Refreshing user data...');
+            console.log("🔄 Refreshing user data...");
             // ✅ FIX: Fetch profile FIRST (most reliable)
-            const { data: newProfile, error: profileError } = await __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$src$2f$supabaseClient$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["supabase"].from('profiles').select('*').eq('id', session.user.id).single();
+            const { data: newProfile, error: profileError } = await __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$src$2f$supabaseClient$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["supabase"].from("profiles").select("*").eq("id", session.user.id).single();
             if (profileError) {
-                console.error('❌ Profile fetch error:', profileError);
+                console.error("❌ Profile fetch error:", profileError);
             } else if (newProfile) {
-                console.log('✅ Profile refreshed:', {
+                console.log("✅ Profile refreshed:", {
                     subscription_status: newProfile.subscription_status,
                     is_premium: newProfile.is_premium,
                     subscription_cancel_at: newProfile.subscription_cancel_at
@@ -4028,13 +4177,13 @@ function App() {
             // Then refresh auth session
             const { data: { session: newSession }, error: sessionError } = await __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$src$2f$supabaseClient$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["supabase"].auth.refreshSession();
             if (sessionError) {
-                console.error('❌ Session refresh error:', sessionError);
+                console.error("❌ Session refresh error:", sessionError);
             } else if (newSession) {
-                console.log('✅ Session refreshed');
+                console.log("✅ Session refreshed");
                 setSession(newSession);
             }
         } catch (error) {
-            console.error('❌ Error refreshing data:', error);
+            console.error("❌ Error refreshing data:", error);
         }
     };
     if (showSplash) {
@@ -4046,7 +4195,7 @@ function App() {
                     children: "✦"
                 }, void 0, false, {
                     fileName: "[project]/si_app copy/app/page.js",
-                    lineNumber: 916,
+                    lineNumber: 925,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4054,7 +4203,7 @@ function App() {
                     children: "✧"
                 }, void 0, false, {
                     fileName: "[project]/si_app copy/app/page.js",
-                    lineNumber: 917,
+                    lineNumber: 926,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4062,14 +4211,14 @@ function App() {
                     children: "✦"
                 }, void 0, false, {
                     fileName: "[project]/si_app copy/app/page.js",
-                    lineNumber: 918,
+                    lineNumber: 927,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: "decorative-circle"
                 }, void 0, false, {
                     fileName: "[project]/si_app copy/app/page.js",
-                    lineNumber: 919,
+                    lineNumber: 928,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4080,25 +4229,25 @@ function App() {
                         className: "splash-logo"
                     }, void 0, false, {
                         fileName: "[project]/si_app copy/app/page.js",
-                        lineNumber: 921,
+                        lineNumber: 930,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/si_app copy/app/page.js",
-                    lineNumber: 920,
+                    lineNumber: 929,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: "splash-tagline"
                 }, void 0, false, {
                     fileName: "[project]/si_app copy/app/page.js",
-                    lineNumber: 923,
+                    lineNumber: 932,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/si_app copy/app/page.js",
-            lineNumber: 915,
+            lineNumber: 924,
             columnNumber: 7
         }, this);
     }
@@ -4114,7 +4263,7 @@ function App() {
             }
         }, void 0, false, {
             fileName: "[project]/si_app copy/app/page.js",
-            lineNumber: 931,
+            lineNumber: 939,
             columnNumber: 7
         }, this);
     }
@@ -4129,7 +4278,7 @@ function App() {
             isLoginProp: !showRegister
         }, void 0, false, {
             fileName: "[project]/si_app copy/app/page.js",
-            lineNumber: 946,
+            lineNumber: 954,
             columnNumber: 7
         }, this);
     }
@@ -4146,7 +4295,7 @@ function App() {
                     children: "Welcome to Staten Island!"
                 }, void 0, false, {
                     fileName: "[project]/si_app copy/app/page.js",
-                    lineNumber: 961,
+                    lineNumber: 969,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$src$2f$components$2f$MembershipCard$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -4159,7 +4308,7 @@ function App() {
                     }
                 }, void 0, false, {
                     fileName: "[project]/si_app copy/app/page.js",
-                    lineNumber: 962,
+                    lineNumber: 970,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -4183,13 +4332,13 @@ function App() {
                     children: "Continue to App"
                 }, void 0, false, {
                     fileName: "[project]/si_app copy/app/page.js",
-                    lineNumber: 968,
+                    lineNumber: 976,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/si_app copy/app/page.js",
-            lineNumber: 960,
+            lineNumber: 968,
             columnNumber: 7
         }, this);
     }
@@ -4205,7 +4354,7 @@ function App() {
         `
             }, void 0, false, {
                 fileName: "[project]/si_app copy/app/page.js",
-                lineNumber: 995,
+                lineNumber: 1003,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4247,18 +4396,18 @@ function App() {
                                 }
                             }, void 0, false, {
                                 fileName: "[project]/si_app copy/app/page.js",
-                                lineNumber: 1022,
+                                lineNumber: 1030,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/si_app copy/app/page.js",
-                            lineNumber: 1007,
+                            lineNumber: 1015,
                             columnNumber: 13
                         }, this) : selectedNav === "Add Your Business" ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$src$2f$components$2f$BusinessForm$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                             onAddBusiness: handleAddBusiness
                         }, void 0, false, {
                             fileName: "[project]/si_app copy/app/page.js",
-                            lineNumber: 1031,
+                            lineNumber: 1039,
                             columnNumber: 13
                         }, this) : selectedNav === "Map" ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             style: {
@@ -4274,17 +4423,17 @@ function App() {
                                     businesses: businesses
                                 }, void 0, false, {
                                     fileName: "[project]/si_app copy/app/page.js",
-                                    lineNumber: 1035,
+                                    lineNumber: 1043,
                                     columnNumber: 17
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/si_app copy/app/page.js",
-                                lineNumber: 1034,
+                                lineNumber: 1042,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/si_app copy/app/page.js",
-                            lineNumber: 1033,
+                            lineNumber: 1041,
                             columnNumber: 13
                         }, this) : selectedNav === "Profile and Payment" ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             className: "profile-page-backdrop",
@@ -4300,12 +4449,12 @@ function App() {
                                 onLogout: handleLogout
                             }, void 0, false, {
                                 fileName: "[project]/si_app copy/app/page.js",
-                                lineNumber: 1040,
+                                lineNumber: 1048,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/si_app copy/app/page.js",
-                            lineNumber: 1039,
+                            lineNumber: 1047,
                             columnNumber: 13
                         }, this) : selectedNav === "Highlighted Business" ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             children: [
@@ -4322,12 +4471,12 @@ function App() {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/si_app copy/app/page.js",
-                                                lineNumber: 1056,
+                                                lineNumber: 1064,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/si_app copy/app/page.js",
-                                            lineNumber: 1055,
+                                            lineNumber: 1063,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4337,7 +4486,7 @@ function App() {
                                                     children: "🔍"
                                                 }, void 0, false, {
                                                     fileName: "[project]/si_app copy/app/page.js",
-                                                    lineNumber: 1059,
+                                                    lineNumber: 1067,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -4347,19 +4496,19 @@ function App() {
                                                     onChange: (e)=>setSearchTerm(e.target.value)
                                                 }, void 0, false, {
                                                     fileName: "[project]/si_app copy/app/page.js",
-                                                    lineNumber: 1060,
+                                                    lineNumber: 1068,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/si_app copy/app/page.js",
-                                            lineNumber: 1058,
+                                            lineNumber: 1066,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/si_app copy/app/page.js",
-                                    lineNumber: 1054,
+                                    lineNumber: 1062,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4377,7 +4526,7 @@ function App() {
                                                             children: "Sort By"
                                                         }, void 0, false, {
                                                             fileName: "[project]/si_app copy/app/page.js",
-                                                            lineNumber: 1071,
+                                                            lineNumber: 1079,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -4385,7 +4534,7 @@ function App() {
                                                             children: "A → Z"
                                                         }, void 0, false, {
                                                             fileName: "[project]/si_app copy/app/page.js",
-                                                            lineNumber: 1072,
+                                                            lineNumber: 1080,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -4393,7 +4542,7 @@ function App() {
                                                             children: "Z → A"
                                                         }, void 0, false, {
                                                             fileName: "[project]/si_app copy/app/page.js",
-                                                            lineNumber: 1073,
+                                                            lineNumber: 1081,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -4401,13 +4550,13 @@ function App() {
                                                             children: "Highest Rating"
                                                         }, void 0, false, {
                                                             fileName: "[project]/si_app copy/app/page.js",
-                                                            lineNumber: 1075,
+                                                            lineNumber: 1083,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/si_app copy/app/page.js",
-                                                    lineNumber: 1070,
+                                                    lineNumber: 1078,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -4419,7 +4568,7 @@ function App() {
                                                             children: "📍 Search by Zip"
                                                         }, void 0, false, {
                                                             fileName: "[project]/si_app copy/app/page.js",
-                                                            lineNumber: 1078,
+                                                            lineNumber: 1086,
                                                             columnNumber: 21
                                                         }, this),
                                                         [
@@ -4429,13 +4578,13 @@ function App() {
                                                                 children: zip
                                                             }, idx, false, {
                                                                 fileName: "[project]/si_app copy/app/page.js",
-                                                                lineNumber: 1082,
+                                                                lineNumber: 1090,
                                                                 columnNumber: 27
                                                             }, this))
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/si_app copy/app/page.js",
-                                                    lineNumber: 1077,
+                                                    lineNumber: 1085,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4456,18 +4605,18 @@ function App() {
                                                         }
                                                     }, void 0, false, {
                                                         fileName: "[project]/si_app copy/app/page.js",
-                                                        lineNumber: 1089,
+                                                        lineNumber: 1097,
                                                         columnNumber: 21
                                                     }, this)
                                                 }, void 0, false, {
                                                     fileName: "[project]/si_app copy/app/page.js",
-                                                    lineNumber: 1088,
+                                                    lineNumber: 1096,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/si_app copy/app/page.js",
-                                            lineNumber: 1069,
+                                            lineNumber: 1077,
                                             columnNumber: 17
                                         }, this),
                                         tags.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4480,24 +4629,24 @@ function App() {
                                                             children: "✕"
                                                         }, void 0, false, {
                                                             fileName: "[project]/si_app copy/app/page.js",
-                                                            lineNumber: 1108,
+                                                            lineNumber: 1116,
                                                             columnNumber: 25
                                                         }, this)
                                                     ]
                                                 }, idx, true, {
                                                     fileName: "[project]/si_app copy/app/page.js",
-                                                    lineNumber: 1106,
+                                                    lineNumber: 1114,
                                                     columnNumber: 23
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "[project]/si_app copy/app/page.js",
-                                            lineNumber: 1104,
+                                            lineNumber: 1112,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/si_app copy/app/page.js",
-                                    lineNumber: 1068,
+                                    lineNumber: 1076,
                                     columnNumber: 15
                                 }, this),
                                 businesses.filter((biz)=>{
@@ -4542,25 +4691,21 @@ function App() {
                                                             children: "Uploading..."
                                                         }, void 0, false, {
                                                             fileName: "[project]/si_app copy/app/page.js",
-                                                            lineNumber: 1162,
+                                                            lineNumber: 1170,
                                                             columnNumber: 27
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/si_app copy/app/page.js",
-                                                        lineNumber: 1147,
+                                                        lineNumber: 1155,
                                                         columnNumber: 25
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(OptimizedImage, {
                                                         src: getBusinessImage(biz),
                                                         alt: biz.name,
-                                                        className: "highlighted-business-logo",
-                                                        onClick: (e)=>{
-                                                            e.stopPropagation();
-                                                            setSelectedBusiness(biz);
-                                                        }
+                                                        className: "highlighted-business-logo"
                                                     }, void 0, false, {
                                                         fileName: "[project]/si_app copy/app/page.js",
-                                                        lineNumber: 1165,
+                                                        lineNumber: 1173,
                                                         columnNumber: 23
                                                     }, this),
                                                     isAdmin && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -4596,19 +4741,19 @@ function App() {
                                                                 }
                                                             }, void 0, false, {
                                                                 fileName: "[project]/si_app copy/app/page.js",
-                                                                lineNumber: 1195,
+                                                                lineNumber: 1199,
                                                                 columnNumber: 27
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/si_app copy/app/page.js",
-                                                        lineNumber: 1175,
+                                                        lineNumber: 1179,
                                                         columnNumber: 25
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/si_app copy/app/page.js",
-                                                lineNumber: 1145,
+                                                lineNumber: 1153,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4619,7 +4764,7 @@ function App() {
                                                         children: biz.name
                                                     }, void 0, false, {
                                                         fileName: "[project]/si_app copy/app/page.js",
-                                                        lineNumber: 1210,
+                                                        lineNumber: 1214,
                                                         columnNumber: 23
                                                     }, this),
                                                     biz.description && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4627,7 +4772,7 @@ function App() {
                                                         children: biz.description
                                                     }, void 0, false, {
                                                         fileName: "[project]/si_app copy/app/page.js",
-                                                        lineNumber: 1211,
+                                                        lineNumber: 1215,
                                                         columnNumber: 43
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4636,7 +4781,6 @@ function App() {
                                                             alignItems: "center",
                                                             gap: 4
                                                         },
-                                                        onClick: (e)=>e.stopPropagation(),
                                                         children: [
                                                             [
                                                                 1,
@@ -4645,47 +4789,14 @@ function App() {
                                                                 4,
                                                                 5
                                                             ].map((star)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
-                                                                    onClick: async (e)=>{
-                                                                        e.stopPropagation();
-                                                                        if (!session?.user) {
-                                                                            alert("Please sign in to rate this business.");
-                                                                            return;
-                                                                        }
-                                                                        try {
-                                                                            const { error: insertError } = await __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$src$2f$supabaseClient$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["supabase"].from("reviews").insert({
-                                                                                business_id: biz.id,
-                                                                                user_id: session.user.id,
-                                                                                rating: star
-                                                                            });
-                                                                            if (insertError) throw insertError;
-                                                                            const { data: allReviews, error: fetchError } = await __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$src$2f$supabaseClient$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["supabase"].from("reviews").select("rating").eq("business_id", biz.id);
-                                                                            if (fetchError) throw fetchError;
-                                                                            const total = allReviews.length;
-                                                                            const avg = total > 0 ? allReviews.reduce((a, r)=>a + r.rating, 0) / total : 0;
-                                                                            const { error: updateError } = await __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$src$2f$supabaseClient$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["supabase"].from("businesses").update({
-                                                                                rating: avg.toFixed(1),
-                                                                                review_count: total
-                                                                            }).eq("id", biz.id);
-                                                                            if (updateError) throw updateError;
-                                                                            setBusinesses((prev)=>prev.map((b)=>b.id === biz.id ? {
-                                                                                        ...b,
-                                                                                        rating: avg.toFixed(1),
-                                                                                        review_count: total
-                                                                                    } : b));
-                                                                        } catch (err) {
-                                                                            console.error("Rating error:", err);
-                                                                            alert("Error submitting your rating.");
-                                                                        }
-                                                                    },
                                                                     style: {
                                                                         color: (biz.rating || 0) >= star ? "#f59e0b" : "#ccc",
-                                                                        fontSize: 18,
-                                                                        cursor: "pointer"
+                                                                        fontSize: 18
                                                                     },
                                                                     children: "★"
                                                                 }, star, false, {
                                                                     fileName: "[project]/si_app copy/app/page.js",
-                                                                    lineNumber: 1218,
+                                                                    lineNumber: 1219,
                                                                     columnNumber: 27
                                                                 }, this)),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -4702,13 +4813,13 @@ function App() {
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "[project]/si_app copy/app/page.js",
-                                                                lineNumber: 1273,
+                                                                lineNumber: 1229,
                                                                 columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/si_app copy/app/page.js",
-                                                        lineNumber: 1213,
+                                                        lineNumber: 1217,
                                                         columnNumber: 23
                                                     }, this),
                                                     Array.isArray(biz.tags) && biz.tags.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -4720,52 +4831,52 @@ function App() {
                                                                     children: "🏷️"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/si_app copy/app/page.js",
-                                                                    lineNumber: 1281,
+                                                                    lineNumber: 1237,
                                                                     columnNumber: 29
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                     children: biz.tags[0]
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/si_app copy/app/page.js",
-                                                                    lineNumber: 1282,
+                                                                    lineNumber: 1238,
                                                                     columnNumber: 29
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/si_app copy/app/page.js",
-                                                            lineNumber: 1280,
+                                                            lineNumber: 1236,
                                                             columnNumber: 27
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/si_app copy/app/page.js",
-                                                        lineNumber: 1279,
+                                                        lineNumber: 1235,
                                                         columnNumber: 25
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/si_app copy/app/page.js",
-                                                lineNumber: 1209,
+                                                lineNumber: 1213,
                                                 columnNumber: 21
                                             }, this)
                                         ]
                                     }, biz.id, true, {
                                         fileName: "[project]/si_app copy/app/page.js",
-                                        lineNumber: 1139,
+                                        lineNumber: 1147,
                                         columnNumber: 19
                                     }, this))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/si_app copy/app/page.js",
-                            lineNumber: 1053,
+                            lineNumber: 1061,
                             columnNumber: 13
                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {}, void 0, false, {
                             fileName: "[project]/si_app copy/app/page.js",
-                            lineNumber: 1291,
+                            lineNumber: 1247,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/si_app copy/app/page.js",
-                        lineNumber: 1005,
+                        lineNumber: 1013,
                         columnNumber: 9
                     }, this),
                     selectedBusiness && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$src$2f$components$2f$BusinessProfile$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -4775,7 +4886,7 @@ function App() {
                         onPhotosUpdate: uploadBusinessPhotos
                     }, void 0, false, {
                         fileName: "[project]/si_app copy/app/page.js",
-                        lineNumber: 1295,
+                        lineNumber: 1251,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("nav", {
@@ -4812,7 +4923,7 @@ function App() {
                                         color: isSelected ? "#4BA3d9" : "#666"
                                     }, void 0, false, {
                                         fileName: "[project]/si_app copy/app/page.js",
-                                        lineNumber: 1341,
+                                        lineNumber: 1297,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -4829,31 +4940,31 @@ function App() {
                                         children: shortLabel
                                     }, void 0, false, {
                                         fileName: "[project]/si_app copy/app/page.js",
-                                        lineNumber: 1342,
+                                        lineNumber: 1298,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, label, true, {
                                 fileName: "[project]/si_app copy/app/page.js",
-                                lineNumber: 1323,
+                                lineNumber: 1279,
                                 columnNumber: 15
                             }, this);
                         })
                     }, void 0, false, {
                         fileName: "[project]/si_app copy/app/page.js",
-                        lineNumber: 1302,
+                        lineNumber: 1258,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/si_app copy/app/page.js",
-                lineNumber: 1004,
+                lineNumber: 1012,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/si_app copy/app/page.js",
-        lineNumber: 994,
+        lineNumber: 1002,
         columnNumber: 5
     }, this);
 }
