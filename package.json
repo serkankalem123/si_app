@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@fontsource/montserrat": "^5.2.8",
+    "@fontsource/raleway": "^5.2.8",
     "@stripe/react-stripe-js": "^5.2.0",
     "@stripe/stripe-js": "^8.1.0",
     "@supabase/supabase-js": "^2.51.0",
