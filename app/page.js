@@ -1247,14 +1247,25 @@ function App() {
             <div>{/* Any other routes */}</div>
           )}
         </main>
-        {selectedBusiness && (
-          <BusinessProfile
-            business={selectedBusiness}
-            onClose={() => setSelectedBusiness(null)}
-            isAdmin={isAdmin}
-            onPhotosUpdate={uploadBusinessPhotos}
-          />
-        )}
+    
+
+{selectedBusiness && (
+  <BusinessProfile
+    business={selectedBusiness}
+    onClose={() => setSelectedBusiness(null)}
+    isAdmin={isAdmin}
+    onPhotosUpdate={uploadBusinessPhotos}
+    session={session}  // ✅ ADD THIS LINE
+    onRatingUpdate={(updatedBusiness) => {
+      // Update the business in the businesses array
+      setBusinesses(prev => 
+        prev.map(biz => 
+          biz.id === updatedBusiness.id ? updatedBusiness : biz
+        )
+      )
+    }}
+  />
+)}
         <nav
           style={{
             display: "flex",
