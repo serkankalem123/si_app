@@ -111,6 +111,7 @@ function ProfileAndPayment({
             onClick={onSaveName}
             disabled={isSaving}
             className="save-button"
+            style={{ color: 'black' }}
           >
             {isSaving ? '...' : 'Save'}
           </button>
@@ -188,7 +189,7 @@ function ProfileAndPayment({
                 width: '100%',
                 padding: '12px 16px',
                 background: '#4BA3D9',
-                color: '#fff',
+                color: 'black',
                 border: 'none',
                 borderRadius: '8px',
                 fontSize: '14px',
