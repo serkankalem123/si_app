@@ -20,6 +20,7 @@ function BusinessCard({ business, onSelect }) {
 
         alt={business.name}
         style={{ width: 155, height: 155, objectFit: 'cover' }}
+        
       />
       <div style={{ flex: 1, padding: 18 }}>
         <h3 style={{ marginTop: 0, marginBottom: 6 }}>{business.name}</h3>
