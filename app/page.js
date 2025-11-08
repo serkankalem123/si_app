@@ -32,8 +32,6 @@ const firebaseConfig = {
 function OptimizedImage({ src, alt, className, onClick }) {
   const [isLoading, setIsLoading] = useState(true)
 
-  
-
   return (
     <div style={{ position: "relative", overflow: "hidden", borderRadius: "8px" }}>
       <img
@@ -247,16 +245,19 @@ function App() {
   const isPremium = session?.user?.user_metadata?.is_premium === true || profile?.is_premium === true
 
   useEffect(() => {
-  if (session?.user) {
-    console.log('═══════════════════════════════════════');
-    console.log('User:', session.user.email);
-    console.log('Auth Meta:', session.user.user_metadata);
-    console.log('Profile:', profile);
-    console.log('isPremium:', isPremium);
-    console.log('Nav Items:', navItems.map(n => n.label));
-    console.log('═══════════════════════════════════════');
-  }
-}, [session, profile, isPremium]);
+    if (session?.user) {
+      console.log("═══════════════════════════════════════")
+      console.log("User:", session.user.email)
+      console.log("Auth Meta:", session.user.user_metadata)
+      console.log("Profile:", profile)
+      console.log("isPremium:", isPremium)
+      console.log(
+        "Nav Items:",
+        navItems.map((n) => n.label),
+      )
+      console.log("═══════════════════════════════════════")
+    }
+  }, [session, profile, isPremium])
 
   const [selectedNav, setSelectedNav] = useState("Highlighted Business")
 
@@ -268,60 +269,60 @@ function App() {
   ]
 
   useEffect(() => {
-  const initializeFirebase = async () => {
-    try {
-      let app
-      if (getApps().length === 0) {
-        app = initializeApp(firebaseConfig)
-        console.log("Firebase app initialized")
-      } else {
-        app = getApp()
-        console.log("Firebase app already exists")
-      }
-
-      const messaging = getMessaging(app)
-
-      const permission = await Notification.requestPermission()
-      if (permission === "granted") {
-        console.log("Notification permission granted")
-
-        const token = await getToken(messaging, {
-          vapidKey: "BOgqakg5aBxNszM1Ji6H4ADnNMtexhho5CWWpijJqNxdyD8MtYGSc7ZX3yRz2ybsVs8YIHKi_NZ0mz8zAQ25lQk",
-        })
-
-        if (token) {
-          console.log("FCM Token:", token)
-          handleFcmTokenReceived(token)
+    const initializeFirebase = async () => {
+      try {
+        let app
+        if (getApps().length === 0) {
+          app = initializeApp(firebaseConfig)
+          console.log("Firebase app initialized")
         } else {
-          console.log("No FCM token received")
+          app = getApp()
+          console.log("Firebase app already exists")
         }
-      } else {
-        console.log("Notification permission denied")
-      }
 
-      onMessage(messaging, (payload) => {
-        console.log("Message received in foreground:", payload)
-        if (payload.notification) {
-          new Notification(payload.notification.title, {
-            body: payload.notification.body,
-            icon: payload.notification.icon,
+        const messaging = getMessaging(app)
+
+        const permission = await Notification.requestPermission()
+        if (permission === "granted") {
+          console.log("Notification permission granted")
+
+          const token = await getToken(messaging, {
+            vapidKey: "BOgqakg5aBxNszM1Ji6H4ADnNMtexhho5CWWpijJqNxdyD8MtYGSc7ZX3yRz2ybsVs8YIHKi_NZ0mz8zAQ25lQk",
           })
-        }
-      })
-    } catch (error) {
-      console.error("Error initializing Firebase messaging:", error)
-    }
-  }
 
-  initializeFirebase()
-}, [])
+          if (token) {
+            console.log("FCM Token:", token)
+            handleFcmTokenReceived(token)
+          } else {
+            console.log("No FCM token received")
+          }
+        } else {
+          console.log("Notification permission denied")
+        }
+
+        onMessage(messaging, (payload) => {
+          console.log("Message received in foreground:", payload)
+          if (payload.notification) {
+            new Notification(payload.notification.title, {
+              body: payload.notification.body,
+              icon: payload.notification.icon,
+            })
+          }
+        })
+      } catch (error) {
+        console.error("Error initializing Firebase messaging:", error)
+      }
+    }
+
+    initializeFirebase()
+  }, [])
 
   useEffect(() => {
-  if (session?.user?.email) {
-    const adminEmails = ["serkankalem99@gmail.com"]
-    setIsAdmin(adminEmails.includes(session.user.email.toLowerCase()))
-  }
-}, [session])
+    if (session?.user?.email) {
+      const adminEmails = ["serkankalem99@gmail.com"]
+      setIsAdmin(adminEmails.includes(session.user.email.toLowerCase()))
+    }
+  }, [session])
 
   const getBusinessImage = (business, size = "small") => {
     if (
@@ -474,6 +475,7 @@ function App() {
     setBusinesses((prev) => [newBusiness, ...prev])
     setSelectedNav("Highlighted Business")
     notifyNewBusiness(newBusiness, userFcmToken)
+    setTimeout(() => fetchBusinesses(), 500)
   }
 
   async function notifyNewBusiness(newBusiness, userFcmToken) {
@@ -521,215 +523,217 @@ function App() {
     return () => clearTimeout(timer)
   }, [])
 
- 
-useEffect(() => {
-  let mounted = true;
+  useEffect(() => {
+    let mounted = true
 
-  const loadData = async () => {
-    console.log('📍 Loading initial data...');
-    
-    // ✅ FIX: Force a fresh session from server
-    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-    if (!mounted) return;
-    
-    if (sessionError) {
-      console.error('❌ Session error:', sessionError);
-      return;
-    }
-    
-    console.log('📍 Session loaded:', session?.user?.email);
-    setSession(session);
-    
-    if (session?.user) {
-      // ✅ FIX: Always fetch fresh profile data from database
-      const { data: profileData, error: profileError } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', session.user.id)
-        .single();
-      
-      if (profileError) {
-        console.error('❌ Profile error:', profileError);
-      } else {
-        console.log('✅ Profile loaded:', {
-          email: profileData.email,
-          is_premium: profileData.is_premium,
-          subscription_status: profileData.subscription_status,
-          subscription_cancel_at: profileData.subscription_cancel_at,
-        });
-        setProfile(profileData);
-      }
-    }
-  };
+    const loadData = async () => {
+      console.log("📍 Loading initial data...")
 
-  // ✅ FIX: Load data immediately on mount
-  loadData();
+      // ✅ FIX: Force a fresh session from server
+      const {
+        data: { session },
+        error: sessionError,
+      } = await supabase.auth.getSession()
+      if (!mounted) return
 
-  // ✅ FIX: Listen for auth changes and storage events
-  const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-    console.log('🔔 Auth event:', event);
-    if (!mounted) return;
-    
-    setSession(session);
-    
-    if (session?.user) {
-      // Always fetch fresh profile from database
-      const { data: profileData } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', session.user.id)
-        .single();
-      
-      console.log('🔔 Profile updated from auth change:', {
-        is_premium: profileData?.is_premium,
-        subscription_status: profileData?.subscription_status,
-      });
-      
-      setProfile(profileData);
-    } else {
-      setProfile(null);
-    }
-  });
-
-  // ✅ NEW: Listen for storage events (page visibility changes)
-  const handleVisibilityChange = () => {
-    if (document.visibilityState === 'visible') {
-      console.log('👁️ Page became visible, reloading data...');
-      loadData();
-    }
-  };
-
-  document.addEventListener('visibilitychange', handleVisibilityChange);
-
-  return () => {
-    mounted = false;
-    subscription?.unsubscribe();
-    document.removeEventListener('visibilitychange', handleVisibilityChange);
-  };
-}, []);
-
-useEffect(() => {
-  if (!session?.user?.id) return;
-
-  const pollInterval = setInterval(async () => {
-    try {
-      console.log('🔄 Polling for profile updates...');
-      
-      // Fetch latest profile
-      const { data: newProfile, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', session.user.id)
-        .single();
-
-      if (error) {
-        console.error('❌ Poll error:', error);
-        return;
+      if (sessionError) {
+        console.error("❌ Session error:", sessionError)
+        return
       }
 
-      // Check if anything changed
-      const statusChanged = profile?.subscription_status !== newProfile?.subscription_status;
-      const premiumChanged = profile?.is_premium !== newProfile?.is_premium;
-      const cancelAtChanged = profile?.subscription_cancel_at !== newProfile?.subscription_cancel_at;
+      console.log("📍 Session loaded:", session?.user?.email)
+      setSession(session)
 
-      if (statusChanged || premiumChanged || cancelAtChanged) {
-        console.log('🔄 Profile data changed:', {
-          old: {
-            subscription_status: profile?.subscription_status,
-            is_premium: profile?.is_premium,
-            subscription_cancel_at: profile?.subscription_cancel_at,
-          },
-          new: {
-            subscription_status: newProfile?.subscription_status,
-            is_premium: newProfile?.is_premium,
-            subscription_cancel_at: newProfile?.subscription_cancel_at,
-          }
-        });
-        
-        setProfile(newProfile);
-        
-        // Also refresh auth session
-        const { data: { session: newSession } } = await supabase.auth.refreshSession();
-        if (newSession) {
-          setSession(newSession);
+      if (session?.user) {
+        // ✅ FIX: Always fetch fresh profile data from database
+        const { data: profileData, error: profileError } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", session.user.id)
+          .single()
+
+        if (profileError) {
+          console.error("❌ Profile error:", profileError)
+        } else {
+          console.log("✅ Profile loaded:", {
+            email: profileData.email,
+            is_premium: profileData.is_premium,
+            subscription_status: profileData.subscription_status,
+            subscription_cancel_at: profileData.subscription_cancel_at,
+          })
+          setProfile(profileData)
         }
       }
-    } catch (error) {
-      console.error('❌ Polling error:', error);
     }
-  }, 3000); // Poll every 3 seconds
 
-  return () => clearInterval(pollInterval);
-}, [session?.user?.id, profile?.subscription_status, profile?.is_premium, profile?.subscription_cancel_at]);
+    // ✅ FIX: Load data immediately on mount
+    loadData()
 
-useEffect(() => {
-  if (!session?.user?.id) return;
+    // ✅ FIX: Listen for auth changes and storage events
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log("🔔 Auth event:", event)
+      if (!mounted) return
 
-  const refreshData = async () => {
-    try {
-      // Refresh auth
-      const { data: { session: newSession } } = await supabase.auth.refreshSession();
-      
-      // Refresh profile
-      const { data: newProfile } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', session.user.id)
-        .single();
+      setSession(session)
 
-      const oldPremium = isPremium;
-      const newPremium = 
-        newSession?.user?.user_metadata?.is_premium === true ||
-        newProfile?.is_premium === true;
+      if (session?.user) {
+        // Always fetch fresh profile from database
+        const { data: profileData } = await supabase.from("profiles").select("*").eq("id", session.user.id).single()
 
-      if (oldPremium !== newPremium) {
-        console.log('🎉 Premium status changed!', oldPremium, '→', newPremium);
-        setSession(newSession);
-        setProfile(newProfile);
+        console.log("🔔 Profile updated from auth change:", {
+          is_premium: profileData?.is_premium,
+          subscription_status: profileData?.subscription_status,
+        })
+
+        setProfile(profileData)
+      } else {
+        setProfile(null)
       }
-    } catch (error) {
-      console.error('Refresh error:', error);
+    })
+
+    // ✅ NEW: Listen for storage events (page visibility changes)
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        console.log("👁️ Page became visible, reloading data...")
+        loadData()
+      }
     }
-  };
 
-  refreshData();
-  const interval = setInterval(refreshData, 10000);
-  return () => clearInterval(interval);
-}, [session?.user?.id]);
+    document.addEventListener("visibilitychange", handleVisibilityChange)
 
-  // Add this new useEffect after your existing useEffects
-useEffect(() => {
-  // Check if user was redirected from payment success
-  const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.get('showCard') === 'true' && isPremium) {
-    setSelectedNav("Display My Card");
-    // Clear the URL parameter
-    window.history.replaceState({}, '', '/');
-  }
-}, [isPremium]);
+    return () => {
+      mounted = false
+      subscription?.unsubscribe()
+      document.removeEventListener("visibilitychange", handleVisibilityChange)
+    }
+  }, [])
 
-useEffect(() => {
-  // Check for navigation parameter
-  const urlParams = new URLSearchParams(window.location.search);
-  const navParam = urlParams.get('nav');
-  
-  if (navParam === 'profile') {
-    setSelectedNav('Profile and Payment');
-    // Clean up URL
-    window.history.replaceState({}, '', '/');
-  }
-}, []);
+  useEffect(() => {
+    if (!session?.user?.id) return
+
+    const pollInterval = setInterval(async () => {
+      try {
+        console.log("🔄 Polling for profile updates...")
+
+        // Fetch latest profile
+        const { data: newProfile, error } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", session.user.id)
+          .single()
+
+        if (error) {
+          console.error("❌ Poll error:", error)
+          return
+        }
+
+        // Check if anything changed
+        const statusChanged = profile?.subscription_status !== newProfile?.subscription_status
+        const premiumChanged = profile?.is_premium !== newProfile?.is_premium
+        const cancelAtChanged = profile?.subscription_cancel_at !== newProfile?.subscription_cancel_at
+
+        if (statusChanged || premiumChanged || cancelAtChanged) {
+          console.log("🔄 Profile data changed:", {
+            old: {
+              subscription_status: profile?.subscription_status,
+              is_premium: profile?.is_premium,
+              subscription_cancel_at: profile?.subscription_cancel_at,
+            },
+            new: {
+              subscription_status: newProfile?.subscription_status,
+              is_premium: newProfile?.is_premium,
+              subscription_cancel_at: newProfile?.subscription_cancel_at,
+            },
+          })
+
+          setProfile(newProfile)
+
+          // Also refresh auth session
+          const {
+            data: { session: newSession },
+          } = await supabase.auth.refreshSession()
+          if (newSession) {
+            setSession(newSession)
+          }
+        }
+      } catch (error) {
+        console.error("❌ Polling error:", error)
+      }
+    }, 3000) // Poll every 3 seconds
+
+    return () => clearInterval(pollInterval)
+  }, [session?.user?.id, profile?.subscription_status, profile?.is_premium, profile?.subscription_cancel_at])
+
+  useEffect(() => {
+    if (!session?.user?.id) return
+
+    const refreshData = async () => {
+      try {
+        // Refresh auth
+        const {
+          data: { session: newSession },
+        } = await supabase.auth.refreshSession()
+
+        // Refresh profile
+        const { data: newProfile } = await supabase.from("profiles").select("*").eq("id", session.user.id).single()
+
+        const oldPremium = isPremium
+        const newPremium = newSession?.user?.user_metadata?.is_premium === true || newProfile?.is_premium === true
+
+        if (oldPremium !== newPremium) {
+          console.log("🎉 Premium status changed!", oldPremium, "→", newPremium)
+          setSession(newSession)
+          setProfile(newProfile)
+        }
+      } catch (error) {
+        console.error("Refresh error:", error)
+      }
+    }
+
+    refreshData()
+    const interval = setInterval(refreshData, 10000)
+    return () => clearInterval(interval)
+  }, [session?.user?.id])
+
+  useEffect(() => {
+    // Check if user was redirected from payment success
+    const urlParams = new URLSearchParams(window.location.search)
+    if (urlParams.get("showCard") === "true" && isPremium) {
+      setSelectedNav("Display My Card")
+      // Clear the URL parameter
+      window.history.replaceState({}, "", "/")
+    }
+  }, [isPremium])
+
+  useEffect(() => {
+    // Check for navigation parameter
+    const urlParams = new URLSearchParams(window.location.search)
+    const navParam = urlParams.get("nav")
+
+    if (navParam === "profile") {
+      setSelectedNav("Profile and Payment")
+      // Clean up URL
+      window.history.replaceState({}, "", "/")
+    }
+  }, [])
 
   const fetchBusinesses = async () => {
-    console.log("Fetching businesses from database...")
+    console.log("📍 Fetching businesses from database...")
     const { data, error } = await supabase.from("businesses").select("*").order("created_at", { ascending: false })
 
     if (!error && data) {
-      console.log("Fetched businesses:", data.length)
+      console.log("✅ Fetched businesses:", data.length)
       setBusinesses(data)
       preloadImages(data)
     } else if (error) {
-      console.error("Error fetching businesses:", error)
+      console.error("❌ Error fetching businesses:", error)
+      console.error("Error details:", {
+        message: error.message,
+        code: error.code,
+        hint: error.hint,
+      })
     }
   }
 
@@ -743,55 +747,59 @@ useEffect(() => {
   }
 
   useEffect(() => {
-    fetchBusinesses()
-  }, [])
+    // Wait for session to be established before fetching businesses
+    if (session !== undefined) {
+      console.log("🔄 Session state changed, refreshing businesses...")
+      fetchBusinesses()
+    }
+  }, [session]) // Added session as dependency to refetch when user logs in
 
   useEffect(() => {
-  if (profile) {
-    setDisplayName(profile.display_name || profile.full_name || "");
-    setEditingName(profile.display_name || profile.full_name || "");
-    setAvatarUrl(profile.avatar_url || "");
-  } else if (session?.user?.user_metadata) {
-    setDisplayName(session.user.user_metadata.display_name || "");
-    setEditingName(session.user.user_metadata.display_name || "");
-    setAvatarUrl(session.user.user_metadata.avatar_url || "");
-  }
-}, [session, profile]);
+    if (profile) {
+      setDisplayName(profile.display_name || profile.full_name || "")
+      setEditingName(profile.display_name || profile.full_name || "")
+      setAvatarUrl(profile.avatar_url || "")
+    } else if (session?.user?.user_metadata) {
+      setDisplayName(session.user.user_metadata.display_name || "")
+      setEditingName(session.user.user_metadata.display_name || "")
+      setAvatarUrl(session.user.user_metadata.avatar_url || "")
+    }
+  }, [session, profile])
 
   const saveName = async () => {
-  setIsSaving(true);
-  setSaveStatus(null);
-  
-  try {
-    // Update auth metadata
-    const { data: authData, error: authError } = await supabase.auth.updateUser({
-      data: {
-        display_name: editingName,
-        avatar_url: avatarUrl,
-      },
-    });
-    if (authError) throw authError;
+    setIsSaving(true)
+    setSaveStatus(null)
 
-    // ✅ NEW: Update profile table
-    const { error: profileError } = await supabase
-      .from('profiles')
-      .update({
-        display_name: editingName,
-        full_name: editingName,
-        avatar_url: avatarUrl,
+    try {
+      // Update auth metadata
+      const { data: authData, error: authError } = await supabase.auth.updateUser({
+        data: {
+          display_name: editingName,
+          avatar_url: avatarUrl,
+        },
       })
-      .eq('id', session.user.id);
-    if (profileError) throw profileError;
+      if (authError) throw authError
 
-    setDisplayName(editingName);
-    setSession((prev) => ({ ...prev, user: authData.user }));
-    setSaveStatus('success');
-  } catch (error) {
-    console.error('Save error:', error);
-    setSaveStatus('error');
+      // ✅ NEW: Update profile table
+      const { error: profileError } = await supabase
+        .from("profiles")
+        .update({
+          display_name: editingName,
+          full_name: editingName,
+          avatar_url: avatarUrl,
+        })
+        .eq("id", session.user.id)
+      if (profileError) throw profileError
+
+      setDisplayName(editingName)
+      setSession((prev) => ({ ...prev, user: authData.user }))
+      setSaveStatus("success")
+    } catch (error) {
+      console.error("Save error:", error)
+      setSaveStatus("error")
+    }
+    setIsSaving(false)
   }
-  setIsSaving(false);
-};
 
   const handleFileUpload = async (e) => {
     const file = e.target.files[0]
@@ -828,87 +836,88 @@ useEffect(() => {
     setUploading(false)
   }
 
-const handleLogout = async () => {
-  try {
-    console.log('🚪 Starting logout process...');
-    
-    // Clear all state FIRST
-    setSession(null);
-    setProfile(null);
-    setDisplayName("");
-    setEditingName("");
-    setAvatarUrl("");
-    setSelectedNav("Highlighted Business");
-    
-    // Clear storage
-    localStorage.clear();
-    sessionStorage.clear();
-    
-    console.log('🔄 Signing out from Supabase...');
-    
-    // Sign out from Supabase (await it!)
-    const { error } = await supabase.auth.signOut();
-    
-    if (error) {
-      console.error('❌ Supabase signOut error:', error);
-      // Don't return here, continue with reload
-    } else {
-      console.log('✅ Supabase signOut successful');
-    }
-    
-    // CRITICAL: Small delay to ensure signout completes
-    await new Promise(resolve => setTimeout(resolve, 300));
-    
-    console.log('🔄 Reloading page...');
-    
-    // Force full page reload (clears all React state)
-    window.location.href = '/';
-    
-  } catch (err) {
-    console.error('❌ Logout error:', err);
-    // Force reload anyway to clear state
-    window.location.href = '/';
-  }
-};
+  const handleLogout = async () => {
+    try {
+      console.log("🚪 Starting logout process...")
 
-const refreshUserData = async () => {
-  if (!session?.user?.id) return;
-  
-  try {
-    console.log('🔄 Refreshing user data...');
-    
-    // ✅ FIX: Fetch profile FIRST (most reliable)
-    const { data: newProfile, error: profileError } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', session.user.id)
-      .single();
-    
-    if (profileError) {
-      console.error('❌ Profile fetch error:', profileError);
-    } else if (newProfile) {
-      console.log('✅ Profile refreshed:', {
-        subscription_status: newProfile.subscription_status,
-        is_premium: newProfile.is_premium,
-        subscription_cancel_at: newProfile.subscription_cancel_at,
-      });
-      setProfile(newProfile);
+      // Clear all state FIRST
+      setSession(null)
+      setProfile(null)
+      setDisplayName("")
+      setEditingName("")
+      setAvatarUrl("")
+      setSelectedNav("Highlighted Business")
+
+      // Clear storage
+      localStorage.clear()
+      sessionStorage.clear()
+
+      console.log("🔄 Signing out from Supabase...")
+
+      // Sign out from Supabase (await it!)
+      const { error } = await supabase.auth.signOut()
+
+      if (error) {
+        console.error("❌ Supabase signOut error:", error)
+        // Don't return here, continue with reload
+      } else {
+        console.log("✅ Supabase signOut successful")
+      }
+
+      // CRITICAL: Small delay to ensure signout completes
+      await new Promise((resolve) => setTimeout(resolve, 300))
+
+      console.log("🔄 Reloading page...")
+
+      // Force full page reload (clears all React state)
+      window.location.href = "/"
+    } catch (err) {
+      console.error("❌ Logout error:", err)
+      // Force reload anyway to clear state
+      window.location.href = "/"
     }
-    
-    // Then refresh auth session
-    const { data: { session: newSession }, error: sessionError } = 
-      await supabase.auth.refreshSession();
-    
-    if (sessionError) {
-      console.error('❌ Session refresh error:', sessionError);
-    } else if (newSession) {
-      console.log('✅ Session refreshed');
-      setSession(newSession);
-    }
-  } catch (error) {
-    console.error('❌ Error refreshing data:', error);
   }
-};
+
+  const refreshUserData = async () => {
+    if (!session?.user?.id) return
+
+    try {
+      console.log("🔄 Refreshing user data...")
+
+      // ✅ FIX: Fetch profile FIRST (most reliable)
+      const { data: newProfile, error: profileError } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", session.user.id)
+        .single()
+
+      if (profileError) {
+        console.error("❌ Profile fetch error:", profileError)
+      } else if (newProfile) {
+        console.log("✅ Profile refreshed:", {
+          subscription_status: newProfile.subscription_status,
+          is_premium: newProfile.is_premium,
+          subscription_cancel_at: newProfile.subscription_cancel_at,
+        })
+        setProfile(newProfile)
+      }
+
+      // Then refresh auth session
+      const {
+        data: { session: newSession },
+        error: sessionError,
+      } = await supabase.auth.refreshSession()
+
+      if (sessionError) {
+        console.error("❌ Session refresh error:", sessionError)
+      } else if (newSession) {
+        console.log("✅ Session refreshed")
+        setSession(newSession)
+      }
+    } catch (error) {
+      console.error("❌ Error refreshing data:", error)
+    }
+  }
 
   if (showSplash) {
     return (
@@ -924,7 +933,6 @@ const refreshUserData = async () => {
       </div>
     )
   }
-
 
   if (showLanding && !session) {
     return (
@@ -1046,7 +1054,7 @@ const refreshUserData = async () => {
                 setEditingName={setEditingName}
                 isSaving={isSaving}
                 saveStatus={saveStatus}
-                onLogout={handleLogout} 
+                onLogout={handleLogout}
               />
             </div>
           ) : selectedNav === "Highlighted Business" ? (
