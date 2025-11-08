@@ -1182,15 +1182,22 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, 
     }, []);
     if (!business) return null;
     const handleRating = async (star)=>{
-        if (!session?.user) {
+        console.log("Rating clicked - Session:", session);
+        console.log("User:", session?.user);
+        // Check if user is authenticated
+        const { supabase } = await __turbopack_context__.A("[project]/si_app copy/src/supabaseClient.js [app-ssr] (ecmascript, async loader)");
+        const { data: { session: currentSession } } = await supabase.auth.getSession();
+        console.log("Current session from getSession:", currentSession);
+        if (!session?.user && !currentSession?.user) {
             alert("Please sign in to rate this business.");
             return;
         }
+        const userId = session?.user?.id || currentSession?.user?.id;
         try {
             const { supabase } = await __turbopack_context__.A("[project]/si_app copy/src/supabaseClient.js [app-ssr] (ecmascript, async loader)");
             const { error: insertError } = await supabase.from("reviews").insert({
                 business_id: business.id,
-                user_id: session.user.id,
+                user_id: userId,
                 rating: star
             });
             if (insertError) throw insertError;
@@ -1343,7 +1350,7 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, 
                                     children: "×"
                                 }, void 0, false, {
                                     fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                    lineNumber: 182,
+                                    lineNumber: 194,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -1358,7 +1365,7 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, 
                                     children: business.name ?? 'N/A'
                                 }, void 0, false, {
                                     fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                    lineNumber: 216,
+                                    lineNumber: 228,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1400,12 +1407,12 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, 
                                                     children: "★"
                                                 }, star, false, {
                                                     fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                                    lineNumber: 236,
+                                                    lineNumber: 248,
                                                     columnNumber: 19
                                                 }, this))
                                         }, void 0, false, {
                                             fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                            lineNumber: 234,
+                                            lineNumber: 246,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -1426,19 +1433,19 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, 
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                            lineNumber: 259,
+                                            lineNumber: 271,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                    lineNumber: 228,
+                                    lineNumber: 240,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                            lineNumber: 176,
+                            lineNumber: 188,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1490,7 +1497,7 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, 
                                                                 }
                                                             }, void 0, false, {
                                                                 fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                                                lineNumber: 288,
+                                                                lineNumber: 300,
                                                                 columnNumber: 23
                                                             }, this),
                                                             isAdmin && !photo.isLogo && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1525,13 +1532,13 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, 
                                                                 children: "×"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                                                lineNumber: 311,
+                                                                lineNumber: 323,
                                                                 columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, i, true, {
                                                         fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                                        lineNumber: 287,
+                                                        lineNumber: 299,
                                                         columnNumber: 21
                                                     }, this)),
                                                 isAdmin && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
@@ -1574,7 +1581,7 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, 
                                                             children: "Add Photos"
                                                         }, void 0, false, {
                                                             fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                                            lineNumber: 379,
+                                                            lineNumber: 391,
                                                             columnNumber: 38
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -1588,19 +1595,19 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, 
                                                             onChange: handlePhotoUpload
                                                         }, void 0, false, {
                                                             fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                                            lineNumber: 380,
+                                                            lineNumber: 392,
                                                             columnNumber: 23
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                                    lineNumber: 348,
+                                                    lineNumber: 360,
                                                     columnNumber: 21
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                            lineNumber: 278,
+                                            lineNumber: 290,
                                             columnNumber: 17
                                         }, this),
                                         uploading && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1613,13 +1620,13 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, 
                                             children: "⏳ Uploading photos..."
                                         }, void 0, false, {
                                             fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                            lineNumber: 392,
+                                            lineNumber: 404,
                                             columnNumber: 19
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                    lineNumber: 277,
+                                    lineNumber: 289,
                                     columnNumber: 15
                                 }, this),
                                 business.description && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1632,7 +1639,7 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, 
                                     children: business.description
                                 }, void 0, false, {
                                     fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                    lineNumber: 406,
+                                    lineNumber: 418,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1661,7 +1668,7 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, 
                                                     children: "📍 ADDRESS"
                                                 }, void 0, false, {
                                                     fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                                    lineNumber: 425,
+                                                    lineNumber: 437,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1673,13 +1680,13 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, 
                                                     children: business.address
                                                 }, void 0, false, {
                                                     fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                                    lineNumber: 428,
+                                                    lineNumber: 440,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                            lineNumber: 419,
+                                            lineNumber: 431,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1707,7 +1714,7 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, 
                                                             children: "🏷️    ZIP CODE"
                                                         }, void 0, false, {
                                                             fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                                            lineNumber: 442,
+                                                            lineNumber: 454,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1719,13 +1726,13 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, 
                                                             children: business.zip_code
                                                         }, void 0, false, {
                                                             fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                                            lineNumber: 445,
+                                                            lineNumber: 457,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                                    lineNumber: 436,
+                                                    lineNumber: 448,
                                                     columnNumber: 19
                                                 }, this),
                                                 business.phone_number && business.phone_number !== 'N/A' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1746,7 +1753,7 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, 
                                                             children: "📞  PHONE"
                                                         }, void 0, false, {
                                                             fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                                            lineNumber: 458,
+                                                            lineNumber: 470,
                                                             columnNumber: 21
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1758,19 +1765,19 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, 
                                                             children: business.phone_number
                                                         }, void 0, false, {
                                                             fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                                            lineNumber: 461,
+                                                            lineNumber: 473,
                                                             columnNumber: 21
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                                    lineNumber: 452,
+                                                    lineNumber: 464,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                            lineNumber: 434,
+                                            lineNumber: 446,
                                             columnNumber: 15
                                         }, this),
                                         business.discount && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1792,7 +1799,7 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, 
                                                     children: "🎁 DISCOUNT"
                                                 }, void 0, false, {
                                                     fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                                    lineNumber: 476,
+                                                    lineNumber: 488,
                                                     columnNumber: 19
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1803,19 +1810,19 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, 
                                                     children: business.discount
                                                 }, void 0, false, {
                                                     fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                                    lineNumber: 479,
+                                                    lineNumber: 491,
                                                     columnNumber: 19
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                            lineNumber: 469,
+                                            lineNumber: 481,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                    lineNumber: 417,
+                                    lineNumber: 429,
                                     columnNumber: 13
                                 }, this),
                                 business.address && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1836,29 +1843,29 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, 
                                         src: `https://www.google.com/maps/embed/v1/place?key=AIzaSyDbunv4FltSPw8q9_jQJoVDrCJ7dPjsVaw&q=${encodeURIComponent(business.address)}`
                                     }, void 0, false, {
                                         fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                        lineNumber: 493,
+                                        lineNumber: 505,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                                    lineNumber: 488,
+                                    lineNumber: 500,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                            lineNumber: 274,
+                            lineNumber: 286,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                    lineNumber: 164,
+                    lineNumber: 176,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                lineNumber: 152,
+                lineNumber: 164,
                 columnNumber: 7
             }, this),
             selectedPhoto && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1886,7 +1893,7 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, 
             `
                     }, void 0, false, {
                         fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                        lineNumber: 526,
+                        lineNumber: 538,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -1923,7 +1930,7 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, 
                         children: "×"
                     }, void 0, false, {
                         fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                        lineNumber: 534,
+                        lineNumber: 546,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
@@ -1940,13 +1947,13 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, 
                         onClick: (e)=>e.stopPropagation()
                     }, void 0, false, {
                         fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                        lineNumber: 569,
+                        lineNumber: 581,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/si_app copy/src/components/BusinessProfile.js",
-                lineNumber: 510,
+                lineNumber: 522,
                 columnNumber: 9
             }, this)
         ]
@@ -4597,12 +4604,12 @@ function App() {
                                                         }, void 0, false, {
                                                             fileName: "[project]/si_app copy/app/page.js",
                                                             lineNumber: 1170,
-                                                            columnNumber: 27
+                                                            columnNumber: 25
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/si_app copy/app/page.js",
                                                         lineNumber: 1155,
-                                                        columnNumber: 25
+                                                        columnNumber: 23
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(OptimizedImage, {
                                                         src: getBusinessImage(biz),
@@ -4611,7 +4618,7 @@ function App() {
                                                     }, void 0, false, {
                                                         fileName: "[project]/si_app copy/app/page.js",
                                                         lineNumber: 1173,
-                                                        columnNumber: 23
+                                                        columnNumber: 21
                                                     }, this),
                                                     isAdmin && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
                                                         style: {
@@ -4647,19 +4654,19 @@ function App() {
                                                             }, void 0, false, {
                                                                 fileName: "[project]/si_app copy/app/page.js",
                                                                 lineNumber: 1199,
-                                                                columnNumber: 27
+                                                                columnNumber: 25
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/si_app copy/app/page.js",
                                                         lineNumber: 1179,
-                                                        columnNumber: 25
+                                                        columnNumber: 23
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/si_app copy/app/page.js",
                                                 lineNumber: 1153,
-                                                columnNumber: 21
+                                                columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 className: "highlighted-business-content",
@@ -4670,7 +4677,7 @@ function App() {
                                                     }, void 0, false, {
                                                         fileName: "[project]/si_app copy/app/page.js",
                                                         lineNumber: 1214,
-                                                        columnNumber: 23
+                                                        columnNumber: 21
                                                     }, this),
                                                     biz.description && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                         className: "highlighted-business-description",
@@ -4678,7 +4685,7 @@ function App() {
                                                     }, void 0, false, {
                                                         fileName: "[project]/si_app copy/app/page.js",
                                                         lineNumber: 1215,
-                                                        columnNumber: 43
+                                                        columnNumber: 41
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                         style: {
@@ -4702,7 +4709,7 @@ function App() {
                                                                 }, star, false, {
                                                                     fileName: "[project]/si_app copy/app/page.js",
                                                                     lineNumber: 1219,
-                                                                    columnNumber: 27
+                                                                    columnNumber: 25
                                                                 }, this)),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                 style: {
@@ -4719,13 +4726,13 @@ function App() {
                                                             }, void 0, true, {
                                                                 fileName: "[project]/si_app copy/app/page.js",
                                                                 lineNumber: 1229,
-                                                                columnNumber: 25
+                                                                columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/si_app copy/app/page.js",
                                                         lineNumber: 1217,
-                                                        columnNumber: 23
+                                                        columnNumber: 21
                                                     }, this),
                                                     Array.isArray(biz.tags) && biz.tags.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                         className: "highlighted-business-tags",
@@ -4737,31 +4744,31 @@ function App() {
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/si_app copy/app/page.js",
                                                                     lineNumber: 1237,
-                                                                    columnNumber: 29
+                                                                    columnNumber: 27
                                                                 }, this),
                                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                                                     children: biz.tags[0]
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/si_app copy/app/page.js",
                                                                     lineNumber: 1238,
-                                                                    columnNumber: 29
+                                                                    columnNumber: 27
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/si_app copy/app/page.js",
                                                             lineNumber: 1236,
-                                                            columnNumber: 27
+                                                            columnNumber: 25
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/si_app copy/app/page.js",
                                                         lineNumber: 1235,
-                                                        columnNumber: 25
+                                                        columnNumber: 23
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/si_app copy/app/page.js",
                                                 lineNumber: 1213,
-                                                columnNumber: 21
+                                                columnNumber: 19
                                             }, this)
                                         ]
                                     }, biz.id, true, {
