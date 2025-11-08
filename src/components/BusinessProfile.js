@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import '@fontsource/montserrat/700.css'; 
 
@@ -34,17 +35,28 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, 
   if (!business) return null;
 
   const handleRating = async (star) => {
-    if (!session?.user) {
+    console.log("Rating clicked - Session:", session);
+    console.log("User:", session?.user);
+    
+    // Check if user is authenticated
+    const { supabase } = await import('../supabaseClient');
+    const { data: { session: currentSession } } = await supabase.auth.getSession();
+    
+    console.log("Current session from getSession:", currentSession);
+    
+    if (!session?.user && !currentSession?.user) {
       alert("Please sign in to rate this business.");
       return;
     }
+    
+    const userId = session?.user?.id || currentSession?.user?.id;
     
     try {
       const { supabase } = await import('../supabaseClient');
       
       const { error: insertError } = await supabase.from("reviews").insert({
         business_id: business.id,
-        user_id: session.user.id,
+        user_id: userId,
         rating: star,
       });
       

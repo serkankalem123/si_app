@@ -1145,102 +1145,102 @@ function App() {
                 })
                 .map((biz) => (
                   <div
-                    key={biz.id}
-                    className="highlighted-business-card"
-                    onClick={() => setSelectedBusiness(biz)}
-                    style={{ cursor: "pointer" }}
-                  >
-                    <div style={{ position: "relative" }}>
-                      {biz.uploading && (
-                        <div
+                  key={biz.id}
+                  className="highlighted-business-card"
+                  onClick={() => setSelectedBusiness(biz)}
+                  style={{ cursor: "pointer" }}
+                >
+                  <div style={{ position: "relative" }}>
+                    {biz.uploading && (
+                      <div
+                        style={{
+                          position: "absolute",
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          backgroundColor: "rgba(255,255,255,0.8)",
+                          borderRadius: "8px",
+                          zIndex: 10,
+                        }}
+                      >
+                        <div>Uploading...</div>
+                      </div>
+                    )}
+                    <OptimizedImage
+                      src={getBusinessImage(biz)}
+                      alt={biz.name}
+                      className="highlighted-business-logo"
+                    />
+                    {isAdmin && (
+                      <label
+                        style={{
+                          position: "absolute",
+                          bottom: -8,
+                          right: -8,
+                          backgroundColor: "#1e3a8a",
+                          color: "white",
+                          borderRadius: "50%",
+                          width: 28,
+                          height: 28,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          cursor: "pointer",
+                          fontSize: "14px",
+                          boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        📷
+                        <input
+                          type="file"
+                          accept="image/*"
+                          style={{ display: "none" }}
+                          onChange={(e) => {
+                            if (e.target.files?.[0]) {
+                              handleLogoUpload(biz.id, e.target.files[0])
+                            }
+                          }}
+                        />
+                      </label>
+                    )}
+                  </div>
+
+                  <div className="highlighted-business-content">
+                    <div className="highlighted-business-name">{biz.name}</div>
+                    {biz.description && <div className="highlighted-business-description">{biz.description}</div>}
+
+                    <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <span
+                          key={star}
                           style={{
-                            position: "absolute",
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            backgroundColor: "rgba(255,255,255,0.8)",
-                            borderRadius: "8px",
-                            zIndex: 10,
+                            color: (biz.rating || 0) >= star ? "#f59e0b" : "#ccc",
+                            fontSize: 18,
                           }}
                         >
-                          <div>Uploading...</div>
-                        </div>
-                      )}
-                      <OptimizedImage
-                        src={getBusinessImage(biz)}
-                        alt={biz.name}
-                        className="highlighted-business-logo"
-                      />
-                      {isAdmin && (
-                        <label
-                          style={{
-                            position: "absolute",
-                            bottom: -8,
-                            right: -8,
-                            backgroundColor: "#1e3a8a",
-                            color: "white",
-                            borderRadius: "50%",
-                            width: 28,
-                            height: 28,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            cursor: "pointer",
-                            fontSize: "14px",
-                            boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
-                          }}
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          📷
-                          <input
-                            type="file"
-                            accept="image/*"
-                            style={{ display: "none" }}
-                            onChange={(e) => {
-                              if (e.target.files?.[0]) {
-                                handleLogoUpload(biz.id, e.target.files[0])
-                              }
-                            }}
-                          />
-                        </label>
-                      )}
+                          ★
+                        </span>
+                      ))}
+                      <span style={{ fontSize: 13, color: "#f59e0b", fontWeight: 500 }}>
+                        {biz.rating || " 0.0"} ({biz.review_count || 0})
+                      </span>
                     </div>
 
-                    <div className="highlighted-business-content">
-                      <div className="highlighted-business-name">{biz.name}</div>
-                      {biz.description && <div className="highlighted-business-description">{biz.description}</div>}
-
-                      <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <span
-                            key={star}
-                            style={{
-                              color: (biz.rating || 0) >= star ? "#f59e0b" : "#ccc",
-                              fontSize: 18,
-                            }}
-                          >
-                            ★
-                          </span>
-                        ))}
-                        <span style={{ fontSize: 13, color: "#f59e0b", fontWeight: 500 }}>
-                          {biz.rating || " 0.0"} ({biz.review_count || 0})
+                    {Array.isArray(biz.tags) && biz.tags.length > 0 && (
+                      <div className="highlighted-business-tags">
+                        <span className="highlighted-tag-pill">
+                          <span>🏷️</span>
+                          <span>{biz.tags[0]}</span>
                         </span>
                       </div>
-
-                      {Array.isArray(biz.tags) && biz.tags.length > 0 && (
-                        <div className="highlighted-business-tags">
-                          <span className="highlighted-tag-pill">
-                            <span>🏷️</span>
-                            <span>{biz.tags[0]}</span>
-                          </span>
-                        </div>
-                      )}
-                    </div>
+                    )}
                   </div>
+                </div>
                 ))}
             </div>
           ) : (
