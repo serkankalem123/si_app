@@ -719,23 +719,187 @@ function App() {
     }
   }, [])
 
-  const fetchBusinesses = async () => {
-    console.log("📍 Fetching businesses from database...")
-    const { data, error } = await supabase.from("businesses").select("*").order("created_at", { ascending: false })
+// Replace your fetchBusinesses function with this improved version:
 
-    if (!error && data) {
-      console.log("✅ Fetched businesses:", data.length)
-      setBusinesses(data)
-      preloadImages(data)
-    } else if (error) {
+const fetchBusinesses = async () => {
+  console.log("📍 Fetching businesses from database...")
+  
+  try {
+    const { data, error } = await supabase
+      .from("businesses")
+      .select("*")
+      .order("created_at", { ascending: false })
+
+    if (error) {
       console.error("❌ Error fetching businesses:", error)
       console.error("Error details:", {
         message: error.message,
         code: error.code,
         hint: error.hint,
       })
+      
+      // Show user-friendly error
+      alert("Failed to load businesses. Please refresh the page.")
+      return
+    }
+
+    if (data) {
+      console.log("✅ Fetched businesses:", data.length)
+      
+      // Parse tags if stored as JSON string
+      const processedData = data.map(business => ({
+        ...business,
+        tags: typeof business.tags === 'string' 
+          ? (business.tags ? JSON.parse(business.tags) : [])
+          : (Array.isArray(business.tags) ? business.tags : [])
+      }))
+      
+      setBusinesses(processedData)
+      preloadImages(processedData)
+    }
+  } catch (err) {
+    console.error("❌ Unexpected error fetching businesses:", err)
+    alert("An unexpected error occurred. Please refresh the page.")
+  }
+}
+
+// Replace your session/profile loading useEffect with this streamlined version:
+
+useEffect(() => {
+  let mounted = true
+  let fetchAttempts = 0
+  const MAX_ATTEMPTS = 3
+
+  const loadData = async () => {
+    if (fetchAttempts >= MAX_ATTEMPTS) {
+      console.error("❌ Max fetch attempts reached")
+      return
+    }
+    
+    fetchAttempts++
+    console.log(`📍 Loading initial data (attempt ${fetchAttempts})...`)
+
+    try {
+      // Get session
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession()
+      
+      if (!mounted) return
+
+      if (sessionError) {
+        console.error("❌ Session error:", sessionError)
+        return
+      }
+
+      console.log("📍 Session loaded:", session?.user?.email)
+      setSession(session)
+
+      if (session?.user) {
+        // Fetch profile
+        const { data: profileData, error: profileError } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", session.user.id)
+          .single()
+
+        if (!mounted) return
+
+        if (profileError) {
+          console.error("❌ Profile error:", profileError)
+        } else {
+          console.log("✅ Profile loaded:", {
+            email: profileData.email,
+            is_premium: profileData.is_premium,
+          })
+          setProfile(profileData)
+        }
+      }
+
+      // CRITICAL: Fetch businesses after session is confirmed
+      await fetchBusinesses()
+      
+    } catch (error) {
+      console.error("❌ Error loading data:", error)
+      if (fetchAttempts < MAX_ATTEMPTS) {
+        setTimeout(loadData, 2000) // Retry after 2 seconds
+      }
     }
   }
+
+  loadData()
+
+  // Auth state change listener
+  const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+    console.log("🔔 Auth event:", event)
+    if (!mounted) return
+
+    setSession(session)
+
+    if (session?.user) {
+      const { data: profileData } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", session.user.id)
+        .single()
+
+      if (mounted) {
+        setProfile(profileData)
+        // Refetch businesses on auth change
+        await fetchBusinesses()
+      }
+    } else {
+      setProfile(null)
+      setBusinesses([])
+    }
+  })
+
+  // Page visibility handler
+  const handleVisibilityChange = () => {
+    if (document.visibilityState === "visible" && mounted) {
+      console.log("👁️ Page became visible, reloading businesses...")
+      fetchBusinesses()
+    }
+  }
+
+  document.addEventListener("visibilitychange", handleVisibilityChange)
+
+  return () => {
+    mounted = false
+    subscription?.unsubscribe()
+    document.removeEventListener("visibilitychange", handleVisibilityChange)
+  }
+}, []) // Run only once on mount
+
+// REMOVE OR REDUCE the polling interval - it's causing unnecessary load
+// Replace the 3-second polling with this more conservative approach:
+
+useEffect(() => {
+  if (!session?.user?.id) return
+
+  // Only poll profile changes, not businesses
+  const pollInterval = setInterval(async () => {
+    try {
+      const { data: newProfile } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", session.user.id)
+        .single()
+
+      if (newProfile && 
+          (profile?.subscription_status !== newProfile?.subscription_status ||
+           profile?.is_premium !== newProfile?.is_premium)) {
+        console.log("🔄 Profile changed, updating...")
+        setProfile(newProfile)
+      }
+    } catch (error) {
+      console.error("❌ Poll error:", error)
+    }
+  }, 10000) // Reduced to 10 seconds instead of 3
+
+  return () => clearInterval(pollInterval)
+}, [session?.user?.id, profile?.subscription_status, profile?.is_premium])
+
+// REMOVE the second polling useEffect entirely (the one at line 10000)
+// It's redundant and causing conflicts
 
   const preloadImages = (businessList) => {
     if (typeof window === "undefined") return
@@ -746,25 +910,7 @@ function App() {
     })
   }
 
-  useEffect(() => {
-    // Wait for session to be established before fetching businesses
-    if (session !== undefined) {
-      console.log("🔄 Session state changed, refreshing businesses...")
-      fetchBusinesses()
-    }
-  }, [session]) // Added session as dependency to refetch when user logs in
 
-  useEffect(() => {
-    if (profile) {
-      setDisplayName(profile.display_name || profile.full_name || "")
-      setEditingName(profile.display_name || profile.full_name || "")
-      setAvatarUrl(profile.avatar_url || "")
-    } else if (session?.user?.user_metadata) {
-      setDisplayName(session.user.user_metadata.display_name || "")
-      setEditingName(session.user.user_metadata.display_name || "")
-      setAvatarUrl(session.user.user_metadata.avatar_url || "")
-    }
-  }, [session, profile])
 
   const saveName = async () => {
     setIsSaving(true)
