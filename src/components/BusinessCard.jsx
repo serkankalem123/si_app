@@ -89,6 +89,7 @@ export default function BusinessCard({ biz, onSelect, user }) {
                     height: 70,
                     borderRadius: 8,
                     objectFit: "cover",
+                    fontFamily: "montserrat"
                 }}
             />
             <div style={{ flex: 1 }}>

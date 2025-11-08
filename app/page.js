@@ -912,36 +912,33 @@ useEffect(() => {
 
 
 
+  useEffect(() => {
+    fetchBusinesses()
+  }, [])
+
+  useEffect(() => {
+    if (session?.user) {
+      const metadata = session.user.user_metadata || {}
+      setDisplayName(metadata.display_name || "")
+      setEditingName(metadata.display_name || "")
+      setAvatarUrl(metadata.avatar_url || "")
+    }
+  }, [session])
+
   const saveName = async () => {
     setIsSaving(true)
     setSaveStatus(null)
-
-    try {
-      // Update auth metadata
-      const { data: authData, error: authError } = await supabase.auth.updateUser({
-        data: {
-          display_name: editingName,
-          avatar_url: avatarUrl,
-        },
-      })
-      if (authError) throw authError
-
-      // ✅ NEW: Update profile table
-      const { error: profileError } = await supabase
-        .from("profiles")
-        .update({
-          display_name: editingName,
-          full_name: editingName,
-          avatar_url: avatarUrl,
-        })
-        .eq("id", session.user.id)
-      if (profileError) throw profileError
-
+    const { data, error } = await supabase.auth.updateUser({
+      data: {
+        display_name: editingName,
+        avatar_url: avatarUrl,
+      },
+    })
+    if (!error && data?.user) {
       setDisplayName(editingName)
-      setSession((prev) => ({ ...prev, user: authData.user }))
+      setSession((prev) => ({ ...prev, user: data.user }))
       setSaveStatus("success")
-    } catch (error) {
-      console.error("Save error:", error)
+    } else {
       setSaveStatus("error")
     }
     setIsSaving(false)

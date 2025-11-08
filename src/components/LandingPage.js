@@ -42,7 +42,7 @@ function LandingPage({ onLoginClick, onGetStarted }) {
             fontFamily: "'Raleway', sans-serif",
             fontWeight: 400,
             lineHeight: "1.6em",
-            color: "#f9fafb",
+            color: "black",
             maxWidth: "600px",
             margin: "0 auto",
           }}
