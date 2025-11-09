@@ -304,3 +304,4 @@ function Auth({ onAuthSuccess, isLoginProp }) {
 }
 
 export default Auth;
+
