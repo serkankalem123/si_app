@@ -80,129 +80,47 @@ function Auth({ onAuthSuccess, isLoginProp }) {
 
     try {
       if (isLogin) {
-        console.log('🔐 Attempting login...');
         const { data, error: loginError } = await supabase.auth.signInWithPassword({
           email: trimmedEmail,
           password,
         });
-
+      
         if (loginError) {
           setError(`Login failed: ${loginError.message}`);
-          return;
-        }
-
-        if (!data.session) {
+        } else if (!data.session) {
           setInfoMessage('No active session received. Check if email confirmation is required.');
-          return;
-        }
-
-        console.log('✅ Login successful, fetching user data and profile...');
-        
-        // ✅ FIX: Fetch fresh user data with metadata
-        const { data: userData, error: userError } = await supabase.auth.getUser();
-        
-        if (userError) {
-          console.error('❌ Failed to fetch user data:', userError);
-        } else if (userData?.user) {
-          data.user = userData.user;
-          console.log('✅ User data loaded:', userData.user.email);
-          console.log('📋 User metadata:', userData.user.user_metadata);
-        }
-
-        // ✅ NEW: Fetch profile from database immediately
-        console.log('📍 Fetching profile for user:', data.user.id);
-        const { data: profileData, error: profileError } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', data.user.id)
-          .maybeSingle();
-
-        if (profileError) {
-          console.error('❌ Profile fetch error:', profileError);
-          console.error('❌ Error details:', {
-            message: profileError.message,
-            code: profileError.code,
-            hint: profileError.hint,
-          });
-          
-          // Try to create profile if it doesn't exist
-          if (profileError.code === 'PGRST116') {
-            console.log('⚠️ Profile not found, creating one...');
-            const { data: newProfile, error: createError } = await supabase
-              .from('profiles')
-              .insert({
-                id: data.user.id,
-                email: data.user.email,
-                full_name: data.user.user_metadata?.full_name || data.user.user_metadata?.display_name || '',
-                display_name: data.user.user_metadata?.display_name || '',
-                avatar_url: data.user.user_metadata?.avatar_url || '',
-                is_premium: data.user.user_metadata?.is_premium || false,
-              })
-              .select()
-              .single();
-            
-            if (createError) {
-              console.error('❌ Failed to create profile:', createError);
-            } else {
-              console.log('✅ Profile created successfully');
-            }
-          }
-        } else if (profileData) {
-          console.log('✅ Profile loaded from database:', {
-            email: profileData.email,
-            is_premium: profileData.is_premium,
-            subscription_status: profileData.subscription_status,
-          });
         } else {
-          console.log('⚠️ No profile data returned');
+          // 🩵 Fetch fresh user data including metadata
+          const { data: userData, error: userError } = await supabase.auth.getUser();
+          if (userError) {
+            console.error('Failed to fetch user data:', userError);
+          } else if (userData?.user) {
+            data.user = userData.user; // attach full user with metadata
+          }
+          onAuthSuccess(data, false);
         }
-
-        // Call onAuthSuccess with the updated data
-        onAuthSuccess(data, false);
-      }
-      else {
-        console.log('📝 Attempting registration...');
+      
+      
+      } else {
         const { data, error: signUpError } = await supabase.auth.signUp({
           email: trimmedEmail,
           password,
           options: { data: { display_name: displayName.trim() } },
         });
-        
         if (signUpError) {
           setError(`Sign-up failed: ${signUpError.message}`);
           return;
         }
-        
         if (data?.user && !data?.session) {
-          setInfoMessage('✉️ Account created! Please check your email for verification.');
+          setInfoMessage('✉️ Account created! Please check your for verification.');
           return;
         }
-        
         if (data?.session) {
-          console.log('✅ Registration successful');
-          
-          // Profile should be auto-created by database trigger
-          // Wait a moment for trigger to complete
-          await new Promise(resolve => setTimeout(resolve, 500));
-          
-          // Verify profile was created
-          const { data: profileData } = await supabase
-            .from('profiles')
-            .select('*')
-            .eq('id', data.user.id)
-            .maybeSingle();
-          
-          if (profileData) {
-            console.log('✅ Profile confirmed for new user');
-          } else {
-            console.log('⚠️ Profile not found for new user, may need manual creation');
-          }
-          
           onAuthSuccess(data, true);
         }
       }
     } catch (err) {
-      console.error('❌ Unexpected error during authentication:', err);
+      console.error('Unexpected error during authentication:', err);
       setError('Unexpected error occurred during authentication. Check console.');
     }
   };
