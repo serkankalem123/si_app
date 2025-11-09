@@ -697,7 +697,6 @@ useEffect(() => {
   return () => clearInterval(interval);
 }, [session?.user?.id]);
 
-
   // Add this new useEffect after your existing useEffects
 useEffect(() => {
   // Check if user was redirected from payment success
@@ -708,8 +707,6 @@ useEffect(() => {
     window.history.replaceState({}, '', '/');
   }
 }, [isPremium]);
-
-
 
 useEffect(() => {
   // Check for navigation parameter
@@ -722,8 +719,6 @@ useEffect(() => {
     window.history.replaceState({}, '', '/');
   }
 }, []);
-
-
 
   const fetchBusinesses = async () => {
     console.log("Fetching businesses from database...")
