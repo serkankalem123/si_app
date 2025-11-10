@@ -246,10 +246,6 @@ function App() {
 
   const isPremium = session?.user?.user_metadata?.is_premium === true || profile?.is_premium === true
 
-
- 
-
-
   useEffect(() => {
   if (session?.user) {
     console.log('═══════════════════════════════════════');
