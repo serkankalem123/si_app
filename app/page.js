@@ -588,15 +588,15 @@ function App() {
     loadData();
   
     // Listen for auth changes
-    supabase.auth.onAuthStateChange(async (event, newSession) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, newSession) => {
       console.log('🔔 Auth event:', event);
       if (!mounted) return;
       
       // Always reload data on auth changes
       await loadData();
-    }).then(({ data: { subscription } }) => {
-      authSubscription = subscription;
     });
+    
+    authSubscription = subscription;
   
     // Listen for page visibility changes
     const handleVisibilityChange = () => {
