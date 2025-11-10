@@ -1,126 +1,780 @@
-[00:00:00.998] Server  LOG      ✓ Ready in 725ms
-[00:00:01.088] Browser LOG     🔄 Polling for profile updates...
-[00:00:01.088] Browser LOG     🔄 Polling for profile updates...
-[00:00:01.088] Browser LOG     🔄 Polling for profile updates...
-[00:00:01.973] Browser LOG     🔄 Polling for profile updates...
-[00:00:02.752] Server  ERROR   (node:56452) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+[00:00:01.155] Server  LOG      ✓ Ready in 853ms
+[00:00:12.073] Server  ERROR   (node:4010) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-[00:00:03.136] Browser LOG     Firebase app initialized
-[00:00:03.136] Browser LOG     📍 Loading initial data...
-[00:00:03.136] Browser LOG     📍 Loading initial data (attempt 1)...
-[00:00:03.136] Browser LOG     Notification permission denied
-[00:00:03.136] Browser LOG     📍 Session loaded: serkankalem99@gmail.com
-[00:00:03.136] Browser LOG     🔔 Auth event: INITIAL_SESSION
-[00:00:03.136] Browser LOG     ═══════════════════════════════════════
-[00:00:03.136] Browser LOG     User: serkankalem99@gmail.com
-[00:00:03.136] Browser LOG     Auth Meta: {"avatar_url":"","display_name":"Serkan","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"4f89f949-64cc-42ca-bebf-23c979fd97ce","subscription_status":"active"}
-[00:00:03.136] Browser LOG     Profile: null
-[00:00:03.136] Browser LOG     isPremium: true
-[00:00:03.136] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
-[00:00:03.136] Browser LOG     ═══════════════════════════════════════
-[00:00:03.136] Browser LOG     📍 Session loaded: serkankalem99@gmail.com
-[00:00:03.136] Browser LOG     ═══════════════════════════════════════
-[00:00:03.136] Browser LOG     User: serkankalem99@gmail.com
-[00:00:03.136] Browser LOG     Auth Meta: {"avatar_url":"","display_name":"Serkan","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"4f89f949-64cc-42ca-bebf-23c979fd97ce","subscription_status":"active"}
-[00:00:03.136] Browser LOG     Profile: null
-[00:00:03.136] Browser LOG     isPremium: true
-[00:00:03.136] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
-[00:00:03.136] Browser LOG     ═══════════════════════════════════════
-[00:00:03.136] Browser LOG     🔔 Auth event: INITIAL_SESSION
-[00:00:03.136] Browser LOG     ═══════════════════════════════════════
-[00:00:03.136] Browser LOG     User: serkankalem99@gmail.com
-[00:00:03.136] Browser LOG     Auth Meta: {"avatar_url":"","display_name":"Serkan","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"4f89f949-64cc-42ca-bebf-23c979fd97ce","subscription_status":"active"}
-[00:00:03.136] Browser LOG     Profile: null
-[00:00:03.136] Browser LOG     isPremium: true
-[00:00:03.136] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
-[00:00:03.136] Browser LOG     ═══════════════════════════════════════
-[00:00:03.136] Browser LOG     ═══════════════════════════════════════
-[00:00:03.136] Browser LOG     User: serkankalem99@gmail.com
-[00:00:03.136] Browser LOG     Auth Meta: {"avatar_url":"","display_name":"Serkan","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"4f89f949-64cc-42ca-bebf-23c979fd97ce","subscription_status":"active"}
-[00:00:03.136] Browser LOG     Profile: null
-[00:00:03.136] Browser LOG     isPremium: true
-[00:00:03.136] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
-[00:00:03.136] Browser LOG     ═══════════════════════════════════════
-[00:00:03.136] Browser LOG     🔔 Auth event: TOKEN_REFRESHED
-[00:00:03.136] Browser LOG     🔔 Auth event: TOKEN_REFRESHED
-[00:00:03.136] Browser LOG     ═══════════════════════════════════════
-[00:00:03.136] Browser LOG     User: serkankalem99@gmail.com
-[00:00:03.136] Browser LOG     Auth Meta: {"avatar_url":"","display_name":"Serkan","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"4f89f949-64cc-42ca-bebf-23c979fd97ce","subscription_status":"active"}
-[00:00:03.136] Browser LOG     Profile: null
-[00:00:03.136] Browser LOG     isPremium: true
-[00:00:03.136] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
-[00:00:03.136] Browser LOG     ═══════════════════════════════════════
-[00:00:03.136] Browser LOG     ✅ Profile loaded: {"email":"serkankalem99@gmail.com","is_premium":false,"subscription_cancel_at":null,"subscription_status":"active"}
-[00:00:03.136] Browser LOG     ═══════════════════════════════════════
-[00:00:03.136] Browser LOG     User: serkankalem99@gmail.com
-[00:00:03.136] Browser LOG     Auth Meta: {"avatar_url":"","display_name":"Serkan","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"4f89f949-64cc-42ca-bebf-23c979fd97ce","subscription_status":"active"}
-[00:00:03.136] Browser LOG     Profile: {"avatar_url":"","display_name":"Serkan","email":"serkankalem99@gmail.com","full_name":"Serkan","id":"4f89f949-64cc-42ca-bebf-23c979fd97ce","is_premium":false,"premium_since":null,"stripe_customer_id":"cus_TNTo1JG5S81B1L","subscription_cancel_at":null,"subscription_id":"sub_1SQiqY050zwZ92Qfkwt0FgmG","subscription_status":"active","updated_at":"2025-11-07T07:09:27.879718"}
-[00:00:03.136] Browser LOG     isPremium: true
-[00:00:03.136] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
-[00:00:03.136] Browser LOG     ═══════════════════════════════════════
-[00:00:03.136] Browser LOG     🔔 Profile updated from auth change: {"is_premium":false,"subscription_status":"active"}
-[00:00:03.136] Browser LOG     ═══════════════════════════════════════
-[00:00:03.136] Browser LOG     User: serkankalem99@gmail.com
-[00:00:03.136] Browser LOG     Auth Meta: {"avatar_url":"","display_name":"Serkan","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"4f89f949-64cc-42ca-bebf-23c979fd97ce","subscription_status":"active"}
-[00:00:03.136] Browser LOG     Profile: {"avatar_url":"","display_name":"Serkan","email":"serkankalem99@gmail.com","full_name":"Serkan","id":"4f89f949-64cc-42ca-bebf-23c979fd97ce","is_premium":false,"premium_since":null,"stripe_customer_id":"cus_TNTo1JG5S81B1L","subscription_cancel_at":null,"subscription_id":"sub_1SQiqY050zwZ92Qfkwt0FgmG","subscription_status":"active","updated_at":"2025-11-07T07:09:27.879718"}
-[00:00:03.136] Browser LOG     isPremium: true
-[00:00:03.136] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
-[00:00:03.136] Browser LOG     ═══════════════════════════════════════
-[00:00:06.129] Browser LOG     🔄 Polling for profile updates...
-[00:00:09.128] Browser LOG     🔄 Polling for profile updates...
-[00:00:10.660] Browser LOG     Firebase app initialized
-[00:00:10.660] Browser LOG     📍 Loading initial data...
-[00:00:10.660] Browser LOG     📍 Loading initial data (attempt 1)...
-[00:00:10.660] Browser LOG     Notification permission denied
-[00:00:10.660] Browser LOG     📍 Session loaded: serkankalem99@gmail.com
-[00:00:10.660] Browser LOG     🔔 Auth event: INITIAL_SESSION
-[00:00:10.660] Browser LOG     ═══════════════════════════════════════
-[00:00:10.660] Browser LOG     User: serkankalem99@gmail.com
-[00:00:10.660] Browser LOG     Auth Meta: {"avatar_url":"","display_name":"Serkan","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"4f89f949-64cc-42ca-bebf-23c979fd97ce","subscription_status":"active"}
-[00:00:10.660] Browser LOG     Profile: null
-[00:00:10.660] Browser LOG     isPremium: true
-[00:00:10.660] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
-[00:00:10.660] Browser LOG     ═══════════════════════════════════════
-[00:00:10.660] Browser LOG     📍 Session loaded: serkankalem99@gmail.com
-[00:00:10.660] Browser LOG     ═══════════════════════════════════════
-[00:00:10.660] Browser LOG     User: serkankalem99@gmail.com
-[00:00:10.660] Browser LOG     Auth Meta: {"avatar_url":"","display_name":"Serkan","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"4f89f949-64cc-42ca-bebf-23c979fd97ce","subscription_status":"active"}
-[00:00:10.660] Browser LOG     Profile: null
-[00:00:10.661] Browser LOG     isPremium: true
-[00:00:10.661] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
-[00:00:10.661] Browser LOG     ═══════════════════════════════════════
-[00:00:10.661] Browser LOG     🔔 Auth event: INITIAL_SESSION
-[00:00:10.661] Browser LOG     ═══════════════════════════════════════
-[00:00:10.661] Browser LOG     User: serkankalem99@gmail.com
-[00:00:10.661] Browser LOG     Auth Meta: {"avatar_url":"","display_name":"Serkan","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"4f89f949-64cc-42ca-bebf-23c979fd97ce","subscription_status":"active"}
-[00:00:10.661] Browser LOG     Profile: null
-[00:00:10.661] Browser LOG     isPremium: true
-[00:00:10.661] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
-[00:00:10.661] Browser LOG     ═══════════════════════════════════════
-[00:00:10.661] Browser LOG     ═══════════════════════════════════════
-[00:00:10.661] Browser LOG     User: serkankalem99@gmail.com
-[00:00:10.661] Browser LOG     Auth Meta: {"avatar_url":"","display_name":"Serkan","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"4f89f949-64cc-42ca-bebf-23c979fd97ce","subscription_status":"active"}
-[00:00:10.661] Browser LOG     Profile: null
-[00:00:10.661] Browser LOG     isPremium: true
-[00:00:10.661] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
-[00:00:10.661] Browser LOG     ═══════════════════════════════════════
-[00:00:10.661] Browser LOG     🔔 Profile updated from auth change: {"is_premium":false,"subscription_status":"active"}
-[00:00:10.661] Browser LOG     🔔 Auth event: TOKEN_REFRESHED
-[00:00:10.661] Browser LOG     🔔 Auth event: TOKEN_REFRESHED
-[00:00:10.661] Browser LOG     ═══════════════════════════════════════
-[00:00:10.661] Browser LOG     User: serkankalem99@gmail.com
-[00:00:10.661] Browser LOG     Auth Meta: {"avatar_url":"","display_name":"Serkan","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"4f89f949-64cc-42ca-bebf-23c979fd97ce","subscription_status":"active"}
-[00:00:10.661] Browser LOG     Profile: {"avatar_url":"","display_name":"Serkan","email":"serkankalem99@gmail.com","full_name":"Serkan","id":"4f89f949-64cc-42ca-bebf-23c979fd97ce","is_premium":false,"premium_since":null,"stripe_customer_id":"cus_TNTo1JG5S81B1L","subscription_cancel_at":null,"subscription_id":"sub_1SQiqY050zwZ92Qfkwt0FgmG","subscription_status":"active","updated_at":"2025-11-07T07:09:27.879718"}
-[00:00:10.661] Browser LOG     isPremium: true
-[00:00:10.661] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
-[00:00:10.661] Browser LOG     ═══════════════════════════════════════
-[00:00:10.661] Browser LOG     ✅ Profile loaded: {"email":"serkankalem99@gmail.com","is_premium":false,"subscription_cancel_at":null,"subscription_status":"active"}
-[00:00:10.661] Browser LOG     ═══════════════════════════════════════
-[00:00:10.661] Browser LOG     User: serkankalem99@gmail.com
-[00:00:10.661] Browser LOG     Auth Meta: {"avatar_url":"","display_name":"Serkan","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"4f89f949-64cc-42ca-bebf-23c979fd97ce","subscription_status":"active"}
-[00:00:10.661] Browser LOG     Profile: {"avatar_url":"","display_name":"Serkan","email":"serkankalem99@gmail.com","full_name":"Serkan","id":"4f89f949-64cc-42ca-bebf-23c979fd97ce","is_premium":false,"premium_since":null,"stripe_customer_id":"cus_TNTo1JG5S81B1L","subscription_cancel_at":null,"subscription_id":"sub_1SQiqY050zwZ92Qfkwt0FgmG","subscription_status":"active","updated_at":"2025-11-07T07:09:27.879718"}
-[00:00:10.661] Browser LOG     isPremium: true
-[00:00:10.661] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
-[00:00:10.661] Browser LOG     ═══════════════════════════════════════
-[00:00:13.660] Browser LOG     🔄 Polling for profile updates...
-[00:00:16.660] Browser LOG     🔄 Polling for profile updates...
+[00:00:12.468] Browser LOG     Firebase app initialized
+[00:00:12.468] Browser LOG     📍 Loading initial data...
+[00:00:12.468] Browser LOG     Fetching businesses from database...
+[00:00:12.468] Browser LOG     Notification permission denied
+[00:00:13.217] Browser LOG     🔔 Auth event: TOKEN_REFRESHED
+[00:00:13.217] Browser LOG     ═══════════════════════════════════════
+[00:00:13.217] Browser LOG     User: serkankalem99@gmail.com
+[00:00:13.218] Browser LOG     Auth Meta: {"avatar_url":"","display_name":"Serkan","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"4f89f949-64cc-42ca-bebf-23c979fd97ce","subscription_status":"active"}
+[00:00:13.218] Browser LOG     Profile: null
+[00:00:13.218] Browser LOG     isPremium: true
+[00:00:13.218] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
+[00:00:13.218] Browser LOG     ═══════════════════════════════════════
+[00:00:17.790] Browser LOG     🔘 Sign out button clicked
+[00:00:17.790] Browser LOG     🚪 Starting logout process...
+[00:00:19.973] Browser LOG     Firebase app initialized
+[00:00:19.973] Browser LOG     📍 Loading initial data...
+[00:00:19.973] Browser LOG     Fetching businesses from database...
+[00:00:19.973] Browser LOG     Notification permission denied
+[00:00:19.973] Browser LOG     📍 Session loaded: serkankalem99@gmail.com
+[00:00:19.973] Browser LOG     ═══════════════════════════════════════
+[00:00:19.973] Browser LOG     User: serkankalem99@gmail.com
+[00:00:19.973] Browser LOG     Auth Meta: {"avatar_url":"","display_name":"Serkan","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"4f89f949-64cc-42ca-bebf-23c979fd97ce","subscription_status":"active"}
+[00:00:19.973] Browser LOG     Profile: null
+[00:00:19.973] Browser LOG     isPremium: true
+[00:00:19.973] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
+[00:00:19.973] Browser LOG     ═══════════════════════════════════════
+[00:00:19.973] Browser LOG     🔔 Auth event: INITIAL_SESSION
+[00:00:19.973] Browser LOG     ═══════════════════════════════════════
+[00:00:19.973] Browser LOG     User: serkankalem99@gmail.com
+[00:00:19.973] Browser LOG     Auth Meta: {"avatar_url":"","display_name":"Serkan","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"4f89f949-64cc-42ca-bebf-23c979fd97ce","subscription_status":"active"}
+[00:00:19.973] Browser LOG     Profile: null
+[00:00:19.973] Browser LOG     isPremium: true
+[00:00:19.973] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
+[00:00:19.973] Browser LOG     ═══════════════════════════════════════
+[00:00:20.195] Browser LOG     ═══════════════════════════════════════
+[00:00:20.195] Browser LOG     User: serkankalem99@gmail.com
+[00:00:20.195] Browser LOG     Auth Meta: {"avatar_url":"","display_name":"Serkan","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"4f89f949-64cc-42ca-bebf-23c979fd97ce","subscription_status":"active"}
+[00:00:20.195] Browser LOG     Profile: {"email":"serkankalem99@gmail.com","id":"4f89f949-64cc-42ca-bebf-23c979fd97ce","is_premium":false,"subscription_status":null}
+[00:00:20.195] Browser LOG     isPremium: true
+[00:00:20.195] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
+[00:00:20.195] Browser LOG     ═══════════════════════════════════════
+[00:00:20.195] Browser LOG     ℹ️ No profile found, user may need to complete signup
+[00:00:20.195] Browser LOG     ═══════════════════════════════════════
+[00:00:20.195] Browser LOG     User: serkankalem99@gmail.com
+[00:00:20.195] Browser LOG     Auth Meta: {"avatar_url":"","display_name":"Serkan","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"4f89f949-64cc-42ca-bebf-23c979fd97ce","subscription_status":"active"}
+[00:00:20.195] Browser LOG     Profile: {"email":"serkankalem99@gmail.com","id":"4f89f949-64cc-42ca-bebf-23c979fd97ce","is_premium":false,"subscription_status":null}
+[00:00:20.195] Browser LOG     isPremium: true
+[00:00:20.195] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
+[00:00:20.195] Browser LOG     ═══════════════════════════════════════
+[00:00:20.195] Browser LOG     Fetched businesses: 93
+[00:00:30.940] Browser LOG     🔘 Sign out button clicked
+[00:00:30.940] Browser LOG     🚪 Starting logout process...
+[00:00:31.081] Browser LOG     🔔 Auth event: SIGNED_OUT
+[00:00:31.081] Browser LOG     ✅ Supabase signOut successful
+[00:00:31.081] Browser LOG     🔄 Reloading page...
+[00:00:31.436] Browser LOG     Firebase app initialized
+[00:00:31.436] Browser LOG     📍 Loading initial data...
+[00:00:31.436] Browser LOG     Fetching businesses from database...
+[00:00:31.436] Browser LOG     Notification permission denied
+[00:00:31.436] Browser LOG     📍 Session loaded: undefined
+[00:00:31.639] Browser LOG     🔔 Auth event: INITIAL_SESSION
+[00:00:31.639] Browser LOG     Fetched businesses: 93
+[00:02:31.181] Browser LOG     👁️ Page became visible, reloading data...
+[00:02:31.181] Browser LOG     📍 Loading initial data...
+[00:02:31.181] Browser LOG     📍 Session loaded: undefined
+[00:03:33.654] Browser LOG     Firebase app initialized
+[00:03:33.654] Browser LOG     📍 Loading initial data...
+[00:03:33.654] Browser LOG     Fetching businesses from database...
+[00:03:33.654] Browser LOG     Notification permission denied
+[00:03:33.654] Browser LOG     🔔 Auth event: SIGNED_IN
+[00:03:33.654] Browser LOG     ═══════════════════════════════════════
+[00:03:33.654] Browser LOG     User: serkankalem99@gmail.com
+[00:03:33.654] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:03:33.654] Browser LOG     Profile: null
+[00:03:33.654] Browser LOG     isPremium: false
+[00:03:33.654] Browser LOG     Nav Items: ["Highlighted Business","Map","Profile and Payment"]
+[00:03:33.654] Browser LOG     ═══════════════════════════════════════
+[00:03:33.654] Browser LOG     📍 Session loaded: serkankalem99@gmail.com
+[00:03:33.654] Browser LOG     🔔 Auth event: INITIAL_SESSION
+[00:03:33.654] Browser LOG     ═══════════════════════════════════════
+[00:03:33.654] Browser LOG     User: serkankalem99@gmail.com
+[00:03:33.654] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:03:33.654] Browser LOG     Profile: null
+[00:03:33.654] Browser LOG     isPremium: false
+[00:03:33.654] Browser LOG     Nav Items: ["Highlighted Business","Map","Profile and Payment"]
+[00:03:33.654] Browser LOG     ═══════════════════════════════════════
+[00:03:33.654] Browser LOG     ═══════════════════════════════════════
+[00:03:33.654] Browser LOG     User: serkankalem99@gmail.com
+[00:03:33.654] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:03:33.654] Browser LOG     Profile: null
+[00:03:33.654] Browser LOG     isPremium: false
+[00:03:33.654] Browser LOG     Nav Items: ["Highlighted Business","Map","Profile and Payment"]
+[00:03:33.654] Browser LOG     ═══════════════════════════════════════
+[00:03:34.124] Browser LOG     🔔 Profile updated from auth change
+[00:03:34.125] Browser LOG     ✅ Profile loaded: {"email":"serkankalem99@gmail.com","is_premium":false,"subscription_status":"active"}
+[00:03:34.125] Browser LOG     🔔 Profile updated from auth change
+[00:03:34.125] Browser LOG     ═══════════════════════════════════════
+[00:03:34.125] Browser LOG     User: serkankalem99@gmail.com
+[00:03:34.125] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:03:34.125] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":false,"premium_since":null,"stripe_customer_id":null,"subscription_cancel_at":null,"subscription_id":null,"subscription_status":"active","updated_at":"2025-11-10T09:45:16.497997"}
+[00:03:34.125] Browser LOG     isPremium: false
+[00:03:34.126] Browser LOG     Nav Items: ["Highlighted Business","Map","Profile and Payment"]
+[00:03:34.126] Browser LOG     ═══════════════════════════════════════
+[00:03:34.126] Browser LOG     Fetched businesses: 93
+[00:03:40.147] Browser LOG     🔔 Auth event: SIGNED_IN
+[00:03:40.147] Browser LOG     ═══════════════════════════════════════
+[00:03:40.147] Browser LOG     User: serkankalem99@gmail.com
+[00:03:40.147] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:03:40.147] Browser LOG     Profile: null
+[00:03:40.147] Browser LOG     isPremium: false
+[00:03:40.147] Browser LOG     Nav Items: ["Highlighted Business","Map","Profile and Payment"]
+[00:03:40.147] Browser LOG     ═══════════════════════════════════════
+[00:03:41.681] Browser LOG     🔔 Profile updated from auth change
+[00:03:41.944] Browser LOG     ═══════════════════════════════════════
+[00:03:41.944] Browser LOG     User: serkankalem99@gmail.com
+[00:03:41.944] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:03:41.944] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":false,"premium_since":null,"stripe_customer_id":null,"subscription_cancel_at":null,"subscription_id":null,"subscription_status":"active","updated_at":"2025-11-10T09:45:16.497997"}
+[00:03:41.944] Browser LOG     isPremium: false
+[00:03:41.944] Browser LOG     Nav Items: ["Highlighted Business","Map","Profile and Payment"]
+[00:03:41.944] Browser LOG     ═══════════════════════════════════════
+[00:15:04.023] Browser LOG     Firebase app initialized
+[00:15:04.024] Browser LOG     📍 Loading initial data...
+[00:15:04.024] Browser LOG     Fetching businesses from database...
+[00:15:04.024] Browser LOG     Notification permission denied
+[00:15:04.024] Browser LOG     📍 Session loaded: serkankalem99@gmail.com
+[00:15:04.024] Browser LOG     🔔 Auth event: INITIAL_SESSION
+[00:15:04.024] Browser LOG     ═══════════════════════════════════════
+[00:15:04.024] Browser LOG     User: serkankalem99@gmail.com
+[00:15:04.024] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:15:04.024] Browser LOG     Profile: null
+[00:15:04.024] Browser LOG     isPremium: false
+[00:15:04.024] Browser LOG     Nav Items: ["Highlighted Business","Map","Profile and Payment"]
+[00:15:04.024] Browser LOG     ═══════════════════════════════════════
+[00:15:04.024] Browser LOG     ═══════════════════════════════════════
+[00:15:04.024] Browser LOG     User: serkankalem99@gmail.com
+[00:15:04.024] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:15:04.024] Browser LOG     Profile: null
+[00:15:04.024] Browser LOG     isPremium: false
+[00:15:04.024] Browser LOG     Nav Items: ["Highlighted Business","Map","Profile and Payment"]
+[00:15:04.024] Browser LOG     ═══════════════════════════════════════
+[00:15:04.194] Browser LOG     ✅ Profile loaded: {"email":"serkankalem99@gmail.com","is_premium":false,"subscription_status":"active"}
+[00:15:04.194] Browser LOG     ═══════════════════════════════════════
+[00:15:04.194] Browser LOG     User: serkankalem99@gmail.com
+[00:15:04.194] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:15:04.194] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":false,"premium_since":null,"stripe_customer_id":null,"subscription_cancel_at":null,"subscription_id":null,"subscription_status":"active","updated_at":"2025-11-10T09:45:16.497997"}
+[00:15:04.194] Browser LOG     isPremium: false
+[00:15:04.194] Browser LOG     Nav Items: ["Highlighted Business","Map","Profile and Payment"]
+[00:15:04.194] Browser LOG     ═══════════════════════════════════════
+[00:15:04.194] Browser LOG     Fetched businesses: 93
+[00:15:04.194] Browser LOG     🔔 Profile updated from auth change
+[00:15:04.194] Browser LOG     ═══════════════════════════════════════
+[00:15:04.194] Browser LOG     User: serkankalem99@gmail.com
+[00:15:04.194] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:15:04.194] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":false,"premium_since":null,"stripe_customer_id":null,"subscription_cancel_at":null,"subscription_id":null,"subscription_status":"active","updated_at":"2025-11-10T09:45:16.497997"}
+[00:15:04.194] Browser LOG     isPremium: false
+[00:15:04.194] Browser LOG     Nav Items: ["Highlighted Business","Map","Profile and Payment"]
+[00:15:04.194] Browser LOG     ═══════════════════════════════════════
+[00:15:08.267] Browser LOG     🔔 Auth event: SIGNED_IN
+[00:15:09.050] Browser LOG     🔔 Auth event: SIGNED_IN
+[00:15:10.874] Browser LOG     ═══════════════════════════════════════
+[00:15:10.875] Browser LOG     User: serkankalem99@gmail.com
+[00:15:10.875] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:15:10.875] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":false,"premium_since":null,"stripe_customer_id":null,"subscription_cancel_at":null,"subscription_id":null,"subscription_status":"active","updated_at":"2025-11-10T09:45:16.497997"}
+[00:15:10.875] Browser LOG     isPremium: false
+[00:15:10.875] Browser LOG     Nav Items: ["Highlighted Business","Map","Profile and Payment"]
+[00:15:10.875] Browser LOG     ═══════════════════════════════════════
+[00:15:11.044] Browser LOG     🔔 Profile updated from auth change
+[00:15:11.185] Browser LOG     ═══════════════════════════════════════
+[00:15:11.185] Browser LOG     User: serkankalem99@gmail.com
+[00:15:11.185] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:15:11.185] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":false,"premium_since":null,"stripe_customer_id":null,"subscription_cancel_at":null,"subscription_id":null,"subscription_status":"active","updated_at":"2025-11-10T09:45:16.497997"}
+[00:15:11.185] Browser LOG     isPremium: false
+[00:15:11.185] Browser LOG     Nav Items: ["Highlighted Business","Map","Profile and Payment"]
+[00:15:11.185] Browser LOG     ═══════════════════════════════════════
+[00:15:11.294] Browser LOG     ═══════════════════════════════════════
+[00:15:11.294] Browser LOG     User: serkankalem99@gmail.com
+[00:15:11.294] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:15:11.294] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":false,"premium_since":null,"stripe_customer_id":null,"subscription_cancel_at":null,"subscription_id":null,"subscription_status":"active","updated_at":"2025-11-10T09:45:16.497997"}
+[00:15:11.294] Browser LOG     isPremium: false
+[00:15:11.294] Browser LOG     Nav Items: ["Highlighted Business","Map","Profile and Payment"]
+[00:15:11.294] Browser LOG     ═══════════════════════════════════════
+[00:15:11.294] Browser LOG     🔔 Profile updated from auth change
+[00:15:11.429] Browser LOG     ═══════════════════════════════════════
+[00:15:11.429] Browser LOG     User: serkankalem99@gmail.com
+[00:15:11.429] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:15:11.429] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":false,"premium_since":null,"stripe_customer_id":null,"subscription_cancel_at":null,"subscription_id":null,"subscription_status":"active","updated_at":"2025-11-10T09:45:16.497997"}
+[00:15:11.429] Browser LOG     isPremium: false
+[00:15:11.429] Browser LOG     Nav Items: ["Highlighted Business","Map","Profile and Payment"]
+[00:15:11.429] Browser LOG     ═══════════════════════════════════════
+[00:16:53.929] Server  LOG      ✓ Compiled in 442ms
+[00:16:58.835] Server  LOG      ✓ Compiled in 10ms
+[00:16:59.149] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:16:59.391] Browser LOG     Firebase app initialized
+[00:16:59.391] Browser LOG     📍 Loading initial data...
+[00:16:59.391] Browser LOG     Fetching businesses from database...
+[00:16:59.391] Browser LOG     Notification permission granted
+[00:16:59.391] Browser ERROR   Error initializing Firebase messaging: {"code":"messaging/failed-service-worker-registration","customData":{"browserErrorMessage":"Failed to register a ServiceWorker for scope ('http://localhost:3000/firebase-cloud-messaging-push-scope') with script ('http://localhost:3000/firebase-messaging-sw.js'): ServiceWorker script evaluation failed"},"name":"FirebaseError"}
+[00:16:59.543] Browser LOG     🔔 Auth event: SIGNED_OUT
+[00:16:59.544] Browser ERROR   {"__isAuthError":true,"code":"refresh_token_not_found","name":"AuthApiError","status":400}
+[00:16:59.544] Browser LOG     🔔 Auth event: SIGNED_OUT
+[00:16:59.544] Browser LOG     📍 Session loaded: undefined
+[00:16:59.544] Browser LOG     🔔 Auth event: INITIAL_SESSION
+[00:16:59.667] Browser LOG     Fetched businesses: 93
+[00:17:25.903] Browser LOG     🔔 Auth event: SIGNED_IN
+[00:17:25.903] Browser LOG     ═══════════════════════════════════════
+[00:17:25.903] Browser LOG     User: serkankalem99@gmail.com
+[00:17:25.903] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:17:25.903] Browser LOG     Profile: null
+[00:17:25.903] Browser LOG     isPremium: false
+[00:17:25.903] Browser LOG     Nav Items: ["Highlighted Business","Map","Profile and Payment"]
+[00:17:25.903] Browser LOG     ═══════════════════════════════════════
+[00:17:26.179] Browser LOG     🔔 Profile updated from auth change
+[00:17:26.179] Browser LOG     ═══════════════════════════════════════
+[00:17:26.179] Browser LOG     User: serkankalem99@gmail.com
+[00:17:26.180] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:17:26.180] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":false,"premium_since":null,"stripe_customer_id":null,"subscription_cancel_at":null,"subscription_id":null,"subscription_status":"active","updated_at":"2025-11-10T09:45:16.497997"}
+[00:17:26.180] Browser LOG     isPremium: false
+[00:17:26.180] Browser LOG     Nav Items: ["Highlighted Business","Map","Profile and Payment"]
+[00:17:26.180] Browser LOG     ═══════════════════════════════════════
+[00:17:26.180] Browser LOG     ═══════════════════════════════════════
+[00:17:26.180] Browser LOG     User: serkankalem99@gmail.com
+[00:17:26.180] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:17:26.180] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":false,"premium_since":null,"stripe_customer_id":null,"subscription_cancel_at":null,"subscription_id":null,"subscription_status":"active","updated_at":"2025-11-10T09:45:16.497997"}
+[00:17:26.180] Browser LOG     isPremium: false
+[00:17:26.180] Browser LOG     Nav Items: ["Highlighted Business","Map","Profile and Payment"]
+[00:17:26.180] Browser LOG     ═══════════════════════════════════════
+[00:17:31.839] Browser WARN    Google Maps JavaScript API has been loaded directly without loading=async. This can result in suboptimal performance. For best-practice loading patterns please see https://goo.gle/js-api-loading
+[00:17:31.839] Browser WARN    Element with name "gmp-internal-loading-text" already defined.
+[00:17:31.839] Browser WARN    Element with name "gmp-internal-request-error-text" already defined.
+[00:17:31.839] Browser WARN    Element with name "gmp-internal-back-button" already defined.
+[00:17:31.839] Browser WARN    Element with name "gmp-internal-dialog" already defined.
+[00:17:31.839] Browser WARN    Element with name "gmp-internal-disclosure" already defined.
+[00:17:31.839] Browser WARN    Element with name "gmp-internal-disclosure-section" already defined.
+[00:17:31.839] Browser WARN    Element with name "gmp-internal-attribution" already defined.
+[00:17:31.839] Browser WARN    Element with name "gmp-internal-element-support-verification" already defined.
+[00:17:31.839] Browser ERROR   You have included the Google Maps JavaScript API multiple times on this page. This may cause unexpected errors.
+[00:17:31.839] Browser WARN    Google Maps JavaScript API has been loaded directly without loading=async. This can result in suboptimal performance. For best-practice loading patterns please see https://goo.gle/js-api-loading
+[00:17:31.839] Browser WARN    Element with name "gmp-internal-rating" already defined.
+[00:17:31.839] Browser WARN    Element with name "gmp-internal-link-button" already defined.
+[00:17:31.839] Browser WARN    Element with name "gmp-internal-menu" already defined.
+[00:17:31.839] Browser WARN    Element with name "gmp-internal-place-opening-hours" already defined.
+[00:17:31.839] Browser WARN    Element with name "gmp-internal-place-review" already defined.
+[00:17:31.839] Browser WARN    Element with name "gmp-internal-tabbed-layout" already defined.
+[00:17:31.839] Browser WARN    Element with name "gmp-internal-lightbox" already defined.
+[00:17:31.839] Browser WARN    Element with name "gmp-internal-collage" already defined.
+[00:17:31.839] Browser WARN    Element with name "gmp-internal-place-rating-summary" already defined.
+[00:17:31.839] Browser WARN    Element with name "gmp-internal-place-basic-info" already defined.
+[00:17:31.839] Browser WARN    Element with name "gmp-internal-status-text" already defined.
+[00:17:31.839] Browser WARN    Element with name "gmp-internal-circular-loader" already defined.
+[00:17:31.839] Browser WARN    Element with name "gmp-internal-use-place-details-compact" already defined.
+[00:17:31.839] Browser WARN    Element with name "gmp-place-content-config" already defined.
+[00:17:31.839] Browser WARN    Element with name "gmp-place-media" already defined.
+[00:17:31.839] Browser WARN    Element with name "gmp-place-address" already defined.
+[00:17:31.839] Browser WARN    Element with name "gmp-place-rating" already defined.
+[00:17:31.839] Browser WARN    Element with name "gmp-place-type" already defined.
+[00:17:31.839] Browser WARN    Element with name "gmp-place-price" already defined.
+[00:17:31.839] Browser WARN    Element with name "gmp-place-accessible-entrance-icon" already defined.
+[00:17:31.839] Browser WARN    Element with name "gmp-place-open-now-status" already defined.
+[00:17:31.839] Browser WARN    Element with name "gmp-place-attribution" already defined.
+[00:17:31.839] Browser WARN    Element with name "gmp-place-website" already defined.
+[00:17:31.839] Browser WARN    Element with name "gmp-place-phone-number" already defined.
+[00:17:31.839] Browser WARN    Element with name "gmp-place-opening-hours" already defined.
+[00:17:31.839] Browser WARN    Element with name "gmp-place-summary" already defined.
+[00:17:31.840] Browser WARN    Element with name "gmp-place-type-specific-highlights" already defined.
+[00:17:31.840] Browser WARN    Element with name "gmp-place-reviews" already defined.
+[00:17:31.840] Browser WARN    Element with name "gmp-place-plus-code" already defined.
+[00:17:31.840] Browser WARN    Element with name "gmp-place-feature-list" already defined.
+[00:17:31.840] Browser WARN    Element with name "gmp-place-details-place-request" already defined.
+[00:17:31.840] Browser WARN    Element with name "gmp-internal-place-carousel" already defined.
+[00:17:31.840] Browser WARN    Element with name "gmp-internal-place-search-list-item" already defined.
+[00:17:31.840] Browser WARN    Element with name "gmp-map" already defined.
+[00:17:31.840] Browser WARN    Element with name "gmp-place-autocomplete" already defined.
+[00:17:31.840] Browser WARN    Element with name "gmp-basic-place-autocomplete" already defined.
+[00:17:31.840] Browser WARN    Element with name "gmp-place-search" already defined.
+[00:17:31.840] Browser WARN    Element with name "gmp-place-text-search-request" already defined.
+[00:17:31.840] Browser WARN    Element with name "gmp-place-nearby-search-request" already defined.
+[00:17:31.840] Browser WARN    Element with name "gmp-place-details" already defined.
+[00:17:31.840] Browser WARN    Element with name "gmp-place-details-compact" already defined.
+[00:17:31.840] Browser WARN    Element with name "gmp-place-details-location-request" already defined.
+[00:17:31.840] Browser WARN    Element with name "gmp-place-standard-content" already defined.
+[00:17:31.840] Browser WARN    Element with name "gmp-place-all-content" already defined.
+[00:17:32.146] Browser WARN    As of February 21st, 2024, google.maps.Marker is deprecated. Please use google.maps.marker.AdvancedMarkerElement instead. At this time, google.maps.Marker is not scheduled to be discontinued, but google.maps.marker.AdvancedMarkerElement is recommended over google.maps.Marker. While google.maps.Marker will continue to receive bug fixes for any major regressions, existing bugs in google.maps.Marker will not be addressed. At least 12 months notice will be given before support is discontinued. Please see https://developers.google.com/maps/deprecations for additional details and https://developers.google.com/maps/documentation/javascript/advanced-markers/migration for the migration guide.
+[00:17:40.393] Browser LOG     Rating clicked - Session: undefined
+[00:17:40.394] Browser LOG     User: undefined
+[00:17:40.394] Browser LOG     Current session from getSession: {"access_token":"eyJhbGciOiJIUzI1NiIsImtpZCI6IkxlYXVxUm9Lc0t5WnVrdisiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2JlZWd3ZnZkY3h3bHhqcmZmcmtpLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJlNGFmNzIzNC04YmQ1LTQyMWYtYjU3Mi0zNTEzNzZkNzEwMzEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzYyNzcyMzQ5LCJpYXQiOjE3NjI3Njg3NDksImVtYWlsIjoic2Vya2Fua2FsZW05OUBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImRpc3BsYXlfbmFtZSI6InNlcmsiLCJlbWFpbCI6InNlcmthbmthbGVtOTlAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwic3ViIjoiZTRhZjcyMzQtOGJkNS00MjFmLWI1NzItMzUxMzc2ZDcxMDMxIn0sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoicGFzc3dvcmQiLCJ0aW1lc3RhbXAiOjE3NjI3Njg3NDl9XSwic2Vzc2lvbl9pZCI6IjM1MjI0MWNmLWI0ZmItNDMzZC04MjVjLWIyZmYzMDA1NWNiMCIsImlzX2Fub255bW91cyI6ZmFsc2V9.DFAbxaHsNzrN1jWSYcxcFQO0hvR_X6921krJ-ypm3bs","expires_at":1762772349,"expires_in":3600,"refresh_token":"r3ykdf5sfj4x","token_type":"bearer","user":{"app_metadata":{"provider":"email","providers":["email"]},"aud":"authenticated","confirmation_sent_at":"2025-11-10T09:45:08.378588Z","confirmed_at":"2025-11-10T09:45:16.521842Z","created_at":"2025-11-10T09:45:08.23142Z","email":"serkankalem99@gmail.com","email_confirmed_at":"2025-11-10T09:45:16.521842Z","id":"e4af7234-8bd5-421f-b572-351376d71031","identities":[{"created_at":"2025-11-10T09:45:08.333661Z","email":"serkankalem99@gmail.com","id":"e4af7234-8bd5-421f-b572-351376d71031","identity_data":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"},"identity_id":"6f1d3764-57c9-4c0d-8097-0437a72e93d5","last_sign_in_at":"2025-11-10T09:45:08.333594Z","provider":"email","updated_at":"2025-11-10T09:45:08.333661Z","user_id":"e4af7234-8bd5-421f-b572-351376d71031"}],"is_anonymous":false,"last_sign_in_at":"2025-11-10T09:59:08.995918129Z","phone":"","role":"authenticated","updated_at":"2025-11-10T09:59:09.011266Z","user_metadata":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}},"weak_password":null}
+[00:17:41.038] Browser LOG     Rating clicked - Session: undefined
+[00:17:41.039] Browser LOG     User: undefined
+[00:17:41.039] Browser LOG     Current session from getSession: {"access_token":"eyJhbGciOiJIUzI1NiIsImtpZCI6IkxlYXVxUm9Lc0t5WnVrdisiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2JlZWd3ZnZkY3h3bHhqcmZmcmtpLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJlNGFmNzIzNC04YmQ1LTQyMWYtYjU3Mi0zNTEzNzZkNzEwMzEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzYyNzcyMzQ5LCJpYXQiOjE3NjI3Njg3NDksImVtYWlsIjoic2Vya2Fua2FsZW05OUBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImRpc3BsYXlfbmFtZSI6InNlcmsiLCJlbWFpbCI6InNlcmthbmthbGVtOTlAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwic3ViIjoiZTRhZjcyMzQtOGJkNS00MjFmLWI1NzItMzUxMzc2ZDcxMDMxIn0sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoicGFzc3dvcmQiLCJ0aW1lc3RhbXAiOjE3NjI3Njg3NDl9XSwic2Vzc2lvbl9pZCI6IjM1MjI0MWNmLWI0ZmItNDMzZC04MjVjLWIyZmYzMDA1NWNiMCIsImlzX2Fub255bW91cyI6ZmFsc2V9.DFAbxaHsNzrN1jWSYcxcFQO0hvR_X6921krJ-ypm3bs","expires_at":1762772349,"expires_in":3600,"refresh_token":"r3ykdf5sfj4x","token_type":"bearer","user":{"app_metadata":{"provider":"email","providers":["email"]},"aud":"authenticated","confirmation_sent_at":"2025-11-10T09:45:08.378588Z","confirmed_at":"2025-11-10T09:45:16.521842Z","created_at":"2025-11-10T09:45:08.23142Z","email":"serkankalem99@gmail.com","email_confirmed_at":"2025-11-10T09:45:16.521842Z","id":"e4af7234-8bd5-421f-b572-351376d71031","identities":[{"created_at":"2025-11-10T09:45:08.333661Z","email":"serkankalem99@gmail.com","id":"e4af7234-8bd5-421f-b572-351376d71031","identity_data":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"},"identity_id":"6f1d3764-57c9-4c0d-8097-0437a72e93d5","last_sign_in_at":"2025-11-10T09:45:08.333594Z","provider":"email","updated_at":"2025-11-10T09:45:08.333661Z","user_id":"e4af7234-8bd5-421f-b572-351376d71031"}],"is_anonymous":false,"last_sign_in_at":"2025-11-10T09:59:08.995918129Z","phone":"","role":"authenticated","updated_at":"2025-11-10T09:59:09.011266Z","user_metadata":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}},"weak_password":null}
+[00:17:43.292] Browser LOG     Rating clicked - Session: undefined
+[00:17:43.292] Browser LOG     User: undefined
+[00:17:43.292] Browser LOG     Current session from getSession: {"access_token":"eyJhbGciOiJIUzI1NiIsImtpZCI6IkxlYXVxUm9Lc0t5WnVrdisiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2JlZWd3ZnZkY3h3bHhqcmZmcmtpLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJlNGFmNzIzNC04YmQ1LTQyMWYtYjU3Mi0zNTEzNzZkNzEwMzEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzYyNzcyMzQ5LCJpYXQiOjE3NjI3Njg3NDksImVtYWlsIjoic2Vya2Fua2FsZW05OUBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImRpc3BsYXlfbmFtZSI6InNlcmsiLCJlbWFpbCI6InNlcmthbmthbGVtOTlAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwic3ViIjoiZTRhZjcyMzQtOGJkNS00MjFmLWI1NzItMzUxMzc2ZDcxMDMxIn0sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoicGFzc3dvcmQiLCJ0aW1lc3RhbXAiOjE3NjI3Njg3NDl9XSwic2Vzc2lvbl9pZCI6IjM1MjI0MWNmLWI0ZmItNDMzZC04MjVjLWIyZmYzMDA1NWNiMCIsImlzX2Fub255bW91cyI6ZmFsc2V9.DFAbxaHsNzrN1jWSYcxcFQO0hvR_X6921krJ-ypm3bs","expires_at":1762772349,"expires_in":3600,"refresh_token":"r3ykdf5sfj4x","token_type":"bearer","user":{"app_metadata":{"provider":"email","providers":["email"]},"aud":"authenticated","confirmation_sent_at":"2025-11-10T09:45:08.378588Z","confirmed_at":"2025-11-10T09:45:16.521842Z","created_at":"2025-11-10T09:45:08.23142Z","email":"serkankalem99@gmail.com","email_confirmed_at":"2025-11-10T09:45:16.521842Z","id":"e4af7234-8bd5-421f-b572-351376d71031","identities":[{"created_at":"2025-11-10T09:45:08.333661Z","email":"serkankalem99@gmail.com","id":"e4af7234-8bd5-421f-b572-351376d71031","identity_data":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"},"identity_id":"6f1d3764-57c9-4c0d-8097-0437a72e93d5","last_sign_in_at":"2025-11-10T09:45:08.333594Z","provider":"email","updated_at":"2025-11-10T09:45:08.333661Z","user_id":"e4af7234-8bd5-421f-b572-351376d71031"}],"is_anonymous":false,"last_sign_in_at":"2025-11-10T09:59:08.995918129Z","phone":"","role":"authenticated","updated_at":"2025-11-10T09:59:09.011266Z","user_metadata":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}},"weak_password":null}
+[00:17:46.565] Browser LOG     Rating clicked - Session: undefined
+[00:17:46.565] Browser LOG     User: undefined
+[00:17:46.566] Browser LOG     Current session from getSession: {"access_token":"eyJhbGciOiJIUzI1NiIsImtpZCI6IkxlYXVxUm9Lc0t5WnVrdisiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2JlZWd3ZnZkY3h3bHhqcmZmcmtpLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJlNGFmNzIzNC04YmQ1LTQyMWYtYjU3Mi0zNTEzNzZkNzEwMzEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzYyNzcyMzQ5LCJpYXQiOjE3NjI3Njg3NDksImVtYWlsIjoic2Vya2Fua2FsZW05OUBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImRpc3BsYXlfbmFtZSI6InNlcmsiLCJlbWFpbCI6InNlcmthbmthbGVtOTlAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwic3ViIjoiZTRhZjcyMzQtOGJkNS00MjFmLWI1NzItMzUxMzc2ZDcxMDMxIn0sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoicGFzc3dvcmQiLCJ0aW1lc3RhbXAiOjE3NjI3Njg3NDl9XSwic2Vzc2lvbl9pZCI6IjM1MjI0MWNmLWI0ZmItNDMzZC04MjVjLWIyZmYzMDA1NWNiMCIsImlzX2Fub255bW91cyI6ZmFsc2V9.DFAbxaHsNzrN1jWSYcxcFQO0hvR_X6921krJ-ypm3bs","expires_at":1762772349,"expires_in":3600,"refresh_token":"r3ykdf5sfj4x","token_type":"bearer","user":{"app_metadata":{"provider":"email","providers":["email"]},"aud":"authenticated","confirmation_sent_at":"2025-11-10T09:45:08.378588Z","confirmed_at":"2025-11-10T09:45:16.521842Z","created_at":"2025-11-10T09:45:08.23142Z","email":"serkankalem99@gmail.com","email_confirmed_at":"2025-11-10T09:45:16.521842Z","id":"e4af7234-8bd5-421f-b572-351376d71031","identities":[{"created_at":"2025-11-10T09:45:08.333661Z","email":"serkankalem99@gmail.com","id":"e4af7234-8bd5-421f-b572-351376d71031","identity_data":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"},"identity_id":"6f1d3764-57c9-4c0d-8097-0437a72e93d5","last_sign_in_at":"2025-11-10T09:45:08.333594Z","provider":"email","updated_at":"2025-11-10T09:45:08.333661Z","user_id":"e4af7234-8bd5-421f-b572-351376d71031"}],"is_anonymous":false,"last_sign_in_at":"2025-11-10T09:59:08.995918129Z","phone":"","role":"authenticated","updated_at":"2025-11-10T09:59:09.011266Z","user_metadata":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}},"weak_password":null}
+[00:17:47.994] Browser LOG     Rating clicked - Session: undefined
+[00:17:47.994] Browser LOG     User: undefined
+[00:17:47.994] Browser LOG     Current session from getSession: {"access_token":"eyJhbGciOiJIUzI1NiIsImtpZCI6IkxlYXVxUm9Lc0t5WnVrdisiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2JlZWd3ZnZkY3h3bHhqcmZmcmtpLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJlNGFmNzIzNC04YmQ1LTQyMWYtYjU3Mi0zNTEzNzZkNzEwMzEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzYyNzcyMzQ5LCJpYXQiOjE3NjI3Njg3NDksImVtYWlsIjoic2Vya2Fua2FsZW05OUBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImRpc3BsYXlfbmFtZSI6InNlcmsiLCJlbWFpbCI6InNlcmthbmthbGVtOTlAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwic3ViIjoiZTRhZjcyMzQtOGJkNS00MjFmLWI1NzItMzUxMzc2ZDcxMDMxIn0sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoicGFzc3dvcmQiLCJ0aW1lc3RhbXAiOjE3NjI3Njg3NDl9XSwic2Vzc2lvbl9pZCI6IjM1MjI0MWNmLWI0ZmItNDMzZC04MjVjLWIyZmYzMDA1NWNiMCIsImlzX2Fub255bW91cyI6ZmFsc2V9.DFAbxaHsNzrN1jWSYcxcFQO0hvR_X6921krJ-ypm3bs","expires_at":1762772349,"expires_in":3600,"refresh_token":"r3ykdf5sfj4x","token_type":"bearer","user":{"app_metadata":{"provider":"email","providers":["email"]},"aud":"authenticated","confirmation_sent_at":"2025-11-10T09:45:08.378588Z","confirmed_at":"2025-11-10T09:45:16.521842Z","created_at":"2025-11-10T09:45:08.23142Z","email":"serkankalem99@gmail.com","email_confirmed_at":"2025-11-10T09:45:16.521842Z","id":"e4af7234-8bd5-421f-b572-351376d71031","identities":[{"created_at":"2025-11-10T09:45:08.333661Z","email":"serkankalem99@gmail.com","id":"e4af7234-8bd5-421f-b572-351376d71031","identity_data":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"},"identity_id":"6f1d3764-57c9-4c0d-8097-0437a72e93d5","last_sign_in_at":"2025-11-10T09:45:08.333594Z","provider":"email","updated_at":"2025-11-10T09:45:08.333661Z","user_id":"e4af7234-8bd5-421f-b572-351376d71031"}],"is_anonymous":false,"last_sign_in_at":"2025-11-10T09:59:08.995918129Z","phone":"","role":"authenticated","updated_at":"2025-11-10T09:59:09.011266Z","user_metadata":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}},"weak_password":null}
+[00:17:53.539] Browser LOG     Rating clicked - Session: undefined
+[00:17:53.539] Browser LOG     User: undefined
+[00:17:53.540] Browser LOG     Current session from getSession: {"access_token":"eyJhbGciOiJIUzI1NiIsImtpZCI6IkxlYXVxUm9Lc0t5WnVrdisiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2JlZWd3ZnZkY3h3bHhqcmZmcmtpLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJlNGFmNzIzNC04YmQ1LTQyMWYtYjU3Mi0zNTEzNzZkNzEwMzEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzYyNzcyMzQ5LCJpYXQiOjE3NjI3Njg3NDksImVtYWlsIjoic2Vya2Fua2FsZW05OUBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImRpc3BsYXlfbmFtZSI6InNlcmsiLCJlbWFpbCI6InNlcmthbmthbGVtOTlAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwic3ViIjoiZTRhZjcyMzQtOGJkNS00MjFmLWI1NzItMzUxMzc2ZDcxMDMxIn0sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoicGFzc3dvcmQiLCJ0aW1lc3RhbXAiOjE3NjI3Njg3NDl9XSwic2Vzc2lvbl9pZCI6IjM1MjI0MWNmLWI0ZmItNDMzZC04MjVjLWIyZmYzMDA1NWNiMCIsImlzX2Fub255bW91cyI6ZmFsc2V9.DFAbxaHsNzrN1jWSYcxcFQO0hvR_X6921krJ-ypm3bs","expires_at":1762772349,"expires_in":3600,"refresh_token":"r3ykdf5sfj4x","token_type":"bearer","user":{"app_metadata":{"provider":"email","providers":["email"]},"aud":"authenticated","confirmation_sent_at":"2025-11-10T09:45:08.378588Z","confirmed_at":"2025-11-10T09:45:16.521842Z","created_at":"2025-11-10T09:45:08.23142Z","email":"serkankalem99@gmail.com","email_confirmed_at":"2025-11-10T09:45:16.521842Z","id":"e4af7234-8bd5-421f-b572-351376d71031","identities":[{"created_at":"2025-11-10T09:45:08.333661Z","email":"serkankalem99@gmail.com","id":"e4af7234-8bd5-421f-b572-351376d71031","identity_data":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"},"identity_id":"6f1d3764-57c9-4c0d-8097-0437a72e93d5","last_sign_in_at":"2025-11-10T09:45:08.333594Z","provider":"email","updated_at":"2025-11-10T09:45:08.333661Z","user_id":"e4af7234-8bd5-421f-b572-351376d71031"}],"is_anonymous":false,"last_sign_in_at":"2025-11-10T09:59:08.995918129Z","phone":"","role":"authenticated","updated_at":"2025-11-10T09:59:09.011266Z","user_metadata":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}},"weak_password":null}
+[00:17:54.640] Browser LOG     Rating clicked - Session: undefined
+[00:17:54.640] Browser LOG     User: undefined
+[00:17:54.640] Browser LOG     Current session from getSession: {"access_token":"eyJhbGciOiJIUzI1NiIsImtpZCI6IkxlYXVxUm9Lc0t5WnVrdisiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2JlZWd3ZnZkY3h3bHhqcmZmcmtpLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJlNGFmNzIzNC04YmQ1LTQyMWYtYjU3Mi0zNTEzNzZkNzEwMzEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzYyNzcyMzQ5LCJpYXQiOjE3NjI3Njg3NDksImVtYWlsIjoic2Vya2Fua2FsZW05OUBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImRpc3BsYXlfbmFtZSI6InNlcmsiLCJlbWFpbCI6InNlcmthbmthbGVtOTlAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwic3ViIjoiZTRhZjcyMzQtOGJkNS00MjFmLWI1NzItMzUxMzc2ZDcxMDMxIn0sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoicGFzc3dvcmQiLCJ0aW1lc3RhbXAiOjE3NjI3Njg3NDl9XSwic2Vzc2lvbl9pZCI6IjM1MjI0MWNmLWI0ZmItNDMzZC04MjVjLWIyZmYzMDA1NWNiMCIsImlzX2Fub255bW91cyI6ZmFsc2V9.DFAbxaHsNzrN1jWSYcxcFQO0hvR_X6921krJ-ypm3bs","expires_at":1762772349,"expires_in":3600,"refresh_token":"r3ykdf5sfj4x","token_type":"bearer","user":{"app_metadata":{"provider":"email","providers":["email"]},"aud":"authenticated","confirmation_sent_at":"2025-11-10T09:45:08.378588Z","confirmed_at":"2025-11-10T09:45:16.521842Z","created_at":"2025-11-10T09:45:08.23142Z","email":"serkankalem99@gmail.com","email_confirmed_at":"2025-11-10T09:45:16.521842Z","id":"e4af7234-8bd5-421f-b572-351376d71031","identities":[{"created_at":"2025-11-10T09:45:08.333661Z","email":"serkankalem99@gmail.com","id":"e4af7234-8bd5-421f-b572-351376d71031","identity_data":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"},"identity_id":"6f1d3764-57c9-4c0d-8097-0437a72e93d5","last_sign_in_at":"2025-11-10T09:45:08.333594Z","provider":"email","updated_at":"2025-11-10T09:45:08.333661Z","user_id":"e4af7234-8bd5-421f-b572-351376d71031"}],"is_anonymous":false,"last_sign_in_at":"2025-11-10T09:59:08.995918129Z","phone":"","role":"authenticated","updated_at":"2025-11-10T09:59:09.011266Z","user_metadata":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}},"weak_password":null}
+[00:22:15.620] Server  LOG      ✓ Compiled in 282ms
+[00:23:17.837] Server  LOG      ✓ Compiled in 74ms
+[00:23:51.098] Server  LOG      ✓ Compiled in 76ms
+[00:24:06.655] Server  LOG      ✓ Compiled in 40ms
+[00:25:16.753] Server  LOG      ✓ Compiled in 99ms
+[00:25:48.633] Server  LOG      ✓ Compiled in 48ms
+[00:26:32.433] Server  LOG      ✓ Compiled in 58ms
+[00:26:51.712] Server  LOG      ✓ Compiled in 51ms
+[00:27:41.741] Server  LOG      ✓ Compiled in 131ms
+[00:28:09.299] Server  LOG      ✓ Compiled in 111ms
+[00:29:20.904] Browser LOG     Rating clicked - Session: undefined
+[00:29:20.907] Browser LOG     User: undefined
+[00:29:20.908] Browser LOG     Current session from getSession: {"access_token":"eyJhbGciOiJIUzI1NiIsImtpZCI6IkxlYXVxUm9Lc0t5WnVrdisiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2JlZWd3ZnZkY3h3bHhqcmZmcmtpLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJlNGFmNzIzNC04YmQ1LTQyMWYtYjU3Mi0zNTEzNzZkNzEwMzEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzYyNzcyMzQ5LCJpYXQiOjE3NjI3Njg3NDksImVtYWlsIjoic2Vya2Fua2FsZW05OUBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImRpc3BsYXlfbmFtZSI6InNlcmsiLCJlbWFpbCI6InNlcmthbmthbGVtOTlAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwic3ViIjoiZTRhZjcyMzQtOGJkNS00MjFmLWI1NzItMzUxMzc2ZDcxMDMxIn0sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoicGFzc3dvcmQiLCJ0aW1lc3RhbXAiOjE3NjI3Njg3NDl9XSwic2Vzc2lvbl9pZCI6IjM1MjI0MWNmLWI0ZmItNDMzZC04MjVjLWIyZmYzMDA1NWNiMCIsImlzX2Fub255bW91cyI6ZmFsc2V9.DFAbxaHsNzrN1jWSYcxcFQO0hvR_X6921krJ-ypm3bs","expires_at":1762772349,"expires_in":3600,"refresh_token":"r3ykdf5sfj4x","token_type":"bearer","user":{"app_metadata":{"provider":"email","providers":["email"]},"aud":"authenticated","confirmation_sent_at":"2025-11-10T09:45:08.378588Z","confirmed_at":"2025-11-10T09:45:16.521842Z","created_at":"2025-11-10T09:45:08.23142Z","email":"serkankalem99@gmail.com","email_confirmed_at":"2025-11-10T09:45:16.521842Z","id":"e4af7234-8bd5-421f-b572-351376d71031","identities":[{"created_at":"2025-11-10T09:45:08.333661Z","email":"serkankalem99@gmail.com","id":"e4af7234-8bd5-421f-b572-351376d71031","identity_data":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"},"identity_id":"6f1d3764-57c9-4c0d-8097-0437a72e93d5","last_sign_in_at":"2025-11-10T09:45:08.333594Z","provider":"email","updated_at":"2025-11-10T09:45:08.333661Z","user_id":"e4af7234-8bd5-421f-b572-351376d71031"}],"is_anonymous":false,"last_sign_in_at":"2025-11-10T09:59:08.995918129Z","phone":"","role":"authenticated","updated_at":"2025-11-10T09:59:09.011266Z","user_metadata":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}},"weak_password":null}
+[00:29:21.691] Browser LOG     Rating clicked - Session: undefined
+[00:29:21.691] Browser LOG     User: undefined
+[00:29:21.691] Browser LOG     Current session from getSession: {"access_token":"eyJhbGciOiJIUzI1NiIsImtpZCI6IkxlYXVxUm9Lc0t5WnVrdisiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2JlZWd3ZnZkY3h3bHhqcmZmcmtpLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJlNGFmNzIzNC04YmQ1LTQyMWYtYjU3Mi0zNTEzNzZkNzEwMzEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzYyNzcyMzQ5LCJpYXQiOjE3NjI3Njg3NDksImVtYWlsIjoic2Vya2Fua2FsZW05OUBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImRpc3BsYXlfbmFtZSI6InNlcmsiLCJlbWFpbCI6InNlcmthbmthbGVtOTlAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwic3ViIjoiZTRhZjcyMzQtOGJkNS00MjFmLWI1NzItMzUxMzc2ZDcxMDMxIn0sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoicGFzc3dvcmQiLCJ0aW1lc3RhbXAiOjE3NjI3Njg3NDl9XSwic2Vzc2lvbl9pZCI6IjM1MjI0MWNmLWI0ZmItNDMzZC04MjVjLWIyZmYzMDA1NWNiMCIsImlzX2Fub255bW91cyI6ZmFsc2V9.DFAbxaHsNzrN1jWSYcxcFQO0hvR_X6921krJ-ypm3bs","expires_at":1762772349,"expires_in":3600,"refresh_token":"r3ykdf5sfj4x","token_type":"bearer","user":{"app_metadata":{"provider":"email","providers":["email"]},"aud":"authenticated","confirmation_sent_at":"2025-11-10T09:45:08.378588Z","confirmed_at":"2025-11-10T09:45:16.521842Z","created_at":"2025-11-10T09:45:08.23142Z","email":"serkankalem99@gmail.com","email_confirmed_at":"2025-11-10T09:45:16.521842Z","id":"e4af7234-8bd5-421f-b572-351376d71031","identities":[{"created_at":"2025-11-10T09:45:08.333661Z","email":"serkankalem99@gmail.com","id":"e4af7234-8bd5-421f-b572-351376d71031","identity_data":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"},"identity_id":"6f1d3764-57c9-4c0d-8097-0437a72e93d5","last_sign_in_at":"2025-11-10T09:45:08.333594Z","provider":"email","updated_at":"2025-11-10T09:45:08.333661Z","user_id":"e4af7234-8bd5-421f-b572-351376d71031"}],"is_anonymous":false,"last_sign_in_at":"2025-11-10T09:59:08.995918129Z","phone":"","role":"authenticated","updated_at":"2025-11-10T09:59:09.011266Z","user_metadata":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}},"weak_password":null}
+[00:29:22.808] Browser LOG     Rating clicked - Session: undefined
+[00:29:22.808] Browser LOG     User: undefined
+[00:29:22.808] Browser LOG     Current session from getSession: {"access_token":"eyJhbGciOiJIUzI1NiIsImtpZCI6IkxlYXVxUm9Lc0t5WnVrdisiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2JlZWd3ZnZkY3h3bHhqcmZmcmtpLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJlNGFmNzIzNC04YmQ1LTQyMWYtYjU3Mi0zNTEzNzZkNzEwMzEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzYyNzcyMzQ5LCJpYXQiOjE3NjI3Njg3NDksImVtYWlsIjoic2Vya2Fua2FsZW05OUBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImRpc3BsYXlfbmFtZSI6InNlcmsiLCJlbWFpbCI6InNlcmthbmthbGVtOTlAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwic3ViIjoiZTRhZjcyMzQtOGJkNS00MjFmLWI1NzItMzUxMzc2ZDcxMDMxIn0sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoicGFzc3dvcmQiLCJ0aW1lc3RhbXAiOjE3NjI3Njg3NDl9XSwic2Vzc2lvbl9pZCI6IjM1MjI0MWNmLWI0ZmItNDMzZC04MjVjLWIyZmYzMDA1NWNiMCIsImlzX2Fub255bW91cyI6ZmFsc2V9.DFAbxaHsNzrN1jWSYcxcFQO0hvR_X6921krJ-ypm3bs","expires_at":1762772349,"expires_in":3600,"refresh_token":"r3ykdf5sfj4x","token_type":"bearer","user":{"app_metadata":{"provider":"email","providers":["email"]},"aud":"authenticated","confirmation_sent_at":"2025-11-10T09:45:08.378588Z","confirmed_at":"2025-11-10T09:45:16.521842Z","created_at":"2025-11-10T09:45:08.23142Z","email":"serkankalem99@gmail.com","email_confirmed_at":"2025-11-10T09:45:16.521842Z","id":"e4af7234-8bd5-421f-b572-351376d71031","identities":[{"created_at":"2025-11-10T09:45:08.333661Z","email":"serkankalem99@gmail.com","id":"e4af7234-8bd5-421f-b572-351376d71031","identity_data":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"},"identity_id":"6f1d3764-57c9-4c0d-8097-0437a72e93d5","last_sign_in_at":"2025-11-10T09:45:08.333594Z","provider":"email","updated_at":"2025-11-10T09:45:08.333661Z","user_id":"e4af7234-8bd5-421f-b572-351376d71031"}],"is_anonymous":false,"last_sign_in_at":"2025-11-10T09:59:08.995918129Z","phone":"","role":"authenticated","updated_at":"2025-11-10T09:59:09.011266Z","user_metadata":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}},"weak_password":null}
+[00:29:23.859] Browser LOG     Rating clicked - Session: undefined
+[00:29:23.859] Browser LOG     User: undefined
+[00:29:23.859] Browser LOG     Current session from getSession: {"access_token":"eyJhbGciOiJIUzI1NiIsImtpZCI6IkxlYXVxUm9Lc0t5WnVrdisiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2JlZWd3ZnZkY3h3bHhqcmZmcmtpLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJlNGFmNzIzNC04YmQ1LTQyMWYtYjU3Mi0zNTEzNzZkNzEwMzEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzYyNzcyMzQ5LCJpYXQiOjE3NjI3Njg3NDksImVtYWlsIjoic2Vya2Fua2FsZW05OUBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImRpc3BsYXlfbmFtZSI6InNlcmsiLCJlbWFpbCI6InNlcmthbmthbGVtOTlAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwic3ViIjoiZTRhZjcyMzQtOGJkNS00MjFmLWI1NzItMzUxMzc2ZDcxMDMxIn0sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoicGFzc3dvcmQiLCJ0aW1lc3RhbXAiOjE3NjI3Njg3NDl9XSwic2Vzc2lvbl9pZCI6IjM1MjI0MWNmLWI0ZmItNDMzZC04MjVjLWIyZmYzMDA1NWNiMCIsImlzX2Fub255bW91cyI6ZmFsc2V9.DFAbxaHsNzrN1jWSYcxcFQO0hvR_X6921krJ-ypm3bs","expires_at":1762772349,"expires_in":3600,"refresh_token":"r3ykdf5sfj4x","token_type":"bearer","user":{"app_metadata":{"provider":"email","providers":["email"]},"aud":"authenticated","confirmation_sent_at":"2025-11-10T09:45:08.378588Z","confirmed_at":"2025-11-10T09:45:16.521842Z","created_at":"2025-11-10T09:45:08.23142Z","email":"serkankalem99@gmail.com","email_confirmed_at":"2025-11-10T09:45:16.521842Z","id":"e4af7234-8bd5-421f-b572-351376d71031","identities":[{"created_at":"2025-11-10T09:45:08.333661Z","email":"serkankalem99@gmail.com","id":"e4af7234-8bd5-421f-b572-351376d71031","identity_data":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"},"identity_id":"6f1d3764-57c9-4c0d-8097-0437a72e93d5","last_sign_in_at":"2025-11-10T09:45:08.333594Z","provider":"email","updated_at":"2025-11-10T09:45:08.333661Z","user_id":"e4af7234-8bd5-421f-b572-351376d71031"}],"is_anonymous":false,"last_sign_in_at":"2025-11-10T09:59:08.995918129Z","phone":"","role":"authenticated","updated_at":"2025-11-10T09:59:09.011266Z","user_metadata":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}},"weak_password":null}
+[00:29:25.025] Browser LOG     Rating clicked - Session: undefined
+[00:29:25.025] Browser LOG     User: undefined
+[00:29:25.025] Browser LOG     Current session from getSession: {"access_token":"eyJhbGciOiJIUzI1NiIsImtpZCI6IkxlYXVxUm9Lc0t5WnVrdisiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2JlZWd3ZnZkY3h3bHhqcmZmcmtpLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJlNGFmNzIzNC04YmQ1LTQyMWYtYjU3Mi0zNTEzNzZkNzEwMzEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzYyNzcyMzQ5LCJpYXQiOjE3NjI3Njg3NDksImVtYWlsIjoic2Vya2Fua2FsZW05OUBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImRpc3BsYXlfbmFtZSI6InNlcmsiLCJlbWFpbCI6InNlcmthbmthbGVtOTlAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwic3ViIjoiZTRhZjcyMzQtOGJkNS00MjFmLWI1NzItMzUxMzc2ZDcxMDMxIn0sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoicGFzc3dvcmQiLCJ0aW1lc3RhbXAiOjE3NjI3Njg3NDl9XSwic2Vzc2lvbl9pZCI6IjM1MjI0MWNmLWI0ZmItNDMzZC04MjVjLWIyZmYzMDA1NWNiMCIsImlzX2Fub255bW91cyI6ZmFsc2V9.DFAbxaHsNzrN1jWSYcxcFQO0hvR_X6921krJ-ypm3bs","expires_at":1762772349,"expires_in":3600,"refresh_token":"r3ykdf5sfj4x","token_type":"bearer","user":{"app_metadata":{"provider":"email","providers":["email"]},"aud":"authenticated","confirmation_sent_at":"2025-11-10T09:45:08.378588Z","confirmed_at":"2025-11-10T09:45:16.521842Z","created_at":"2025-11-10T09:45:08.23142Z","email":"serkankalem99@gmail.com","email_confirmed_at":"2025-11-10T09:45:16.521842Z","id":"e4af7234-8bd5-421f-b572-351376d71031","identities":[{"created_at":"2025-11-10T09:45:08.333661Z","email":"serkankalem99@gmail.com","id":"e4af7234-8bd5-421f-b572-351376d71031","identity_data":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"},"identity_id":"6f1d3764-57c9-4c0d-8097-0437a72e93d5","last_sign_in_at":"2025-11-10T09:45:08.333594Z","provider":"email","updated_at":"2025-11-10T09:45:08.333661Z","user_id":"e4af7234-8bd5-421f-b572-351376d71031"}],"is_anonymous":false,"last_sign_in_at":"2025-11-10T09:59:08.995918129Z","phone":"","role":"authenticated","updated_at":"2025-11-10T09:59:09.011266Z","user_metadata":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}},"weak_password":null}
+[00:29:25.460] Browser LOG     Rating clicked - Session: undefined
+[00:29:25.460] Browser LOG     User: undefined
+[00:29:25.460] Browser LOG     Current session from getSession: {"access_token":"eyJhbGciOiJIUzI1NiIsImtpZCI6IkxlYXVxUm9Lc0t5WnVrdisiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2JlZWd3ZnZkY3h3bHhqcmZmcmtpLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJlNGFmNzIzNC04YmQ1LTQyMWYtYjU3Mi0zNTEzNzZkNzEwMzEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzYyNzcyMzQ5LCJpYXQiOjE3NjI3Njg3NDksImVtYWlsIjoic2Vya2Fua2FsZW05OUBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImRpc3BsYXlfbmFtZSI6InNlcmsiLCJlbWFpbCI6InNlcmthbmthbGVtOTlAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwic3ViIjoiZTRhZjcyMzQtOGJkNS00MjFmLWI1NzItMzUxMzc2ZDcxMDMxIn0sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoicGFzc3dvcmQiLCJ0aW1lc3RhbXAiOjE3NjI3Njg3NDl9XSwic2Vzc2lvbl9pZCI6IjM1MjI0MWNmLWI0ZmItNDMzZC04MjVjLWIyZmYzMDA1NWNiMCIsImlzX2Fub255bW91cyI6ZmFsc2V9.DFAbxaHsNzrN1jWSYcxcFQO0hvR_X6921krJ-ypm3bs","expires_at":1762772349,"expires_in":3600,"refresh_token":"r3ykdf5sfj4x","token_type":"bearer","user":{"app_metadata":{"provider":"email","providers":["email"]},"aud":"authenticated","confirmation_sent_at":"2025-11-10T09:45:08.378588Z","confirmed_at":"2025-11-10T09:45:16.521842Z","created_at":"2025-11-10T09:45:08.23142Z","email":"serkankalem99@gmail.com","email_confirmed_at":"2025-11-10T09:45:16.521842Z","id":"e4af7234-8bd5-421f-b572-351376d71031","identities":[{"created_at":"2025-11-10T09:45:08.333661Z","email":"serkankalem99@gmail.com","id":"e4af7234-8bd5-421f-b572-351376d71031","identity_data":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"},"identity_id":"6f1d3764-57c9-4c0d-8097-0437a72e93d5","last_sign_in_at":"2025-11-10T09:45:08.333594Z","provider":"email","updated_at":"2025-11-10T09:45:08.333661Z","user_id":"e4af7234-8bd5-421f-b572-351376d71031"}],"is_anonymous":false,"last_sign_in_at":"2025-11-10T09:59:08.995918129Z","phone":"","role":"authenticated","updated_at":"2025-11-10T09:59:09.011266Z","user_metadata":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}},"weak_password":null}
+[00:29:25.979] Browser LOG     Rating clicked - Session: undefined
+[00:29:25.979] Browser LOG     User: undefined
+[00:29:25.979] Browser LOG     Current session from getSession: {"access_token":"eyJhbGciOiJIUzI1NiIsImtpZCI6IkxlYXVxUm9Lc0t5WnVrdisiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2JlZWd3ZnZkY3h3bHhqcmZmcmtpLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJlNGFmNzIzNC04YmQ1LTQyMWYtYjU3Mi0zNTEzNzZkNzEwMzEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzYyNzcyMzQ5LCJpYXQiOjE3NjI3Njg3NDksImVtYWlsIjoic2Vya2Fua2FsZW05OUBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImRpc3BsYXlfbmFtZSI6InNlcmsiLCJlbWFpbCI6InNlcmthbmthbGVtOTlAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwic3ViIjoiZTRhZjcyMzQtOGJkNS00MjFmLWI1NzItMzUxMzc2ZDcxMDMxIn0sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoicGFzc3dvcmQiLCJ0aW1lc3RhbXAiOjE3NjI3Njg3NDl9XSwic2Vzc2lvbl9pZCI6IjM1MjI0MWNmLWI0ZmItNDMzZC04MjVjLWIyZmYzMDA1NWNiMCIsImlzX2Fub255bW91cyI6ZmFsc2V9.DFAbxaHsNzrN1jWSYcxcFQO0hvR_X6921krJ-ypm3bs","expires_at":1762772349,"expires_in":3600,"refresh_token":"r3ykdf5sfj4x","token_type":"bearer","user":{"app_metadata":{"provider":"email","providers":["email"]},"aud":"authenticated","confirmation_sent_at":"2025-11-10T09:45:08.378588Z","confirmed_at":"2025-11-10T09:45:16.521842Z","created_at":"2025-11-10T09:45:08.23142Z","email":"serkankalem99@gmail.com","email_confirmed_at":"2025-11-10T09:45:16.521842Z","id":"e4af7234-8bd5-421f-b572-351376d71031","identities":[{"created_at":"2025-11-10T09:45:08.333661Z","email":"serkankalem99@gmail.com","id":"e4af7234-8bd5-421f-b572-351376d71031","identity_data":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"},"identity_id":"6f1d3764-57c9-4c0d-8097-0437a72e93d5","last_sign_in_at":"2025-11-10T09:45:08.333594Z","provider":"email","updated_at":"2025-11-10T09:45:08.333661Z","user_id":"e4af7234-8bd5-421f-b572-351376d71031"}],"is_anonymous":false,"last_sign_in_at":"2025-11-10T09:59:08.995918129Z","phone":"","role":"authenticated","updated_at":"2025-11-10T09:59:09.011266Z","user_metadata":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}},"weak_password":null}
+[00:29:27.225] Browser LOG     Rating clicked - Session: undefined
+[00:29:27.225] Browser LOG     User: undefined
+[00:29:27.225] Browser LOG     Current session from getSession: {"access_token":"eyJhbGciOiJIUzI1NiIsImtpZCI6IkxlYXVxUm9Lc0t5WnVrdisiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2JlZWd3ZnZkY3h3bHhqcmZmcmtpLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJlNGFmNzIzNC04YmQ1LTQyMWYtYjU3Mi0zNTEzNzZkNzEwMzEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzYyNzcyMzQ5LCJpYXQiOjE3NjI3Njg3NDksImVtYWlsIjoic2Vya2Fua2FsZW05OUBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImRpc3BsYXlfbmFtZSI6InNlcmsiLCJlbWFpbCI6InNlcmthbmthbGVtOTlAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwic3ViIjoiZTRhZjcyMzQtOGJkNS00MjFmLWI1NzItMzUxMzc2ZDcxMDMxIn0sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoicGFzc3dvcmQiLCJ0aW1lc3RhbXAiOjE3NjI3Njg3NDl9XSwic2Vzc2lvbl9pZCI6IjM1MjI0MWNmLWI0ZmItNDMzZC04MjVjLWIyZmYzMDA1NWNiMCIsImlzX2Fub255bW91cyI6ZmFsc2V9.DFAbxaHsNzrN1jWSYcxcFQO0hvR_X6921krJ-ypm3bs","expires_at":1762772349,"expires_in":3600,"refresh_token":"r3ykdf5sfj4x","token_type":"bearer","user":{"app_metadata":{"provider":"email","providers":["email"]},"aud":"authenticated","confirmation_sent_at":"2025-11-10T09:45:08.378588Z","confirmed_at":"2025-11-10T09:45:16.521842Z","created_at":"2025-11-10T09:45:08.23142Z","email":"serkankalem99@gmail.com","email_confirmed_at":"2025-11-10T09:45:16.521842Z","id":"e4af7234-8bd5-421f-b572-351376d71031","identities":[{"created_at":"2025-11-10T09:45:08.333661Z","email":"serkankalem99@gmail.com","id":"e4af7234-8bd5-421f-b572-351376d71031","identity_data":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"},"identity_id":"6f1d3764-57c9-4c0d-8097-0437a72e93d5","last_sign_in_at":"2025-11-10T09:45:08.333594Z","provider":"email","updated_at":"2025-11-10T09:45:08.333661Z","user_id":"e4af7234-8bd5-421f-b572-351376d71031"}],"is_anonymous":false,"last_sign_in_at":"2025-11-10T09:59:08.995918129Z","phone":"","role":"authenticated","updated_at":"2025-11-10T09:59:09.011266Z","user_metadata":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}},"weak_password":null}
+[00:29:27.792] Browser LOG     Rating clicked - Session: undefined
+[00:29:27.792] Browser LOG     User: undefined
+[00:29:27.792] Browser LOG     Current session from getSession: {"access_token":"eyJhbGciOiJIUzI1NiIsImtpZCI6IkxlYXVxUm9Lc0t5WnVrdisiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2JlZWd3ZnZkY3h3bHhqcmZmcmtpLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJlNGFmNzIzNC04YmQ1LTQyMWYtYjU3Mi0zNTEzNzZkNzEwMzEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzYyNzcyMzQ5LCJpYXQiOjE3NjI3Njg3NDksImVtYWlsIjoic2Vya2Fua2FsZW05OUBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImRpc3BsYXlfbmFtZSI6InNlcmsiLCJlbWFpbCI6InNlcmthbmthbGVtOTlAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwic3ViIjoiZTRhZjcyMzQtOGJkNS00MjFmLWI1NzItMzUxMzc2ZDcxMDMxIn0sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoicGFzc3dvcmQiLCJ0aW1lc3RhbXAiOjE3NjI3Njg3NDl9XSwic2Vzc2lvbl9pZCI6IjM1MjI0MWNmLWI0ZmItNDMzZC04MjVjLWIyZmYzMDA1NWNiMCIsImlzX2Fub255bW91cyI6ZmFsc2V9.DFAbxaHsNzrN1jWSYcxcFQO0hvR_X6921krJ-ypm3bs","expires_at":1762772349,"expires_in":3600,"refresh_token":"r3ykdf5sfj4x","token_type":"bearer","user":{"app_metadata":{"provider":"email","providers":["email"]},"aud":"authenticated","confirmation_sent_at":"2025-11-10T09:45:08.378588Z","confirmed_at":"2025-11-10T09:45:16.521842Z","created_at":"2025-11-10T09:45:08.23142Z","email":"serkankalem99@gmail.com","email_confirmed_at":"2025-11-10T09:45:16.521842Z","id":"e4af7234-8bd5-421f-b572-351376d71031","identities":[{"created_at":"2025-11-10T09:45:08.333661Z","email":"serkankalem99@gmail.com","id":"e4af7234-8bd5-421f-b572-351376d71031","identity_data":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"},"identity_id":"6f1d3764-57c9-4c0d-8097-0437a72e93d5","last_sign_in_at":"2025-11-10T09:45:08.333594Z","provider":"email","updated_at":"2025-11-10T09:45:08.333661Z","user_id":"e4af7234-8bd5-421f-b572-351376d71031"}],"is_anonymous":false,"last_sign_in_at":"2025-11-10T09:59:08.995918129Z","phone":"","role":"authenticated","updated_at":"2025-11-10T09:59:09.011266Z","user_metadata":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}},"weak_password":null}
+[00:29:28.225] Browser LOG     Rating clicked - Session: undefined
+[00:29:28.225] Browser LOG     User: undefined
+[00:29:28.225] Browser LOG     Current session from getSession: {"access_token":"eyJhbGciOiJIUzI1NiIsImtpZCI6IkxlYXVxUm9Lc0t5WnVrdisiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2JlZWd3ZnZkY3h3bHhqcmZmcmtpLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJlNGFmNzIzNC04YmQ1LTQyMWYtYjU3Mi0zNTEzNzZkNzEwMzEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzYyNzcyMzQ5LCJpYXQiOjE3NjI3Njg3NDksImVtYWlsIjoic2Vya2Fua2FsZW05OUBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImRpc3BsYXlfbmFtZSI6InNlcmsiLCJlbWFpbCI6InNlcmthbmthbGVtOTlAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwic3ViIjoiZTRhZjcyMzQtOGJkNS00MjFmLWI1NzItMzUxMzc2ZDcxMDMxIn0sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoicGFzc3dvcmQiLCJ0aW1lc3RhbXAiOjE3NjI3Njg3NDl9XSwic2Vzc2lvbl9pZCI6IjM1MjI0MWNmLWI0ZmItNDMzZC04MjVjLWIyZmYzMDA1NWNiMCIsImlzX2Fub255bW91cyI6ZmFsc2V9.DFAbxaHsNzrN1jWSYcxcFQO0hvR_X6921krJ-ypm3bs","expires_at":1762772349,"expires_in":3600,"refresh_token":"r3ykdf5sfj4x","token_type":"bearer","user":{"app_metadata":{"provider":"email","providers":["email"]},"aud":"authenticated","confirmation_sent_at":"2025-11-10T09:45:08.378588Z","confirmed_at":"2025-11-10T09:45:16.521842Z","created_at":"2025-11-10T09:45:08.23142Z","email":"serkankalem99@gmail.com","email_confirmed_at":"2025-11-10T09:45:16.521842Z","id":"e4af7234-8bd5-421f-b572-351376d71031","identities":[{"created_at":"2025-11-10T09:45:08.333661Z","email":"serkankalem99@gmail.com","id":"e4af7234-8bd5-421f-b572-351376d71031","identity_data":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"},"identity_id":"6f1d3764-57c9-4c0d-8097-0437a72e93d5","last_sign_in_at":"2025-11-10T09:45:08.333594Z","provider":"email","updated_at":"2025-11-10T09:45:08.333661Z","user_id":"e4af7234-8bd5-421f-b572-351376d71031"}],"is_anonymous":false,"last_sign_in_at":"2025-11-10T09:59:08.995918129Z","phone":"","role":"authenticated","updated_at":"2025-11-10T09:59:09.011266Z","user_metadata":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}},"weak_password":null}
+[00:29:28.658] Browser LOG     Rating clicked - Session: undefined
+[00:29:28.658] Browser LOG     User: undefined
+[00:29:28.658] Browser LOG     Current session from getSession: {"access_token":"eyJhbGciOiJIUzI1NiIsImtpZCI6IkxlYXVxUm9Lc0t5WnVrdisiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2JlZWd3ZnZkY3h3bHhqcmZmcmtpLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJlNGFmNzIzNC04YmQ1LTQyMWYtYjU3Mi0zNTEzNzZkNzEwMzEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzYyNzcyMzQ5LCJpYXQiOjE3NjI3Njg3NDksImVtYWlsIjoic2Vya2Fua2FsZW05OUBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImRpc3BsYXlfbmFtZSI6InNlcmsiLCJlbWFpbCI6InNlcmthbmthbGVtOTlAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwic3ViIjoiZTRhZjcyMzQtOGJkNS00MjFmLWI1NzItMzUxMzc2ZDcxMDMxIn0sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoicGFzc3dvcmQiLCJ0aW1lc3RhbXAiOjE3NjI3Njg3NDl9XSwic2Vzc2lvbl9pZCI6IjM1MjI0MWNmLWI0ZmItNDMzZC04MjVjLWIyZmYzMDA1NWNiMCIsImlzX2Fub255bW91cyI6ZmFsc2V9.DFAbxaHsNzrN1jWSYcxcFQO0hvR_X6921krJ-ypm3bs","expires_at":1762772349,"expires_in":3600,"refresh_token":"r3ykdf5sfj4x","token_type":"bearer","user":{"app_metadata":{"provider":"email","providers":["email"]},"aud":"authenticated","confirmation_sent_at":"2025-11-10T09:45:08.378588Z","confirmed_at":"2025-11-10T09:45:16.521842Z","created_at":"2025-11-10T09:45:08.23142Z","email":"serkankalem99@gmail.com","email_confirmed_at":"2025-11-10T09:45:16.521842Z","id":"e4af7234-8bd5-421f-b572-351376d71031","identities":[{"created_at":"2025-11-10T09:45:08.333661Z","email":"serkankalem99@gmail.com","id":"e4af7234-8bd5-421f-b572-351376d71031","identity_data":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"},"identity_id":"6f1d3764-57c9-4c0d-8097-0437a72e93d5","last_sign_in_at":"2025-11-10T09:45:08.333594Z","provider":"email","updated_at":"2025-11-10T09:45:08.333661Z","user_id":"e4af7234-8bd5-421f-b572-351376d71031"}],"is_anonymous":false,"last_sign_in_at":"2025-11-10T09:59:08.995918129Z","phone":"","role":"authenticated","updated_at":"2025-11-10T09:59:09.011266Z","user_metadata":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}},"weak_password":null}
+[00:29:29.025] Browser LOG     Rating clicked - Session: undefined
+[00:29:29.025] Browser LOG     User: undefined
+[00:29:29.025] Browser LOG     Current session from getSession: {"access_token":"eyJhbGciOiJIUzI1NiIsImtpZCI6IkxlYXVxUm9Lc0t5WnVrdisiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2JlZWd3ZnZkY3h3bHhqcmZmcmtpLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJlNGFmNzIzNC04YmQ1LTQyMWYtYjU3Mi0zNTEzNzZkNzEwMzEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzYyNzcyMzQ5LCJpYXQiOjE3NjI3Njg3NDksImVtYWlsIjoic2Vya2Fua2FsZW05OUBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImRpc3BsYXlfbmFtZSI6InNlcmsiLCJlbWFpbCI6InNlcmthbmthbGVtOTlAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwic3ViIjoiZTRhZjcyMzQtOGJkNS00MjFmLWI1NzItMzUxMzc2ZDcxMDMxIn0sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoicGFzc3dvcmQiLCJ0aW1lc3RhbXAiOjE3NjI3Njg3NDl9XSwic2Vzc2lvbl9pZCI6IjM1MjI0MWNmLWI0ZmItNDMzZC04MjVjLWIyZmYzMDA1NWNiMCIsImlzX2Fub255bW91cyI6ZmFsc2V9.DFAbxaHsNzrN1jWSYcxcFQO0hvR_X6921krJ-ypm3bs","expires_at":1762772349,"expires_in":3600,"refresh_token":"r3ykdf5sfj4x","token_type":"bearer","user":{"app_metadata":{"provider":"email","providers":["email"]},"aud":"authenticated","confirmation_sent_at":"2025-11-10T09:45:08.378588Z","confirmed_at":"2025-11-10T09:45:16.521842Z","created_at":"2025-11-10T09:45:08.23142Z","email":"serkankalem99@gmail.com","email_confirmed_at":"2025-11-10T09:45:16.521842Z","id":"e4af7234-8bd5-421f-b572-351376d71031","identities":[{"created_at":"2025-11-10T09:45:08.333661Z","email":"serkankalem99@gmail.com","id":"e4af7234-8bd5-421f-b572-351376d71031","identity_data":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"},"identity_id":"6f1d3764-57c9-4c0d-8097-0437a72e93d5","last_sign_in_at":"2025-11-10T09:45:08.333594Z","provider":"email","updated_at":"2025-11-10T09:45:08.333661Z","user_id":"e4af7234-8bd5-421f-b572-351376d71031"}],"is_anonymous":false,"last_sign_in_at":"2025-11-10T09:59:08.995918129Z","phone":"","role":"authenticated","updated_at":"2025-11-10T09:59:09.011266Z","user_metadata":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}},"weak_password":null}
+[00:29:29.408] Browser LOG     Rating clicked - Session: undefined
+[00:29:29.408] Browser LOG     User: undefined
+[00:29:29.408] Browser LOG     Current session from getSession: {"access_token":"eyJhbGciOiJIUzI1NiIsImtpZCI6IkxlYXVxUm9Lc0t5WnVrdisiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2JlZWd3ZnZkY3h3bHhqcmZmcmtpLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJlNGFmNzIzNC04YmQ1LTQyMWYtYjU3Mi0zNTEzNzZkNzEwMzEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzYyNzcyMzQ5LCJpYXQiOjE3NjI3Njg3NDksImVtYWlsIjoic2Vya2Fua2FsZW05OUBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImRpc3BsYXlfbmFtZSI6InNlcmsiLCJlbWFpbCI6InNlcmthbmthbGVtOTlAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwic3ViIjoiZTRhZjcyMzQtOGJkNS00MjFmLWI1NzItMzUxMzc2ZDcxMDMxIn0sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoicGFzc3dvcmQiLCJ0aW1lc3RhbXAiOjE3NjI3Njg3NDl9XSwic2Vzc2lvbl9pZCI6IjM1MjI0MWNmLWI0ZmItNDMzZC04MjVjLWIyZmYzMDA1NWNiMCIsImlzX2Fub255bW91cyI6ZmFsc2V9.DFAbxaHsNzrN1jWSYcxcFQO0hvR_X6921krJ-ypm3bs","expires_at":1762772349,"expires_in":3600,"refresh_token":"r3ykdf5sfj4x","token_type":"bearer","user":{"app_metadata":{"provider":"email","providers":["email"]},"aud":"authenticated","confirmation_sent_at":"2025-11-10T09:45:08.378588Z","confirmed_at":"2025-11-10T09:45:16.521842Z","created_at":"2025-11-10T09:45:08.23142Z","email":"serkankalem99@gmail.com","email_confirmed_at":"2025-11-10T09:45:16.521842Z","id":"e4af7234-8bd5-421f-b572-351376d71031","identities":[{"created_at":"2025-11-10T09:45:08.333661Z","email":"serkankalem99@gmail.com","id":"e4af7234-8bd5-421f-b572-351376d71031","identity_data":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"},"identity_id":"6f1d3764-57c9-4c0d-8097-0437a72e93d5","last_sign_in_at":"2025-11-10T09:45:08.333594Z","provider":"email","updated_at":"2025-11-10T09:45:08.333661Z","user_id":"e4af7234-8bd5-421f-b572-351376d71031"}],"is_anonymous":false,"last_sign_in_at":"2025-11-10T09:59:08.995918129Z","phone":"","role":"authenticated","updated_at":"2025-11-10T09:59:09.011266Z","user_metadata":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}},"weak_password":null}
+[00:29:29.658] Browser LOG     Rating clicked - Session: undefined
+[00:29:29.658] Browser LOG     User: undefined
+[00:29:29.658] Browser LOG     Current session from getSession: {"access_token":"eyJhbGciOiJIUzI1NiIsImtpZCI6IkxlYXVxUm9Lc0t5WnVrdisiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2JlZWd3ZnZkY3h3bHhqcmZmcmtpLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJlNGFmNzIzNC04YmQ1LTQyMWYtYjU3Mi0zNTEzNzZkNzEwMzEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzYyNzcyMzQ5LCJpYXQiOjE3NjI3Njg3NDksImVtYWlsIjoic2Vya2Fua2FsZW05OUBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImRpc3BsYXlfbmFtZSI6InNlcmsiLCJlbWFpbCI6InNlcmthbmthbGVtOTlAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwic3ViIjoiZTRhZjcyMzQtOGJkNS00MjFmLWI1NzItMzUxMzc2ZDcxMDMxIn0sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoicGFzc3dvcmQiLCJ0aW1lc3RhbXAiOjE3NjI3Njg3NDl9XSwic2Vzc2lvbl9pZCI6IjM1MjI0MWNmLWI0ZmItNDMzZC04MjVjLWIyZmYzMDA1NWNiMCIsImlzX2Fub255bW91cyI6ZmFsc2V9.DFAbxaHsNzrN1jWSYcxcFQO0hvR_X6921krJ-ypm3bs","expires_at":1762772349,"expires_in":3600,"refresh_token":"r3ykdf5sfj4x","token_type":"bearer","user":{"app_metadata":{"provider":"email","providers":["email"]},"aud":"authenticated","confirmation_sent_at":"2025-11-10T09:45:08.378588Z","confirmed_at":"2025-11-10T09:45:16.521842Z","created_at":"2025-11-10T09:45:08.23142Z","email":"serkankalem99@gmail.com","email_confirmed_at":"2025-11-10T09:45:16.521842Z","id":"e4af7234-8bd5-421f-b572-351376d71031","identities":[{"created_at":"2025-11-10T09:45:08.333661Z","email":"serkankalem99@gmail.com","id":"e4af7234-8bd5-421f-b572-351376d71031","identity_data":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"},"identity_id":"6f1d3764-57c9-4c0d-8097-0437a72e93d5","last_sign_in_at":"2025-11-10T09:45:08.333594Z","provider":"email","updated_at":"2025-11-10T09:45:08.333661Z","user_id":"e4af7234-8bd5-421f-b572-351376d71031"}],"is_anonymous":false,"last_sign_in_at":"2025-11-10T09:59:08.995918129Z","phone":"","role":"authenticated","updated_at":"2025-11-10T09:59:09.011266Z","user_metadata":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}},"weak_password":null}
+[00:29:30.058] Browser LOG     Rating clicked - Session: undefined
+[00:29:30.058] Browser LOG     User: undefined
+[00:29:30.058] Browser LOG     Current session from getSession: {"access_token":"eyJhbGciOiJIUzI1NiIsImtpZCI6IkxlYXVxUm9Lc0t5WnVrdisiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2JlZWd3ZnZkY3h3bHhqcmZmcmtpLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJlNGFmNzIzNC04YmQ1LTQyMWYtYjU3Mi0zNTEzNzZkNzEwMzEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzYyNzcyMzQ5LCJpYXQiOjE3NjI3Njg3NDksImVtYWlsIjoic2Vya2Fua2FsZW05OUBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImRpc3BsYXlfbmFtZSI6InNlcmsiLCJlbWFpbCI6InNlcmthbmthbGVtOTlAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwic3ViIjoiZTRhZjcyMzQtOGJkNS00MjFmLWI1NzItMzUxMzc2ZDcxMDMxIn0sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoicGFzc3dvcmQiLCJ0aW1lc3RhbXAiOjE3NjI3Njg3NDl9XSwic2Vzc2lvbl9pZCI6IjM1MjI0MWNmLWI0ZmItNDMzZC04MjVjLWIyZmYzMDA1NWNiMCIsImlzX2Fub255bW91cyI6ZmFsc2V9.DFAbxaHsNzrN1jWSYcxcFQO0hvR_X6921krJ-ypm3bs","expires_at":1762772349,"expires_in":3600,"refresh_token":"r3ykdf5sfj4x","token_type":"bearer","user":{"app_metadata":{"provider":"email","providers":["email"]},"aud":"authenticated","confirmation_sent_at":"2025-11-10T09:45:08.378588Z","confirmed_at":"2025-11-10T09:45:16.521842Z","created_at":"2025-11-10T09:45:08.23142Z","email":"serkankalem99@gmail.com","email_confirmed_at":"2025-11-10T09:45:16.521842Z","id":"e4af7234-8bd5-421f-b572-351376d71031","identities":[{"created_at":"2025-11-10T09:45:08.333661Z","email":"serkankalem99@gmail.com","id":"e4af7234-8bd5-421f-b572-351376d71031","identity_data":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"},"identity_id":"6f1d3764-57c9-4c0d-8097-0437a72e93d5","last_sign_in_at":"2025-11-10T09:45:08.333594Z","provider":"email","updated_at":"2025-11-10T09:45:08.333661Z","user_id":"e4af7234-8bd5-421f-b572-351376d71031"}],"is_anonymous":false,"last_sign_in_at":"2025-11-10T09:59:08.995918129Z","phone":"","role":"authenticated","updated_at":"2025-11-10T09:59:09.011266Z","user_metadata":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}},"weak_password":null}
+[00:29:30.309] Browser LOG     Rating clicked - Session: undefined
+[00:29:30.309] Browser LOG     User: undefined
+[00:29:30.309] Browser LOG     Current session from getSession: {"access_token":"eyJhbGciOiJIUzI1NiIsImtpZCI6IkxlYXVxUm9Lc0t5WnVrdisiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2JlZWd3ZnZkY3h3bHhqcmZmcmtpLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJlNGFmNzIzNC04YmQ1LTQyMWYtYjU3Mi0zNTEzNzZkNzEwMzEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzYyNzcyMzQ5LCJpYXQiOjE3NjI3Njg3NDksImVtYWlsIjoic2Vya2Fua2FsZW05OUBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImRpc3BsYXlfbmFtZSI6InNlcmsiLCJlbWFpbCI6InNlcmthbmthbGVtOTlAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwic3ViIjoiZTRhZjcyMzQtOGJkNS00MjFmLWI1NzItMzUxMzc2ZDcxMDMxIn0sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoicGFzc3dvcmQiLCJ0aW1lc3RhbXAiOjE3NjI3Njg3NDl9XSwic2Vzc2lvbl9pZCI6IjM1MjI0MWNmLWI0ZmItNDMzZC04MjVjLWIyZmYzMDA1NWNiMCIsImlzX2Fub255bW91cyI6ZmFsc2V9.DFAbxaHsNzrN1jWSYcxcFQO0hvR_X6921krJ-ypm3bs","expires_at":1762772349,"expires_in":3600,"refresh_token":"r3ykdf5sfj4x","token_type":"bearer","user":{"app_metadata":{"provider":"email","providers":["email"]},"aud":"authenticated","confirmation_sent_at":"2025-11-10T09:45:08.378588Z","confirmed_at":"2025-11-10T09:45:16.521842Z","created_at":"2025-11-10T09:45:08.23142Z","email":"serkankalem99@gmail.com","email_confirmed_at":"2025-11-10T09:45:16.521842Z","id":"e4af7234-8bd5-421f-b572-351376d71031","identities":[{"created_at":"2025-11-10T09:45:08.333661Z","email":"serkankalem99@gmail.com","id":"e4af7234-8bd5-421f-b572-351376d71031","identity_data":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"},"identity_id":"6f1d3764-57c9-4c0d-8097-0437a72e93d5","last_sign_in_at":"2025-11-10T09:45:08.333594Z","provider":"email","updated_at":"2025-11-10T09:45:08.333661Z","user_id":"e4af7234-8bd5-421f-b572-351376d71031"}],"is_anonymous":false,"last_sign_in_at":"2025-11-10T09:59:08.995918129Z","phone":"","role":"authenticated","updated_at":"2025-11-10T09:59:09.011266Z","user_metadata":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}},"weak_password":null}
+[00:29:30.542] Browser LOG     Rating clicked - Session: undefined
+[00:29:30.542] Browser LOG     User: undefined
+[00:29:30.542] Browser LOG     Current session from getSession: {"access_token":"eyJhbGciOiJIUzI1NiIsImtpZCI6IkxlYXVxUm9Lc0t5WnVrdisiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2JlZWd3ZnZkY3h3bHhqcmZmcmtpLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJlNGFmNzIzNC04YmQ1LTQyMWYtYjU3Mi0zNTEzNzZkNzEwMzEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzYyNzcyMzQ5LCJpYXQiOjE3NjI3Njg3NDksImVtYWlsIjoic2Vya2Fua2FsZW05OUBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImRpc3BsYXlfbmFtZSI6InNlcmsiLCJlbWFpbCI6InNlcmthbmthbGVtOTlAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwic3ViIjoiZTRhZjcyMzQtOGJkNS00MjFmLWI1NzItMzUxMzc2ZDcxMDMxIn0sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoicGFzc3dvcmQiLCJ0aW1lc3RhbXAiOjE3NjI3Njg3NDl9XSwic2Vzc2lvbl9pZCI6IjM1MjI0MWNmLWI0ZmItNDMzZC04MjVjLWIyZmYzMDA1NWNiMCIsImlzX2Fub255bW91cyI6ZmFsc2V9.DFAbxaHsNzrN1jWSYcxcFQO0hvR_X6921krJ-ypm3bs","expires_at":1762772349,"expires_in":3600,"refresh_token":"r3ykdf5sfj4x","token_type":"bearer","user":{"app_metadata":{"provider":"email","providers":["email"]},"aud":"authenticated","confirmation_sent_at":"2025-11-10T09:45:08.378588Z","confirmed_at":"2025-11-10T09:45:16.521842Z","created_at":"2025-11-10T09:45:08.23142Z","email":"serkankalem99@gmail.com","email_confirmed_at":"2025-11-10T09:45:16.521842Z","id":"e4af7234-8bd5-421f-b572-351376d71031","identities":[{"created_at":"2025-11-10T09:45:08.333661Z","email":"serkankalem99@gmail.com","id":"e4af7234-8bd5-421f-b572-351376d71031","identity_data":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"},"identity_id":"6f1d3764-57c9-4c0d-8097-0437a72e93d5","last_sign_in_at":"2025-11-10T09:45:08.333594Z","provider":"email","updated_at":"2025-11-10T09:45:08.333661Z","user_id":"e4af7234-8bd5-421f-b572-351376d71031"}],"is_anonymous":false,"last_sign_in_at":"2025-11-10T09:59:08.995918129Z","phone":"","role":"authenticated","updated_at":"2025-11-10T09:59:09.011266Z","user_metadata":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}},"weak_password":null}
+[00:29:30.742] Browser LOG     Rating clicked - Session: undefined
+[00:29:30.742] Browser LOG     User: undefined
+[00:29:30.742] Browser LOG     Current session from getSession: {"access_token":"eyJhbGciOiJIUzI1NiIsImtpZCI6IkxlYXVxUm9Lc0t5WnVrdisiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2JlZWd3ZnZkY3h3bHhqcmZmcmtpLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJlNGFmNzIzNC04YmQ1LTQyMWYtYjU3Mi0zNTEzNzZkNzEwMzEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzYyNzcyMzQ5LCJpYXQiOjE3NjI3Njg3NDksImVtYWlsIjoic2Vya2Fua2FsZW05OUBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImRpc3BsYXlfbmFtZSI6InNlcmsiLCJlbWFpbCI6InNlcmthbmthbGVtOTlAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwic3ViIjoiZTRhZjcyMzQtOGJkNS00MjFmLWI1NzItMzUxMzc2ZDcxMDMxIn0sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoicGFzc3dvcmQiLCJ0aW1lc3RhbXAiOjE3NjI3Njg3NDl9XSwic2Vzc2lvbl9pZCI6IjM1MjI0MWNmLWI0ZmItNDMzZC04MjVjLWIyZmYzMDA1NWNiMCIsImlzX2Fub255bW91cyI6ZmFsc2V9.DFAbxaHsNzrN1jWSYcxcFQO0hvR_X6921krJ-ypm3bs","expires_at":1762772349,"expires_in":3600,"refresh_token":"r3ykdf5sfj4x","token_type":"bearer","user":{"app_metadata":{"provider":"email","providers":["email"]},"aud":"authenticated","confirmation_sent_at":"2025-11-10T09:45:08.378588Z","confirmed_at":"2025-11-10T09:45:16.521842Z","created_at":"2025-11-10T09:45:08.23142Z","email":"serkankalem99@gmail.com","email_confirmed_at":"2025-11-10T09:45:16.521842Z","id":"e4af7234-8bd5-421f-b572-351376d71031","identities":[{"created_at":"2025-11-10T09:45:08.333661Z","email":"serkankalem99@gmail.com","id":"e4af7234-8bd5-421f-b572-351376d71031","identity_data":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"},"identity_id":"6f1d3764-57c9-4c0d-8097-0437a72e93d5","last_sign_in_at":"2025-11-10T09:45:08.333594Z","provider":"email","updated_at":"2025-11-10T09:45:08.333661Z","user_id":"e4af7234-8bd5-421f-b572-351376d71031"}],"is_anonymous":false,"last_sign_in_at":"2025-11-10T09:59:08.995918129Z","phone":"","role":"authenticated","updated_at":"2025-11-10T09:59:09.011266Z","user_metadata":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}},"weak_password":null}
+[00:29:30.958] Browser LOG     Rating clicked - Session: undefined
+[00:29:30.958] Browser LOG     User: undefined
+[00:29:30.958] Browser LOG     Current session from getSession: {"access_token":"eyJhbGciOiJIUzI1NiIsImtpZCI6IkxlYXVxUm9Lc0t5WnVrdisiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2JlZWd3ZnZkY3h3bHhqcmZmcmtpLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJlNGFmNzIzNC04YmQ1LTQyMWYtYjU3Mi0zNTEzNzZkNzEwMzEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzYyNzcyMzQ5LCJpYXQiOjE3NjI3Njg3NDksImVtYWlsIjoic2Vya2Fua2FsZW05OUBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImRpc3BsYXlfbmFtZSI6InNlcmsiLCJlbWFpbCI6InNlcmthbmthbGVtOTlAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwic3ViIjoiZTRhZjcyMzQtOGJkNS00MjFmLWI1NzItMzUxMzc2ZDcxMDMxIn0sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoicGFzc3dvcmQiLCJ0aW1lc3RhbXAiOjE3NjI3Njg3NDl9XSwic2Vzc2lvbl9pZCI6IjM1MjI0MWNmLWI0ZmItNDMzZC04MjVjLWIyZmYzMDA1NWNiMCIsImlzX2Fub255bW91cyI6ZmFsc2V9.DFAbxaHsNzrN1jWSYcxcFQO0hvR_X6921krJ-ypm3bs","expires_at":1762772349,"expires_in":3600,"refresh_token":"r3ykdf5sfj4x","token_type":"bearer","user":{"app_metadata":{"provider":"email","providers":["email"]},"aud":"authenticated","confirmation_sent_at":"2025-11-10T09:45:08.378588Z","confirmed_at":"2025-11-10T09:45:16.521842Z","created_at":"2025-11-10T09:45:08.23142Z","email":"serkankalem99@gmail.com","email_confirmed_at":"2025-11-10T09:45:16.521842Z","id":"e4af7234-8bd5-421f-b572-351376d71031","identities":[{"created_at":"2025-11-10T09:45:08.333661Z","email":"serkankalem99@gmail.com","id":"e4af7234-8bd5-421f-b572-351376d71031","identity_data":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"},"identity_id":"6f1d3764-57c9-4c0d-8097-0437a72e93d5","last_sign_in_at":"2025-11-10T09:45:08.333594Z","provider":"email","updated_at":"2025-11-10T09:45:08.333661Z","user_id":"e4af7234-8bd5-421f-b572-351376d71031"}],"is_anonymous":false,"last_sign_in_at":"2025-11-10T09:59:08.995918129Z","phone":"","role":"authenticated","updated_at":"2025-11-10T09:59:09.011266Z","user_metadata":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}},"weak_password":null}
+[00:29:31.230] Browser LOG     Rating clicked - Session: undefined
+[00:29:31.230] Browser LOG     User: undefined
+[00:29:31.230] Browser LOG     Current session from getSession: {"access_token":"eyJhbGciOiJIUzI1NiIsImtpZCI6IkxlYXVxUm9Lc0t5WnVrdisiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2JlZWd3ZnZkY3h3bHhqcmZmcmtpLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJlNGFmNzIzNC04YmQ1LTQyMWYtYjU3Mi0zNTEzNzZkNzEwMzEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzYyNzcyMzQ5LCJpYXQiOjE3NjI3Njg3NDksImVtYWlsIjoic2Vya2Fua2FsZW05OUBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImRpc3BsYXlfbmFtZSI6InNlcmsiLCJlbWFpbCI6InNlcmthbmthbGVtOTlAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwic3ViIjoiZTRhZjcyMzQtOGJkNS00MjFmLWI1NzItMzUxMzc2ZDcxMDMxIn0sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoicGFzc3dvcmQiLCJ0aW1lc3RhbXAiOjE3NjI3Njg3NDl9XSwic2Vzc2lvbl9pZCI6IjM1MjI0MWNmLWI0ZmItNDMzZC04MjVjLWIyZmYzMDA1NWNiMCIsImlzX2Fub255bW91cyI6ZmFsc2V9.DFAbxaHsNzrN1jWSYcxcFQO0hvR_X6921krJ-ypm3bs","expires_at":1762772349,"expires_in":3600,"refresh_token":"r3ykdf5sfj4x","token_type":"bearer","user":{"app_metadata":{"provider":"email","providers":["email"]},"aud":"authenticated","confirmation_sent_at":"2025-11-10T09:45:08.378588Z","confirmed_at":"2025-11-10T09:45:16.521842Z","created_at":"2025-11-10T09:45:08.23142Z","email":"serkankalem99@gmail.com","email_confirmed_at":"2025-11-10T09:45:16.521842Z","id":"e4af7234-8bd5-421f-b572-351376d71031","identities":[{"created_at":"2025-11-10T09:45:08.333661Z","email":"serkankalem99@gmail.com","id":"e4af7234-8bd5-421f-b572-351376d71031","identity_data":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"},"identity_id":"6f1d3764-57c9-4c0d-8097-0437a72e93d5","last_sign_in_at":"2025-11-10T09:45:08.333594Z","provider":"email","updated_at":"2025-11-10T09:45:08.333661Z","user_id":"e4af7234-8bd5-421f-b572-351376d71031"}],"is_anonymous":false,"last_sign_in_at":"2025-11-10T09:59:08.995918129Z","phone":"","role":"authenticated","updated_at":"2025-11-10T09:59:09.011266Z","user_metadata":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}},"weak_password":null}
+[00:29:31.727] Browser LOG     Rating clicked - Session: undefined
+[00:29:31.727] Browser LOG     User: undefined
+[00:29:31.727] Browser LOG     Current session from getSession: {"access_token":"eyJhbGciOiJIUzI1NiIsImtpZCI6IkxlYXVxUm9Lc0t5WnVrdisiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2JlZWd3ZnZkY3h3bHhqcmZmcmtpLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiJlNGFmNzIzNC04YmQ1LTQyMWYtYjU3Mi0zNTEzNzZkNzEwMzEiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzYyNzcyMzQ5LCJpYXQiOjE3NjI3Njg3NDksImVtYWlsIjoic2Vya2Fua2FsZW05OUBnbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImRpc3BsYXlfbmFtZSI6InNlcmsiLCJlbWFpbCI6InNlcmthbmthbGVtOTlAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBob25lX3ZlcmlmaWVkIjpmYWxzZSwic3ViIjoiZTRhZjcyMzQtOGJkNS00MjFmLWI1NzItMzUxMzc2ZDcxMDMxIn0sInJvbGUiOiJhdXRoZW50aWNhdGVkIiwiYWFsIjoiYWFsMSIsImFtciI6W3sibWV0aG9kIjoicGFzc3dvcmQiLCJ0aW1lc3RhbXAiOjE3NjI3Njg3NDl9XSwic2Vzc2lvbl9pZCI6IjM1MjI0MWNmLWI0ZmItNDMzZC04MjVjLWIyZmYzMDA1NWNiMCIsImlzX2Fub255bW91cyI6ZmFsc2V9.DFAbxaHsNzrN1jWSYcxcFQO0hvR_X6921krJ-ypm3bs","expires_at":1762772349,"expires_in":3600,"refresh_token":"r3ykdf5sfj4x","token_type":"bearer","user":{"app_metadata":{"provider":"email","providers":["email"]},"aud":"authenticated","confirmation_sent_at":"2025-11-10T09:45:08.378588Z","confirmed_at":"2025-11-10T09:45:16.521842Z","created_at":"2025-11-10T09:45:08.23142Z","email":"serkankalem99@gmail.com","email_confirmed_at":"2025-11-10T09:45:16.521842Z","id":"e4af7234-8bd5-421f-b572-351376d71031","identities":[{"created_at":"2025-11-10T09:45:08.333661Z","email":"serkankalem99@gmail.com","id":"e4af7234-8bd5-421f-b572-351376d71031","identity_data":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"},"identity_id":"6f1d3764-57c9-4c0d-8097-0437a72e93d5","last_sign_in_at":"2025-11-10T09:45:08.333594Z","provider":"email","updated_at":"2025-11-10T09:45:08.333661Z","user_id":"e4af7234-8bd5-421f-b572-351376d71031"}],"is_anonymous":false,"last_sign_in_at":"2025-11-10T09:59:08.995918129Z","phone":"","role":"authenticated","updated_at":"2025-11-10T09:59:09.011266Z","user_metadata":{"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}},"weak_password":null}
+[00:34:24.209] Server  LOG      ✓ Compiled in 441ms
+[00:34:28.211] Server  LOG      ✓ Compiled in 6ms
+[00:34:28.543] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:34:28.699] Browser LOG     Firebase app initialized
+[00:34:28.699] Browser LOG     📍 Loading initial data...
+[00:34:28.699] Browser LOG     Fetching businesses from database...
+[00:34:28.699] Browser LOG     🔔 Auth event: SIGNED_IN
+[00:34:28.699] Browser LOG     Notification permission granted
+[00:34:28.699] Browser LOG     ═══════════════════════════════════════
+[00:34:28.699] Browser LOG     User: serkankalem99@gmail.com
+[00:34:28.699] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:34:28.699] Browser LOG     Profile: null
+[00:34:28.699] Browser LOG     isPremium: false
+[00:34:28.699] Browser LOG     Nav Items: ["Highlighted Business","Map","Profile and Payment"]
+[00:34:28.699] Browser LOG     ═══════════════════════════════════════
+[00:34:28.699] Browser ERROR   Error initializing Firebase messaging: {"code":"messaging/failed-service-worker-registration","customData":{"browserErrorMessage":"Failed to register a ServiceWorker for scope ('http://localhost:3000/firebase-cloud-messaging-push-scope') with script ('http://localhost:3000/firebase-messaging-sw.js'): ServiceWorker script evaluation failed"},"name":"FirebaseError"}
+[00:34:32.235] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:34:32.358] Browser LOG     Firebase app initialized
+[00:34:32.358] Browser LOG     📍 Loading initial data...
+[00:34:32.358] Browser LOG     Fetching businesses from database...
+[00:34:32.358] Browser LOG     Notification permission granted
+[00:34:32.358] Browser LOG     🔔 Auth event: SIGNED_IN
+[00:34:32.358] Browser LOG     ═══════════════════════════════════════
+[00:34:32.358] Browser LOG     User: serkankalem99@gmail.com
+[00:34:32.358] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:34:32.358] Browser LOG     Profile: null
+[00:34:32.358] Browser LOG     isPremium: false
+[00:34:32.358] Browser LOG     Nav Items: ["Highlighted Business","Map","Profile and Payment"]
+[00:34:32.358] Browser LOG     ═══════════════════════════════════════
+[00:34:32.358] Browser ERROR   Error initializing Firebase messaging: {"code":"messaging/failed-service-worker-registration","customData":{"browserErrorMessage":"Failed to register a ServiceWorker for scope ('http://localhost:3000/firebase-cloud-messaging-push-scope') with script ('http://localhost:3000/firebase-messaging-sw.js'): ServiceWorker script evaluation failed"},"name":"FirebaseError"}
+[00:34:40.204] Browser LOG     🔘 Sign out button clicked
+[00:34:40.204] Browser LOG     🚪 Starting logout process...
+[00:34:41.337] Browser LOG     🔘 Sign out button clicked
+[00:34:41.337] Browser LOG     🚪 Starting logout process...
+[00:34:41.887] Browser LOG     🔘 Sign out button clicked
+[00:34:41.887] Browser LOG     🚪 Starting logout process...
+[00:35:21.649] Browser LOG     Firebase app initialized
+[00:35:21.649] Browser LOG     📍 Loading initial data...
+[00:35:21.650] Browser LOG     Fetching businesses from database...
+[00:35:21.650] Browser LOG     Notification permission denied
+[00:35:21.650] Browser LOG     📍 Session loaded: serkankalem99@gmail.com
+[00:35:21.650] Browser LOG     ═══════════════════════════════════════
+[00:35:21.650] Browser LOG     User: serkankalem99@gmail.com
+[00:35:21.650] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:35:21.650] Browser LOG     Profile: null
+[00:35:21.650] Browser LOG     isPremium: false
+[00:35:21.650] Browser LOG     Nav Items: ["Highlighted Business","Map","Profile and Payment"]
+[00:35:21.650] Browser LOG     ═══════════════════════════════════════
+[00:35:21.650] Browser LOG     🔔 Auth event: INITIAL_SESSION
+[00:35:21.650] Browser LOG     ═══════════════════════════════════════
+[00:35:21.650] Browser LOG     User: serkankalem99@gmail.com
+[00:35:21.650] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:35:21.650] Browser LOG     Profile: null
+[00:35:21.650] Browser LOG     isPremium: false
+[00:35:21.650] Browser LOG     Nav Items: ["Highlighted Business","Map","Profile and Payment"]
+[00:35:21.650] Browser LOG     ═══════════════════════════════════════
+[00:35:22.069] Browser LOG     🔔 Profile updated from auth change
+[00:35:22.069] Browser LOG     ✅ Profile loaded: {"email":"serkankalem99@gmail.com","is_premium":false,"subscription_status":"active"}
+[00:35:22.069] Browser LOG     ═══════════════════════════════════════
+[00:35:22.069] Browser LOG     User: serkankalem99@gmail.com
+[00:35:22.069] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:35:22.069] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":false,"premium_since":null,"stripe_customer_id":null,"subscription_cancel_at":null,"subscription_id":null,"subscription_status":"active","updated_at":"2025-11-10T09:45:16.497997"}
+[00:35:22.069] Browser LOG     isPremium: false
+[00:35:22.069] Browser LOG     Nav Items: ["Highlighted Business","Map","Profile and Payment"]
+[00:35:22.069] Browser LOG     ═══════════════════════════════════════
+[00:35:22.069] Browser LOG     Fetched businesses: 93
+[00:35:22.686] Browser LOG     🔔 Auth event: SIGNED_IN
+[00:35:23.046] Browser LOG     ═══════════════════════════════════════
+[00:35:23.046] Browser LOG     User: serkankalem99@gmail.com
+[00:35:23.046] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:35:23.046] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":false,"premium_since":null,"stripe_customer_id":null,"subscription_cancel_at":null,"subscription_id":null,"subscription_status":"active","updated_at":"2025-11-10T09:45:16.497997"}
+[00:35:23.046] Browser LOG     isPremium: false
+[00:35:23.046] Browser LOG     Nav Items: ["Highlighted Business","Map","Profile and Payment"]
+[00:35:23.046] Browser LOG     ═══════════════════════════════════════
+[00:35:23.128] Browser LOG     🔔 Auth event: SIGNED_IN
+[00:35:23.128] Browser LOG     ═══════════════════════════════════════
+[00:35:23.128] Browser LOG     User: serkankalem99@gmail.com
+[00:35:23.128] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:35:23.128] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":false,"premium_since":null,"stripe_customer_id":null,"subscription_cancel_at":null,"subscription_id":null,"subscription_status":"active","updated_at":"2025-11-10T09:45:16.497997"}
+[00:35:23.128] Browser LOG     isPremium: false
+[00:35:23.128] Browser LOG     Nav Items: ["Highlighted Business","Map","Profile and Payment"]
+[00:35:23.128] Browser LOG     ═══════════════════════════════════════
+[00:35:23.168] Browser LOG     🔔 Profile updated from auth change
+[00:35:23.277] Browser LOG     ═══════════════════════════════════════
+[00:35:23.277] Browser LOG     User: serkankalem99@gmail.com
+[00:35:23.277] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:35:23.277] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":false,"premium_since":null,"stripe_customer_id":null,"subscription_cancel_at":null,"subscription_id":null,"subscription_status":"active","updated_at":"2025-11-10T09:45:16.497997"}
+[00:35:23.277] Browser LOG     isPremium: false
+[00:35:23.278] Browser LOG     Nav Items: ["Highlighted Business","Map","Profile and Payment"]
+[00:35:23.278] Browser LOG     ═══════════════════════════════════════
+[00:35:23.329] Browser LOG     🔔 Profile updated from auth change
+[00:35:23.486] Browser LOG     ═══════════════════════════════════════
+[00:35:23.486] Browser LOG     User: serkankalem99@gmail.com
+[00:35:23.486] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:35:23.486] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":false,"premium_since":null,"stripe_customer_id":null,"subscription_cancel_at":null,"subscription_id":null,"subscription_status":"active","updated_at":"2025-11-10T09:45:16.497997"}
+[00:35:23.486] Browser LOG     isPremium: false
+[00:35:23.486] Browser LOG     Nav Items: ["Highlighted Business","Map","Profile and Payment"]
+[00:35:23.486] Browser LOG     ═══════════════════════════════════════
+[00:35:23.603] Browser LOG     🔔 Auth event: SIGNED_IN
+[00:35:23.603] Browser LOG     ═══════════════════════════════════════
+[00:35:23.603] Browser LOG     User: serkankalem99@gmail.com
+[00:35:23.603] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:35:23.603] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":false,"premium_since":null,"stripe_customer_id":null,"subscription_cancel_at":null,"subscription_id":null,"subscription_status":"active","updated_at":"2025-11-10T09:45:16.497997"}
+[00:35:23.603] Browser LOG     isPremium: false
+[00:35:23.603] Browser LOG     Nav Items: ["Highlighted Business","Map","Profile and Payment"]
+[00:35:23.603] Browser LOG     ═══════════════════════════════════════
+[00:35:23.603] Browser LOG     🔔 Profile updated from auth change
+[00:35:23.603] Browser LOG     ═══════════════════════════════════════
+[00:35:23.603] Browser LOG     User: serkankalem99@gmail.com
+[00:35:23.603] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:35:23.603] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":false,"premium_since":null,"stripe_customer_id":null,"subscription_cancel_at":null,"subscription_id":null,"subscription_status":"active","updated_at":"2025-11-10T09:45:16.497997"}
+[00:35:23.603] Browser LOG     isPremium: false
+[00:35:23.603] Browser LOG     Nav Items: ["Highlighted Business","Map","Profile and Payment"]
+[00:35:23.603] Browser LOG     ═══════════════════════════════════════
+[00:35:34.846] Browser WARN    Google Maps JavaScript API has been loaded directly without loading=async. This can result in suboptimal performance. For best-practice loading patterns please see https://goo.gle/js-api-loading
+[00:35:34.846] Browser WARN    Element with name "gmp-internal-loading-text" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-internal-request-error-text" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-internal-back-button" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-internal-dialog" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-internal-disclosure" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-internal-disclosure-section" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-internal-attribution" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-internal-element-support-verification" already defined.
+[00:35:34.846] Browser ERROR   You have included the Google Maps JavaScript API multiple times on this page. This may cause unexpected errors.
+[00:35:34.846] Browser WARN    Google Maps JavaScript API has been loaded directly without loading=async. This can result in suboptimal performance. For best-practice loading patterns please see https://goo.gle/js-api-loading
+[00:35:34.846] Browser WARN    Element with name "gmp-internal-rating" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-internal-link-button" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-internal-menu" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-internal-place-opening-hours" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-internal-place-review" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-internal-tabbed-layout" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-internal-lightbox" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-internal-collage" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-internal-place-rating-summary" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-internal-place-basic-info" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-internal-status-text" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-internal-circular-loader" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-internal-use-place-details-compact" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-place-content-config" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-place-media" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-place-address" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-place-rating" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-place-type" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-place-price" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-place-accessible-entrance-icon" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-place-open-now-status" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-place-attribution" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-place-website" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-place-phone-number" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-place-opening-hours" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-place-summary" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-place-type-specific-highlights" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-place-reviews" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-place-plus-code" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-place-feature-list" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-place-details-place-request" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-internal-place-carousel" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-internal-place-search-list-item" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-map" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-place-autocomplete" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-basic-place-autocomplete" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-place-search" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-place-text-search-request" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-place-nearby-search-request" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-place-details" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-place-details-compact" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-place-details-location-request" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-place-standard-content" already defined.
+[00:35:34.846] Browser WARN    Element with name "gmp-place-all-content" already defined.
+[00:35:35.176] Browser WARN    As of February 21st, 2024, google.maps.Marker is deprecated. Please use google.maps.marker.AdvancedMarkerElement instead. At this time, google.maps.Marker is not scheduled to be discontinued, but google.maps.marker.AdvancedMarkerElement is recommended over google.maps.Marker. While google.maps.Marker will continue to receive bug fixes for any major regressions, existing bugs in google.maps.Marker will not be addressed. At least 12 months notice will be given before support is discontinued. Please see https://developers.google.com/maps/deprecations for additional details and https://developers.google.com/maps/documentation/javascript/advanced-markers/migration for the migration guide.
+[00:35:39.840] Browser ERROR   unhandledRejection: TypeError: undefined is not an object (evaluating 'p.zJ')
+[00:36:58.559] Server  LOG      ✓ Compiled in 179ms
+[00:37:05.428] Browser LOG     👁️ Page became visible, reloading data...
+[00:37:05.428] Browser LOG     📍 Loading initial data...
+[00:37:05.429] Browser LOG     📍 Session loaded: serkankalem99@gmail.com
+[00:37:05.429] Browser LOG     🔔 Auth event: SIGNED_IN
+[00:37:05.429] Browser LOG     ═══════════════════════════════════════
+[00:37:05.429] Browser LOG     User: serkankalem99@gmail.com
+[00:37:05.429] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:37:05.429] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":false,"premium_since":null,"stripe_customer_id":null,"subscription_cancel_at":null,"subscription_id":null,"subscription_status":"active","updated_at":"2025-11-10T09:45:16.497997"}
+[00:37:05.429] Browser LOG     isPremium: false
+[00:37:05.429] Browser LOG     Nav Items: ["Highlighted Business","Map","Profile and Payment"]
+[00:37:05.429] Browser LOG     ═══════════════════════════════════════
+[00:37:05.440] Browser LOG     🔔 Auth event: SIGNED_IN
+[00:37:05.451] Browser LOG     🔔 Auth event: SIGNED_IN
+[00:37:05.454] Browser LOG     🔔 Auth event: SIGNED_IN
+[00:37:05.641] Browser LOG     ═══════════════════════════════════════
+[00:37:05.641] Browser LOG     User: serkankalem99@gmail.com
+[00:37:05.641] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:37:05.641] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":false,"premium_since":null,"stripe_customer_id":null,"subscription_cancel_at":null,"subscription_id":null,"subscription_status":"active","updated_at":"2025-11-10T09:45:16.497997"}
+[00:37:05.641] Browser LOG     isPremium: false
+[00:37:05.641] Browser LOG     Nav Items: ["Highlighted Business","Map","Profile and Payment"]
+[00:37:05.641] Browser LOG     ═══════════════════════════════════════
+[00:37:05.649] Browser LOG     ═══════════════════════════════════════
+[00:37:05.649] Browser LOG     User: serkankalem99@gmail.com
+[00:37:05.649] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:37:05.649] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":false,"premium_since":null,"stripe_customer_id":null,"subscription_cancel_at":null,"subscription_id":null,"subscription_status":"active","updated_at":"2025-11-10T09:45:16.497997"}
+[00:37:05.649] Browser LOG     isPremium: false
+[00:37:05.649] Browser LOG     Nav Items: ["Highlighted Business","Map","Profile and Payment"]
+[00:37:05.649] Browser LOG     ═══════════════════════════════════════
+[00:37:05.654] Browser LOG     ═══════════════════════════════════════
+[00:37:05.654] Browser LOG     User: serkankalem99@gmail.com
+[00:37:05.654] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:37:05.654] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":false,"premium_since":null,"stripe_customer_id":null,"subscription_cancel_at":null,"subscription_id":null,"subscription_status":"active","updated_at":"2025-11-10T09:45:16.497997"}
+[00:37:05.654] Browser LOG     isPremium: false
+[00:37:05.654] Browser LOG     Nav Items: ["Highlighted Business","Map","Profile and Payment"]
+[00:37:05.654] Browser LOG     ═══════════════════════════════════════
+[00:37:52.966] Server  LOG     === Stripe Checkout Debug ===
+[00:37:52.967] Server  LOG     STRIPE_SECRET_KEY exists: true
+[00:37:52.967] Server  LOG     STRIPE_SECRET_KEY prefix: "sk_test_51"
+[00:37:52.969] Server  LOG     Request body: {}
+[00:37:52.971] Server  LOG     Origin: "http://localhost:3000"
+[00:37:52.971] Server  LOG     Using price ID: "price_1SLt8C050zwZ92QfVxvpf1sF"
+[00:37:52.971] Server  LOG     Creating Stripe checkout session...
+[00:37:53.488] Server  LOG     ✅ Checkout session created: "cs_test_a1xU04KoNjWD2DrKDlPIVA0Z2WGiGof3XJtUMgTKoJJvFTMATjvjpYdBcx"
+[00:37:53.488] Server  LOG     Checkout URL: "https://checkout.stripe.com/c/pay/cs_test_a1xU04KoNjWD2DrKDlPIVA0Z2WGiGof3XJtUMgTKoJJvFTMATjvjpYdBcx#fidnandhYHdWcXxpYCc%2FJ2FgY2RwaXEnKSd2cGd2ZndsdXFsamtQa2x0cGBrYHZ2QGtkZ2lgYSc%2FY2RpdmApJ2R1bE5gfCc%2FJ3VuWnFgdnFaMDRVSzQzTzUwNX9yXzw3VGN3NzNLQjVkcFJvcV9xUl1ONTM8Qmo3TjFNMlZ%2FUGxvf0dVXG9CamROSzd8f1FUdlRIYk9MZ3RTf29kcERHf0dHPU5fUDdBf0c1NXJfTWprNGBRJyknY3dqaFZgd3Ngdyc%2FcXdwYCknZ2RmbmJ3anBrYUZqaWp3Jz8nJmNjY2NjYycpJ2lkfGpwcVF8dWAnPyd2bGtiaWBabHFgaCcpJ2BrZGdpYFVpZGZgbWppYWB3dic%2FcXdwYHgl"
+[00:38:25.767] Browser LOG     🔄 Attempt 1/5
+[00:38:25.767] Browser LOG     🔄 Attempt 1/5
+[00:38:55.399] Browser LOG     🔔 Profile updated from auth change
+[00:38:55.411] Browser LOG     🔔 Profile updated from auth change
+[00:38:55.440] Browser LOG     🔔 Profile updated from auth change
+[00:38:55.602] Browser LOG     ═══════════════════════════════════════
+[00:38:55.602] Browser LOG     User: serkankalem99@gmail.com
+[00:38:55.602] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:38:55.602] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":true,"premium_since":null,"stripe_customer_id":"cus_TOfX81gaoZJOLy","subscription_cancel_at":null,"subscription_id":"sub_1SRsCc050zwZ92QfZUpuJX9q","subscription_status":"active","updated_at":"2025-11-10T10:20:06.049588"}
+[00:38:55.602] Browser LOG     isPremium: true
+[00:38:55.602] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
+[00:38:55.602] Browser LOG     ═══════════════════════════════════════
+[00:38:55.619] Browser LOG     ═══════════════════════════════════════
+[00:38:55.619] Browser LOG     User: serkankalem99@gmail.com
+[00:38:55.619] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:38:55.619] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":true,"premium_since":null,"stripe_customer_id":"cus_TOfX81gaoZJOLy","subscription_cancel_at":null,"subscription_id":"sub_1SRsCc050zwZ92QfZUpuJX9q","subscription_status":"active","updated_at":"2025-11-10T10:20:06.049588"}
+[00:38:55.619] Browser LOG     isPremium: true
+[00:38:55.619] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
+[00:38:55.619] Browser LOG     ═══════════════════════════════════════
+[00:38:55.636] Browser LOG     ═══════════════════════════════════════
+[00:38:55.636] Browser LOG     User: serkankalem99@gmail.com
+[00:38:55.636] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:38:55.636] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":true,"premium_since":null,"stripe_customer_id":"cus_TOfX81gaoZJOLy","subscription_cancel_at":null,"subscription_id":"sub_1SRsCc050zwZ92QfZUpuJX9q","subscription_status":"active","updated_at":"2025-11-10T10:20:06.049588"}
+[00:38:55.636] Browser LOG     isPremium: true
+[00:38:55.636] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
+[00:38:55.636] Browser LOG     ═══════════════════════════════════════
+[00:43:06.830] Browser LOG     👁️ Page became visible, reloading data...
+[00:43:06.831] Browser LOG     📍 Loading initial data...
+[00:43:06.996] Browser LOG     🔔 Auth event: SIGNED_IN
+[00:43:07.007] Browser LOG     📍 Session loaded: serkankalem99@gmail.com
+[00:43:07.007] Browser LOG     🔔 Auth event: SIGNED_IN
+[00:43:07.007] Browser LOG     ═══════════════════════════════════════
+[00:43:07.007] Browser LOG     User: serkankalem99@gmail.com
+[00:43:07.007] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:43:07.007] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":true,"premium_since":null,"stripe_customer_id":"cus_TOfX81gaoZJOLy","subscription_cancel_at":null,"subscription_id":"sub_1SRsCc050zwZ92QfZUpuJX9q","subscription_status":"active","updated_at":"2025-11-10T10:20:06.049588"}
+[00:43:07.007] Browser LOG     isPremium: true
+[00:43:07.007] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
+[00:43:07.007] Browser LOG     ═══════════════════════════════════════
+[00:43:07.043] Browser LOG     🔔 Auth event: SIGNED_IN
+[00:43:07.200] Browser LOG     ═══════════════════════════════════════
+[00:43:07.200] Browser LOG     User: serkankalem99@gmail.com
+[00:43:07.200] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:43:07.200] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":true,"premium_since":null,"stripe_customer_id":"cus_TOfX81gaoZJOLy","subscription_cancel_at":null,"subscription_id":"sub_1SRsCc050zwZ92QfZUpuJX9q","subscription_status":"active","updated_at":"2025-11-10T10:20:06.049588"}
+[00:43:07.200] Browser LOG     isPremium: true
+[00:43:07.200] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
+[00:43:07.200] Browser LOG     ═══════════════════════════════════════
+[00:43:07.241] Browser LOG     ═══════════════════════════════════════
+[00:43:07.241] Browser LOG     User: serkankalem99@gmail.com
+[00:43:07.241] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031"}
+[00:43:07.241] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":true,"premium_since":null,"stripe_customer_id":"cus_TOfX81gaoZJOLy","subscription_cancel_at":null,"subscription_id":"sub_1SRsCc050zwZ92QfZUpuJX9q","subscription_status":"active","updated_at":"2025-11-10T10:20:06.049588"}
+[00:43:07.241] Browser LOG     isPremium: true
+[00:43:07.241] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
+[00:43:07.241] Browser LOG     ═══════════════════════════════════════
+[00:43:19.883] Browser WARN    Google Maps JavaScript API has been loaded directly without loading=async. This can result in suboptimal performance. For best-practice loading patterns please see https://goo.gle/js-api-loading
+[00:43:19.883] Browser WARN    Element with name "gmp-internal-loading-text" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-internal-request-error-text" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-internal-back-button" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-internal-dialog" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-internal-disclosure" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-internal-disclosure-section" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-internal-attribution" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-internal-element-support-verification" already defined.
+[00:43:19.883] Browser ERROR   You have included the Google Maps JavaScript API multiple times on this page. This may cause unexpected errors.
+[00:43:19.883] Browser WARN    Google Maps JavaScript API has been loaded directly without loading=async. This can result in suboptimal performance. For best-practice loading patterns please see https://goo.gle/js-api-loading
+[00:43:19.883] Browser WARN    Element with name "gmp-internal-rating" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-internal-link-button" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-internal-menu" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-internal-place-opening-hours" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-internal-place-review" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-internal-tabbed-layout" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-internal-lightbox" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-internal-collage" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-internal-place-rating-summary" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-internal-place-basic-info" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-internal-status-text" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-internal-circular-loader" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-internal-use-place-details-compact" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-place-content-config" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-place-media" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-place-address" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-place-rating" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-place-type" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-place-price" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-place-accessible-entrance-icon" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-place-open-now-status" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-place-attribution" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-place-website" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-place-phone-number" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-place-opening-hours" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-place-summary" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-place-type-specific-highlights" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-place-reviews" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-place-plus-code" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-place-feature-list" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-place-details-place-request" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-internal-place-carousel" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-internal-place-search-list-item" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-map" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-place-autocomplete" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-basic-place-autocomplete" already defined.
+[00:43:19.883] Browser WARN    Element with name "gmp-place-search" already defined.
+[00:43:19.884] Browser WARN    Element with name "gmp-place-text-search-request" already defined.
+[00:43:19.884] Browser WARN    Element with name "gmp-place-nearby-search-request" already defined.
+[00:43:19.884] Browser WARN    Element with name "gmp-place-details" already defined.
+[00:43:19.884] Browser WARN    Element with name "gmp-place-details-compact" already defined.
+[00:43:19.884] Browser WARN    Element with name "gmp-place-details-location-request" already defined.
+[00:43:19.884] Browser WARN    Element with name "gmp-place-standard-content" already defined.
+[00:43:19.884] Browser WARN    Element with name "gmp-place-all-content" already defined.
+[00:43:20.295] Browser WARN    As of February 21st, 2024, google.maps.Marker is deprecated. Please use google.maps.marker.AdvancedMarkerElement instead. At this time, google.maps.Marker is not scheduled to be discontinued, but google.maps.marker.AdvancedMarkerElement is recommended over google.maps.Marker. While google.maps.Marker will continue to receive bug fixes for any major regressions, existing bugs in google.maps.Marker will not be addressed. At least 12 months notice will be given before support is discontinued. Please see https://developers.google.com/maps/deprecations for additional details and https://developers.google.com/maps/documentation/javascript/advanced-markers/migration for the migration guide.
+[00:43:24.880] Browser ERROR   unhandledRejection: TypeError: undefined is not an object (evaluating 'p.zJ')
+[00:44:36.363] Browser LOG     👁️ Page became visible, reloading data...
+[00:44:36.363] Browser LOG     📍 Loading initial data...
+[00:46:06.916] Server  LOG      ✓ Compiled in 486ms
+[09:20:31.841] Server  LOG      ✓ Compiled in 21ms
+[09:21:04.240] Browser LOG     👁️ Page became visible, reloading data...
+[09:21:04.240] Browser LOG     📍 Loading initial data...
+[09:21:38.070] Browser LOG     Firebase app initialized
+[09:21:38.070] Browser LOG     📍 Loading initial data...
+[09:21:38.070] Browser LOG     Fetching businesses from database...
+[09:21:38.070] Browser LOG     Notification permission denied
+[09:21:38.771] Browser LOG     🔔 Auth event: SIGNED_OUT
+[09:21:38.771] Browser ERROR   {"__isAuthError":true,"code":"refresh_token_not_found","name":"AuthApiError","status":400}
+[09:21:38.771] Browser LOG     🔔 Auth event: SIGNED_OUT
+[09:21:38.771] Browser LOG     📍 Session loaded: undefined
+[09:21:38.771] Browser LOG     🔔 Auth event: INITIAL_SESSION
+[09:21:39.531] Browser LOG     Fetched businesses: 93
+[09:21:53.476] Browser LOG     🔔 Auth event: SIGNED_IN
+[09:21:53.476] Browser LOG     ═══════════════════════════════════════
+[09:21:53.476] Browser LOG     User: serkankalem99@gmail.com
+[09:21:53.476] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031","subscription_status":"active"}
+[09:21:53.476] Browser LOG     Profile: null
+[09:21:53.476] Browser LOG     isPremium: true
+[09:21:53.476] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
+[09:21:53.476] Browser LOG     ═══════════════════════════════════════
+[09:22:03.213] Browser LOG     Loading Google Maps script...
+[09:22:03.213] Browser LOG     Google Maps script already exists, waiting for load...
+[09:22:03.371] Browser WARN    Google Maps JavaScript API has been loaded directly without loading=async. This can result in suboptimal performance. For best-practice loading patterns please see https://goo.gle/js-api-loading
+[09:22:03.371] Browser LOG     Google Maps loaded successfully
+[09:22:03.895] Browser WARN    As of February 21st, 2024, google.maps.Marker is deprecated. Please use google.maps.marker.AdvancedMarkerElement instead. At this time, google.maps.Marker is not scheduled to be discontinued, but google.maps.marker.AdvancedMarkerElement is recommended over google.maps.Marker. While google.maps.Marker will continue to receive bug fixes for any major regressions, existing bugs in google.maps.Marker will not be addressed. At least 12 months notice will be given before support is discontinued. Please see https://developers.google.com/maps/deprecations for additional details and https://developers.google.com/maps/documentation/javascript/advanced-markers/migration for the migration guide.
+[09:22:03.895] Browser LOG     🔔 Profile updated from auth change
+[09:22:03.895] Browser LOG     ═══════════════════════════════════════
+[09:22:03.895] Browser LOG     User: serkankalem99@gmail.com
+[09:22:03.895] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031","subscription_status":"active"}
+[09:22:03.895] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":true,"premium_since":null,"stripe_customer_id":"cus_TOfX81gaoZJOLy","subscription_cancel_at":null,"subscription_id":"sub_1SRsCc050zwZ92QfZUpuJX9q","subscription_status":"active","updated_at":"2025-11-10T10:20:06.049588"}
+[09:22:03.895] Browser LOG     isPremium: true
+[09:22:03.895] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
+[09:22:03.895] Browser LOG     ═══════════════════════════════════════
+[09:22:04.201] Browser LOG     ═══════════════════════════════════════
+[09:22:04.201] Browser LOG     User: serkankalem99@gmail.com
+[09:22:04.201] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031","subscription_status":"active"}
+[09:22:04.201] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":true,"premium_since":null,"stripe_customer_id":"cus_TOfX81gaoZJOLy","subscription_cancel_at":null,"subscription_id":"sub_1SRsCc050zwZ92QfZUpuJX9q","subscription_status":"active","updated_at":"2025-11-10T10:20:06.049588"}
+[09:22:04.201] Browser LOG     isPremium: true
+[09:22:04.201] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
+[09:22:04.201] Browser LOG     ═══════════════════════════════════════
+[09:22:07.782] Server  ERROR   Portal session error: Error: No configuration provided and your test mode default configuration has not been created. Provide a configuration or create your default by saving your customer portal settings in test mode at https://dashboard.stripe.com/test/settings/billing/portal.
+[09:22:11.343] Browser ERROR   Error opening portal: {}
+[09:22:13.629] Browser LOG     Google Maps already loaded
+[09:22:13.629] Browser LOG     Google Maps already loaded
+[09:22:57.750] Browser LOG     👁️ Page became visible, reloading data...
+[09:22:57.750] Browser LOG     📍 Loading initial data...
+[09:22:57.750] Browser LOG     📍 Session loaded: serkankalem99@gmail.com
+[09:22:57.750] Browser LOG     🔔 Auth event: SIGNED_IN
+[09:22:57.750] Browser LOG     ═══════════════════════════════════════
+[09:22:57.750] Browser LOG     User: serkankalem99@gmail.com
+[09:22:57.750] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031","subscription_status":"active"}
+[09:22:57.750] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":true,"premium_since":null,"stripe_customer_id":"cus_TOfX81gaoZJOLy","subscription_cancel_at":null,"subscription_id":"sub_1SRsCc050zwZ92QfZUpuJX9q","subscription_status":"active","updated_at":"2025-11-10T10:20:06.049588"}
+[09:22:57.750] Browser LOG     isPremium: true
+[09:22:57.750] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
+[09:22:57.750] Browser LOG     ═══════════════════════════════════════
+[09:23:32.820] Browser LOG     Google Maps already loaded
+[09:23:32.820] Browser LOG     Google Maps already loaded
+[09:23:39.842] Browser LOG     🔘 Sign out button clicked
+[09:23:39.842] Browser LOG     🚪 Starting logout process...
+[09:23:41.757] Browser LOG     🔘 Sign out button clicked
+[09:23:41.757] Browser LOG     🚪 Starting logout process...
+[09:23:42.107] Browser LOG     🔘 Sign out button clicked
+[09:23:42.107] Browser LOG     🚪 Starting logout process...
+[09:23:42.307] Browser LOG     🔘 Sign out button clicked
+[09:23:42.307] Browser LOG     🚪 Starting logout process...
+[09:23:42.457] Browser LOG     🔘 Sign out button clicked
+[09:23:42.457] Browser LOG     🚪 Starting logout process...
+[09:23:42.757] Browser LOG     🔘 Sign out button clicked
+[09:23:42.757] Browser LOG     🚪 Starting logout process...
+[09:23:52.382] Browser LOG     👁️ Page became visible, reloading data...
+[09:23:52.382] Browser LOG     📍 Loading initial data...

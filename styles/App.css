@@ -1,4 +1,14 @@
 /* styles/globals.css */
+
+/* index.css or global.css */
+.highlighted-business-header h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  /* optional, adjust as needed */
+}
+
+
+
 * {
   margin: 0;
   padding: 0;

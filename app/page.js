@@ -1142,70 +1142,25 @@ const refreshUserData = async () => {
                       <div className="highlighted-business-name">{biz.name}</div>
                       {biz.description && <div className="highlighted-business-description">{biz.description}</div>}
 
-                      <div
-                        style={{ display: "flex", alignItems: "center", gap: 4 }}
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <span
-                            key={star}
-                            onClick={async (e) => {
-                              e.stopPropagation()
-                              if (!session?.user) {
-                                alert("Please sign in to rate this business.")
-                                return
-                              }
-                              try {
-                                const { error: insertError } = await supabase.from("reviews").insert({
-                                  business_id: biz.id,
-                                  user_id: session.user.id,
-                                  rating: star,
-                                })
-                                if (insertError) throw insertError
-
-                                const { data: allReviews, error: fetchError } = await supabase
-                                  .from("reviews")
-                                  .select("rating")
-                                  .eq("business_id", biz.id)
-
-                                if (fetchError) throw fetchError
-
-                                const total = allReviews.length
-                                const avg = total > 0 ? allReviews.reduce((a, r) => a + r.rating, 0) / total : 0
-
-                                const { error: updateError } = await supabase
-                                  .from("businesses")
-                                  .update({
-                                    rating: avg.toFixed(1),
-                                    review_count: total,
-                                  })
-                                  .eq("id", biz.id)
-
-                                if (updateError) throw updateError
-
-                                setBusinesses((prev) =>
-                                  prev.map((b) =>
-                                    b.id === biz.id ? { ...b, rating: avg.toFixed(1), review_count: total } : b,
-                                  ),
-                                )
-                              } catch (err) {
-                                console.error("Rating error:", err)
-                                alert("Error submitting your rating.")
-                              }
-                            }}
-                            style={{
-                              color: (biz.rating || 0) >= star ? "#f59e0b" : "#ccc",
-                              fontSize: 18,
-                              cursor: "pointer",
-                            }}
-                          >
-                            ★
-                          </span>
-                        ))}
-                        <span style={{ fontSize: 13, color: "#f59e0b", fontWeight: 500 }}>
-                          {biz.rating || " 0.0"} ({biz.review_count || 0})
-                        </span>
-                      </div>
+                    <div
+  style={{ display: "flex", alignItems: "center", gap: 4 }}
+>
+  {[1, 2, 3, 4, 5].map((star) => (
+    <span
+      key={star}
+      style={{
+        color: (biz.rating || 0) >= star ? "#f59e0b" : "#ccc",
+        fontSize: 18,
+        cursor: "default",  // Changed from "pointer" to "default"
+      }}
+    >
+      ★
+    </span>
+  ))}
+  <span style={{ fontSize: 13, color: "#f59e0b", fontWeight: 500 }}>
+    {biz.rating || " 0.0"} ({biz.review_count || 0})
+  </span>
+</div>
 
                       {Array.isArray(biz.tags) && biz.tags.length > 0 && (
                         <div className="highlighted-business-tags">
@@ -1235,7 +1190,7 @@ const refreshUserData = async () => {
           style={{
             display: "flex",
             justifyContent: "space-around",
-            backgroundColor: "#darkblue",
+            backgroundColor: "white",
             padding: "8px 4px",
             borderTop: "1px solid #ccc",
             minHeight: "60px",
@@ -1263,14 +1218,14 @@ const refreshUserData = async () => {
                   flexDirection: "column",
                   alignItems: "center",
                   justifyContent: "center",
-                  color: isSelected ? "darkblue" : "#666",
+                  color: isSelected ? "#4ba3d9" : "#667",
                   fontWeight: isSelected ? "bold" : "normal",
                   transition: "color 0.3s",
                   flex: 1,
                   maxWidth: "80px",
                 }}
               >
-                <Icon size={20} color={isSelected ? "darkblue" : "#666"} />
+                <Icon size={20} color={isSelected ? "#4ba3d9" : "#667"} />
                 <span
                   style={{
                     fontSize: "10px",

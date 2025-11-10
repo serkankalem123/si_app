@@ -22,24 +22,45 @@ const StatenIslandMap = ({ businesses }) => {
   )
 
   // Load Google Maps API
-  useEffect(() => {
-    const loadGoogleMaps = () => {
-      if (window.google) {
-        setIsLoaded(true)
-        return
-      }
+ // Replace the loadGoogleMaps useEffect in StatenIslandMap.jsx with this:
 
-      const script = document.createElement("script")
-      script.src =
-        "https://maps.googleapis.com/maps/api/js?key=AIzaSyDbunv4FltSPw8q9_jQJoVDrCJ7dPjsVaw&libraries=places"
-      script.async = true
-      script.defer = true
-      script.onload = () => setIsLoaded(true)
-      document.head.appendChild(script)
+useEffect(() => {
+  const loadGoogleMaps = () => {
+    // Check if Google Maps is already loaded
+    if (window.google && window.google.maps) {
+      console.log("Google Maps already loaded");
+      setIsLoaded(true);
+      return;
     }
 
-    loadGoogleMaps()
-  }, [])
+    // Check if script is already being loaded
+    const existingScript = document.querySelector('script[src*="maps.googleapis.com"]');
+    if (existingScript) {
+      console.log("Google Maps script already exists, waiting for load...");
+      existingScript.addEventListener('load', () => {
+        setIsLoaded(true);
+      });
+      return;
+    }
+
+    // Load the script only if it doesn't exist
+    console.log("Loading Google Maps script...");
+    const script = document.createElement("script");
+    script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDbunv4FltSPw8q9_jQJoVDrCJ7dPjsVaw&libraries=places";
+    script.async = true;
+    script.defer = true;
+    script.onload = () => {
+      console.log("Google Maps loaded successfully");
+      setIsLoaded(true);
+    };
+    script.onerror = () => {
+      console.error("Failed to load Google Maps");
+    };
+    document.head.appendChild(script);
+  };
+
+  loadGoogleMaps();
+}, []);
 
   // Init map
   useEffect(() => {
