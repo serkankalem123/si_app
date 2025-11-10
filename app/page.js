@@ -246,6 +246,15 @@ function App() {
 
   const isPremium = session?.user?.user_metadata?.is_premium === true || profile?.is_premium === true
 
+
+  useEffect(() => {
+    // Ensure we always have a valid navigation selection
+    if (!selectedNav || !navItems.find(item => item.label === selectedNav)) {
+      setSelectedNav("Highlighted Business");
+    }
+  }, [selectedNav]);
+
+
   useEffect(() => {
   if (session?.user) {
     console.log('═══════════════════════════════════════');
