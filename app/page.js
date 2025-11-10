@@ -522,91 +522,98 @@ function App() {
   }, [])
 
  
-useEffect(() => {
-  let mounted = true;
-
-  const loadData = async () => {
-    console.log('📍 Loading initial data...');
-    
-    // ✅ FIX: Force a fresh session from server
-    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-    if (!mounted) return;
-    
-    if (sessionError) {
-      console.error('❌ Session error:', sessionError);
-      return;
-    }
-    
-    console.log('📍 Session loaded:', session?.user?.email);
-    setSession(session);
-    
-    if (session?.user) {
-      // ✅ FIX: Always fetch fresh profile data from database
-      const { data: profileData, error: profileError } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', session.user.id)
-        .single();
+  useEffect(() => {
+    let mounted = true;
+    let authSubscription = null;
+  
+    const loadData = async () => {
+      console.log('📍 Loading initial data...');
       
-      if (profileError) {
-        console.error('❌ Profile error:', profileError);
-      } else {
-        console.log('✅ Profile loaded:', {
-          email: profileData.email,
-          is_premium: profileData.is_premium,
-          subscription_status: profileData.subscription_status,
-          subscription_cancel_at: profileData.subscription_cancel_at,
-        });
-        setProfile(profileData);
+      try {
+        // Get fresh session
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        
+        if (!mounted) return;
+        
+        if (sessionError) {
+          console.error('❌ Session error:', sessionError);
+          setSession(null);
+          setProfile(null);
+          return;
+        }
+        
+        console.log('📍 Session loaded:', session?.user?.email);
+        
+        if (session?.user) {
+          // Fetch profile FIRST before setting session
+          const { data: profileData, error: profileError } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', session.user.id)
+            .single();
+          
+          if (!mounted) return;
+          
+          if (profileError) {
+            console.error('❌ Profile error:', profileError);
+            // Still set session even if profile fails
+            setSession(session);
+            setProfile(null);
+          } else {
+            console.log('✅ Profile loaded:', {
+              email: profileData.email,
+              is_premium: profileData.is_premium,
+              subscription_status: profileData.subscription_status,
+              subscription_cancel_at: profileData.subscription_cancel_at,
+            });
+            // Set both atomically
+            setProfile(profileData);
+            setSession(session);
+          }
+        } else {
+          // No session
+          setSession(null);
+          setProfile(null);
+        }
+      } catch (error) {
+        console.error('❌ Load data error:', error);
+        if (mounted) {
+          setSession(null);
+          setProfile(null);
+        }
       }
-    }
-  };
-
-  // ✅ FIX: Load data immediately on mount
-  loadData();
-
-  // ✅ FIX: Listen for auth changes and storage events
-  const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-    console.log('🔔 Auth event:', event);
-    if (!mounted) return;
-    
-    setSession(session);
-    
-    if (session?.user) {
-      // Always fetch fresh profile from database
-      const { data: profileData } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', session.user.id)
-        .single();
+    };
+  
+    // Load data immediately on mount
+    loadData();
+  
+    // Listen for auth changes
+    supabase.auth.onAuthStateChange(async (event, newSession) => {
+      console.log('🔔 Auth event:', event);
+      if (!mounted) return;
       
-      console.log('🔔 Profile updated from auth change:', {
-        is_premium: profileData?.is_premium,
-        subscription_status: profileData?.subscription_status,
-      });
-      
-      setProfile(profileData);
-    } else {
-      setProfile(null);
-    }
-  });
-
-  // ✅ NEW: Listen for storage events (page visibility changes)
-  const handleVisibilityChange = () => {
-    if (document.visibilityState === 'visible') {
-      console.log('👁️ Page became visible, reloading data...');
-      loadData();
-    }
-  };
-
-  document.addEventListener('visibilitychange', handleVisibilityChange);
-
-  return () => {
-    mounted = false;
-    subscription?.unsubscribe();
-    document.removeEventListener('visibilitychange', handleVisibilityChange);
-  };
-}, []);
+      // Always reload data on auth changes
+      await loadData();
+    }).then(({ data: { subscription } }) => {
+      authSubscription = subscription;
+    });
+  
+    // Listen for page visibility changes
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible' && mounted) {
+        console.log('👁️ Page became visible, reloading data...');
+        loadData();
+      }
+    };
+  
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+  
+    return () => {
+      mounted = false;
+      authSubscription?.unsubscribe();
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
 
 useEffect(() => {
   if (!session?.user?.id) return;
