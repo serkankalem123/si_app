@@ -22,45 +22,43 @@ const StatenIslandMap = ({ businesses }) => {
   )
 
   // Load Google Maps API
- // Replace the loadGoogleMaps useEffect in StatenIslandMap.jsx with this:
-
-useEffect(() => {
-  const loadGoogleMaps = () => {
-    // Check if Google Maps is already loaded
-    if (window.google && window.google.maps) {
-      console.log("Google Maps already loaded");
-      setIsLoaded(true);
-      return;
-    }
-
-    // Check if script is already being loaded
-    const existingScript = document.querySelector('script[src*="maps.googleapis.com"]');
-    if (existingScript) {
-      console.log("Google Maps script already exists, waiting for load...");
-      existingScript.addEventListener('load', () => {
+  useEffect(() => {
+    const loadGoogleMaps = () => {
+      // Check if Google Maps is already loaded
+      if (window.google && window.google.maps) {
+        console.log("Google Maps already loaded");
         setIsLoaded(true);
-      });
-      return;
-    }
+        return;
+      }
 
-    // Load the script only if it doesn't exist
-    console.log("Loading Google Maps script...");
-    const script = document.createElement("script");
-    script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDbunv4FltSPw8q9_jQJoVDrCJ7dPjsVaw&libraries=places";
-    script.async = true;
-    script.defer = true;
-    script.onload = () => {
-      console.log("Google Maps loaded successfully");
-      setIsLoaded(true);
-    };
-    script.onerror = () => {
-      console.error("Failed to load Google Maps");
-    };
-    document.head.appendChild(script);
-  };
+      // Check if script is already being loaded
+      const existingScript = document.querySelector('script[src*="maps.googleapis.com"]');
+      if (existingScript) {
+        console.log("Google Maps script already exists, waiting for load...");
+        existingScript.addEventListener('load', () => {
+          setIsLoaded(true);
+        });
+        return;
+      }
 
-  loadGoogleMaps();
-}, []);
+      // Load the script only if it doesn't exist
+      console.log("Loading Google Maps script...");
+      const script = document.createElement("script");
+      script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDbunv4FltSPw8q9_jQJoVDrCJ7dPjsVaw&libraries=places";
+      script.async = true;
+      script.defer = true;
+      script.onload = () => {
+        console.log("Google Maps loaded successfully");
+        setIsLoaded(true);
+      };
+      script.onerror = () => {
+        console.error("Failed to load Google Maps");
+      };
+      document.head.appendChild(script);
+    };
+
+    loadGoogleMaps();
+  }, []);
 
   // Init map
   useEffect(() => {
@@ -124,7 +122,7 @@ useEffect(() => {
 
       const infoWindow = new window.google.maps.InfoWindow({
         content: `
-          <div style="padding:8px; font-family:sans-serif; min-width:220px;">
+          <div style="padding:12px; font-family:sans-serif; min-width:220px;">
             <div style="display:flex; align-items:center; gap:12px;">
               <img
                 src="${business.logo_url || "/placeholder.svg"}"
@@ -549,19 +547,57 @@ useEffect(() => {
         }
       `}</style>
 
-      {/* ✅ Global overrides to remove excess whitespace in InfoWindow */}
+      {/* ✅ Fixed InfoWindow styling - Close button now visible */}
       <style jsx global>{`
+        /* InfoWindow container adjustments */
         .gm-style-iw {
-          padding-top: 0 !important;
-          top: 0 !important;
+          padding: 0 !important;
+          max-width: 280px !important;
         }
+        
+        /* InfoWindow content wrapper */
+        .gm-style-iw-d {
+          overflow: auto !important;
+          max-height: none !important;
+        }
+        
+        /* Make close button visible - NO background */
         .gm-ui-hover-effect {
+          opacity: 1 !important;
           top: 4px !important;
           right: 4px !important;
+          width: 22px !important;
+          height: 22px !important;
+          background: none !important;
+          border-radius: 0 !important;
+          box-shadow: none !important;
+          display: flex !important;
+          align-items: center !important;
+          justify-content: center !important;
         }
+        
+        /* Style the X icon - dark and crisp */
         .gm-ui-hover-effect > img {
-          width: 12px !important;
-          height: 12px !important;
+          width: 18px !important;
+          height: 18px !important;
+          margin: 0 !important;
+          filter: brightness(0) saturate(100%) invert(0.2) !important;
+          opacity: 0.8 !important;
+        }
+        
+        /* Hover effect - just darken the X */
+        .gm-ui-hover-effect:hover {
+          background: none !important;
+        }
+        
+        .gm-ui-hover-effect:hover > img {
+          opacity: 1 !important;
+          filter: brightness(0) saturate(100%) invert(0) !important;
+        }
+        
+        /* Remove default InfoWindow padding */
+        .gm-style .gm-style-iw-c {
+          padding: 0 !important;
         }
       `}</style>
     </div>
