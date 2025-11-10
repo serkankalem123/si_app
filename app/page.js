@@ -1002,8 +1002,7 @@ const refreshUserData = async () => {
                     <option value="">Sort By</option>
                     <option value="az">A → Z</option>
                     <option value="za">Z → A</option>
-                    <option value="oldest">Oldest → Newest</option>
-                    <option value="newest">Newest → Oldest</option>
+                  
                     <option value="rating">Highest Rating</option>
                   </select>
                   <select value={zipSearch} onChange={(e) => setZipSearch(e.target.value)}>
