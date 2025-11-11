@@ -1,4 +1,8 @@
 /* [project]/si_app copy/styles/App.css [app-client] (css) */
+.highlighted-business-name {
+  font-family: Montserrat, sans-serif;
+}
+
 .highlighted-business-header h2 {
   font-family: Montserrat, sans-serif;
   font-weight: 600;

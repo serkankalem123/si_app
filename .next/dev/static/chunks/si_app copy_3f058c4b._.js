@@ -2116,6 +2116,7 @@ const StatenIslandMap = ({ businesses })=>{
     const [searchTerm, setSearchTerm] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])("");
     const [showSuggestions, setShowSuggestions] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [selectedSuggestionIndex, setSelectedSuggestionIndex] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(-1);
+    const [selectedBusiness, setSelectedBusiness] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(null);
     const markersRef = (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRef"])({});
     const STATEN_ISLAND_CENTER = {
         lat: 40.5795,
@@ -2127,13 +2128,11 @@ const StatenIslandMap = ({ businesses })=>{
         "StatenIslandMap.useEffect": ()=>{
             const loadGoogleMaps = {
                 "StatenIslandMap.useEffect.loadGoogleMaps": ()=>{
-                    // Check if Google Maps is already loaded
                     if (window.google && window.google.maps) {
                         console.log("Google Maps already loaded");
                         setIsLoaded(true);
                         return;
                     }
-                    // Check if script is already being loaded
                     const existingScript = document.querySelector('script[src*="maps.googleapis.com"]');
                     if (existingScript) {
                         console.log("Google Maps script already exists, waiting for load...");
@@ -2144,7 +2143,6 @@ const StatenIslandMap = ({ businesses })=>{
                         }["StatenIslandMap.useEffect.loadGoogleMaps"]);
                         return;
                     }
-                    // Load the script only if it doesn't exist
                     console.log("Loading Google Maps script...");
                     const script = document.createElement("script");
                     script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDbunv4FltSPw8q9_jQJoVDrCJ7dPjsVaw&libraries=places";
@@ -2237,37 +2235,19 @@ const StatenIslandMap = ({ businesses })=>{
                             scaledSize: new window.google.maps.Size(32, 32)
                         }
                     });
-                    const infoWindow = new window.google.maps.InfoWindow({
-                        content: `
-          <div style="padding:12px; font-family:sans-serif; min-width:220px;">
-            <div style="display:flex; align-items:center; gap:12px;">
-              <img
-                src="${business.logo_url || "/placeholder.svg"}"
-                alt="${business.name}"
-                style="width:60px; height:60px; border-radius:8px; object-fit:cover;"
-              />
-              <div>
-                <div style="font-weight:bold; margin-bottom:4px; font-size:15px;">
-                  ${business.name}
-                </div>
-                ${business.address ? `<a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(business.address)}" target="_blank" rel="noopener noreferrer"
-                         style="color:#2563eb; text-decoration:underline; font-size:13px;">
-                         ${business.address}
-                       </a>` : ""}
-              </div>
-            </div>
-          </div>
-        `
-                    });
                     marker.addListener("click", {
                         "StatenIslandMap.useEffect": ()=>{
-                            infoWindow.open(map, marker);
+                            setSelectedBusiness(business);
+                            map.panTo({
+                                lat,
+                                lng
+                            });
+                            map.setZoom(Math.max(map.getZoom(), 15));
                         }
                     }["StatenIslandMap.useEffect"]);
                     markers.push(marker);
                     markersRef.current[business.id] = {
-                        marker,
-                        infoWindow
+                        marker
                     };
                 }
             }["StatenIslandMap.useEffect"]);
@@ -2338,7 +2318,7 @@ const StatenIslandMap = ({ businesses })=>{
             width: "100%",
             position: "relative"
         },
-        className: "jsx-4cc757b5c0e82252",
+        className: "jsx-ecc1e3f61275c896",
         children: [
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 style: {
@@ -2353,7 +2333,7 @@ const StatenIslandMap = ({ businesses })=>{
                     zIndex: 1000,
                     boxShadow: "0 2px 8px rgba(0,0,0,0.15)"
                 },
-                className: "jsx-4cc757b5c0e82252",
+                className: "jsx-ecc1e3f61275c896",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     style: {
                         display: "flex",
@@ -2364,7 +2344,7 @@ const StatenIslandMap = ({ businesses })=>{
                         flexWrap: "wrap",
                         position: "relative"
                     },
-                    className: "jsx-4cc757b5c0e82252",
+                    className: "jsx-ecc1e3f61275c896",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             style: {
@@ -2380,7 +2360,7 @@ const StatenIslandMap = ({ businesses })=>{
                                 position: "relative",
                                 transition: "all 0.3s ease"
                             },
-                            className: "jsx-4cc757b5c0e82252",
+                            className: "jsx-ecc1e3f61275c896",
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                     style: {
@@ -2388,11 +2368,11 @@ const StatenIslandMap = ({ businesses })=>{
                                         marginRight: 12,
                                         fontSize: "1.1rem"
                                     },
-                                    className: "jsx-4cc757b5c0e82252",
+                                    className: "jsx-ecc1e3f61275c896",
                                     children: "🔍"
                                 }, void 0, false, {
                                     fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
-                                    lineNumber: 264,
+                                    lineNumber: 235,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -2412,10 +2392,10 @@ const StatenIslandMap = ({ businesses })=>{
                                         color: "#111827",
                                         background: "transparent"
                                     },
-                                    className: "jsx-4cc757b5c0e82252"
+                                    className: "jsx-ecc1e3f61275c896"
                                 }, void 0, false, {
                                     fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
-                                    lineNumber: 265,
+                                    lineNumber: 236,
                                     columnNumber: 13
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 showSuggestions && filteredBusinesses.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2432,7 +2412,7 @@ const StatenIslandMap = ({ businesses })=>{
                                         zIndex: 1001,
                                         marginTop: "2px"
                                     },
-                                    className: "jsx-4cc757b5c0e82252",
+                                    className: "jsx-ecc1e3f61275c896",
                                     children: [
                                         filteredBusinesses.slice(0, 8).map((business, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 onClick: ()=>handleSuggestionSelect(business),
@@ -2444,7 +2424,7 @@ const StatenIslandMap = ({ businesses })=>{
                                                     transition: "background 0.1s"
                                                 },
                                                 onMouseEnter: ()=>setSelectedSuggestionIndex(index),
-                                                className: "jsx-4cc757b5c0e82252",
+                                                className: "jsx-ecc1e3f61275c896",
                                                 children: [
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                         style: {
@@ -2453,11 +2433,11 @@ const StatenIslandMap = ({ businesses })=>{
                                                             color: "#1f2937",
                                                             marginBottom: "2px"
                                                         },
-                                                        className: "jsx-4cc757b5c0e82252",
+                                                        className: "jsx-ecc1e3f61275c896",
                                                         children: business.name
                                                     }, void 0, false, {
                                                         fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
-                                                        lineNumber: 313,
+                                                        lineNumber: 284,
                                                         columnNumber: 21
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     business.address && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2465,17 +2445,17 @@ const StatenIslandMap = ({ businesses })=>{
                                                             fontSize: "12px",
                                                             color: "#6b7280"
                                                         },
-                                                        className: "jsx-4cc757b5c0e82252",
+                                                        className: "jsx-ecc1e3f61275c896",
                                                         children: business.address
                                                     }, void 0, false, {
                                                         fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
-                                                        lineNumber: 316,
+                                                        lineNumber: 287,
                                                         columnNumber: 42
                                                     }, ("TURBOPACK compile-time value", void 0))
                                                 ]
                                             }, business.id, true, {
                                                 fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
-                                                lineNumber: 301,
+                                                lineNumber: 272,
                                                 columnNumber: 19
                                             }, ("TURBOPACK compile-time value", void 0))),
                                         filteredBusinesses.length > 8 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2486,7 +2466,7 @@ const StatenIslandMap = ({ businesses })=>{
                                                 textAlign: "center",
                                                 background: "#f9fafb"
                                             },
-                                            className: "jsx-4cc757b5c0e82252",
+                                            className: "jsx-ecc1e3f61275c896",
                                             children: [
                                                 "+",
                                                 filteredBusinesses.length - 8,
@@ -2494,19 +2474,19 @@ const StatenIslandMap = ({ businesses })=>{
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
-                                            lineNumber: 320,
+                                            lineNumber: 291,
                                             columnNumber: 19
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
-                                    lineNumber: 285,
+                                    lineNumber: 256,
                                     columnNumber: 15
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
-                            lineNumber: 249,
+                            lineNumber: 220,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2535,22 +2515,22 @@ const StatenIslandMap = ({ businesses })=>{
                                     e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.2)";
                                 }
                             },
-                            className: "jsx-4cc757b5c0e82252",
+                            className: "jsx-ecc1e3f61275c896",
                             children: showList ? "Hide List" : "Show List"
                         }, void 0, false, {
                             fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
-                            lineNumber: 336,
+                            lineNumber: 307,
                             columnNumber: 11
                         }, ("TURBOPACK compile-time value", void 0))
                     ]
                 }, void 0, true, {
                     fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
-                    lineNumber: 238,
+                    lineNumber: 209,
                     columnNumber: 9
                 }, ("TURBOPACK compile-time value", void 0))
             }, void 0, false, {
                 fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
-                lineNumber: 224,
+                lineNumber: 195,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2560,10 +2540,10 @@ const StatenIslandMap = ({ businesses })=>{
                     width: "100%",
                     paddingTop: "88px"
                 },
-                className: "jsx-4cc757b5c0e82252"
+                className: "jsx-ecc1e3f61275c896"
             }, void 0, false, {
                 fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
-                lineNumber: 368,
+                lineNumber: 339,
                 columnNumber: 7
             }, ("TURBOPACK compile-time value", void 0)),
             !isLoaded && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2579,12 +2559,12 @@ const StatenIslandMap = ({ businesses })=>{
                     backgroundColor: "#f9fafb",
                     color: "#6b7280"
                 },
-                className: "jsx-4cc757b5c0e82252",
+                className: "jsx-ecc1e3f61275c896",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     style: {
                         textAlign: "center"
                     },
-                    className: "jsx-4cc757b5c0e82252",
+                    className: "jsx-ecc1e3f61275c896",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             style: {
@@ -2596,29 +2576,199 @@ const StatenIslandMap = ({ businesses })=>{
                                 animation: "spin 1s linear infinite",
                                 margin: "0 auto 16px"
                             },
-                            className: "jsx-4cc757b5c0e82252"
+                            className: "jsx-ecc1e3f61275c896"
                         }, void 0, false, {
                             fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
-                            lineNumber: 393,
+                            lineNumber: 364,
                             columnNumber: 13
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                            className: "jsx-4cc757b5c0e82252",
+                            className: "jsx-ecc1e3f61275c896",
                             children: "Loading Staten Island Map..."
                         }, void 0, false, {
                             fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
-                            lineNumber: 404,
+                            lineNumber: 375,
                             columnNumber: 13
                         }, ("TURBOPACK compile-time value", void 0))
                     ]
                 }, void 0, true, {
                     fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
-                    lineNumber: 392,
+                    lineNumber: 363,
                     columnNumber: 11
                 }, ("TURBOPACK compile-time value", void 0))
             }, void 0, false, {
                 fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
-                lineNumber: 378,
+                lineNumber: 349,
+                columnNumber: 9
+            }, ("TURBOPACK compile-time value", void 0)),
+            selectedBusiness && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                style: {
+                    position: "absolute",
+                    bottom: "20px",
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    background: "white",
+                    borderRadius: "16px",
+                    boxShadow: "0 8px 24px rgba(0,0,0,0.2)",
+                    padding: "16px",
+                    minWidth: "320px",
+                    maxWidth: "400px",
+                    zIndex: 1500,
+                    animation: "slideUp 0.3s ease-out"
+                },
+                className: "jsx-ecc1e3f61275c896",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                        onClick: ()=>setSelectedBusiness(null),
+                        style: {
+                            position: "absolute",
+                            top: "12px",
+                            right: "12px",
+                            background: "#f3f4f6",
+                            border: "none",
+                            borderRadius: "50%",
+                            width: "28px",
+                            height: "28px",
+                            cursor: "pointer",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            fontSize: "18px",
+                            color: "#6b7280",
+                            fontWeight: "bold",
+                            transition: "all 0.2s"
+                        },
+                        onMouseEnter: (e)=>{
+                            e.currentTarget.style.background = "#e5e7eb";
+                            e.currentTarget.style.color = "#374151";
+                        },
+                        onMouseLeave: (e)=>{
+                            e.currentTarget.style.background = "#f3f4f6";
+                            e.currentTarget.style.color = "#6b7280";
+                        },
+                        className: "jsx-ecc1e3f61275c896",
+                        children: "×"
+                    }, void 0, false, {
+                        fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
+                        lineNumber: 398,
+                        columnNumber: 11
+                    }, ("TURBOPACK compile-time value", void 0)),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        style: {
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "16px",
+                            paddingRight: "30px"
+                        },
+                        className: "jsx-ecc1e3f61275c896",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("img", {
+                                src: selectedBusiness.logo_url || "/placeholder.svg",
+                                alt: selectedBusiness.name,
+                                style: {
+                                    width: "80px",
+                                    height: "80px",
+                                    borderRadius: "12px",
+                                    objectFit: "cover",
+                                    flexShrink: 0
+                                },
+                                className: "jsx-ecc1e3f61275c896"
+                            }, void 0, false, {
+                                fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
+                                lineNumber: 431,
+                                columnNumber: 13
+                            }, ("TURBOPACK compile-time value", void 0)),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                style: {
+                                    flex: 1
+                                },
+                                className: "jsx-ecc1e3f61275c896",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        style: {
+                                            fontWeight: "600",
+                                            fontSize: "18px",
+                                            marginBottom: "6px",
+                                            color: "#1f2937",
+                                            fontFamily: "'Montserrat', sans-serif"
+                                        },
+                                        className: "jsx-ecc1e3f61275c896",
+                                        children: selectedBusiness.name
+                                    }, void 0, false, {
+                                        fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
+                                        lineNumber: 443,
+                                        columnNumber: 15
+                                    }, ("TURBOPACK compile-time value", void 0)),
+                                    selectedBusiness.address && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("a", {
+                                        href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(selectedBusiness.address)}`,
+                                        target: "_blank",
+                                        rel: "noopener noreferrer",
+                                        style: {
+                                            color: "#2563eb",
+                                            textDecoration: "none",
+                                            fontSize: "14px",
+                                            fontFamily: "'Raleway', sans-serif",
+                                            display: "block"
+                                        },
+                                        onMouseEnter: (e)=>{
+                                            e.currentTarget.style.textDecoration = "underline";
+                                        },
+                                        onMouseLeave: (e)=>{
+                                            e.currentTarget.style.textDecoration = "none";
+                                        },
+                                        className: "jsx-ecc1e3f61275c896",
+                                        children: selectedBusiness.address
+                                    }, void 0, false, {
+                                        fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
+                                        lineNumber: 455,
+                                        columnNumber: 17
+                                    }, ("TURBOPACK compile-time value", void 0))
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
+                                lineNumber: 442,
+                                columnNumber: 13
+                            }, ("TURBOPACK compile-time value", void 0))
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
+                        lineNumber: 430,
+                        columnNumber: 11
+                    }, ("TURBOPACK compile-time value", void 0)),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                        onClick: ()=>handleBusinessClick(selectedBusiness),
+                        style: {
+                            width: "100%",
+                            marginTop: "16px",
+                            background: "#4ba3d9",
+                            color: "white",
+                            border: "none",
+                            borderRadius: "10px",
+                            padding: "12px",
+                            fontSize: "15px",
+                            fontWeight: "600",
+                            cursor: "pointer",
+                            transition: "all 0.2s"
+                        },
+                        onMouseEnter: (e)=>{
+                            e.currentTarget.style.background = "#3d8bb8";
+                            e.currentTarget.style.transform = "translateY(-1px)";
+                        },
+                        onMouseLeave: (e)=>{
+                            e.currentTarget.style.background = "#4ba3d9";
+                            e.currentTarget.style.transform = "translateY(0)";
+                        },
+                        className: "jsx-ecc1e3f61275c896",
+                        children: "View Street View"
+                    }, void 0, false, {
+                        fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
+                        lineNumber: 481,
+                        columnNumber: 11
+                    }, ("TURBOPACK compile-time value", void 0))
+                ]
+            }, void 0, true, {
+                fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
+                lineNumber: 382,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0)),
             showList && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2636,7 +2786,7 @@ const StatenIslandMap = ({ businesses })=>{
                     paddingTop: "20px"
                 },
                 onClick: ()=>setShowList(false),
-                className: "jsx-4cc757b5c0e82252",
+                className: "jsx-ecc1e3f61275c896",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     style: {
                         background: "white",
@@ -2649,7 +2799,7 @@ const StatenIslandMap = ({ businesses })=>{
                         animation: "slideDown 0.3s ease-out"
                     },
                     onClick: (e)=>e.stopPropagation(),
-                    className: "jsx-4cc757b5c0e82252",
+                    className: "jsx-ecc1e3f61275c896",
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             style: {
@@ -2660,22 +2810,23 @@ const StatenIslandMap = ({ businesses })=>{
                                 justifyContent: "space-between",
                                 alignItems: "center"
                             },
-                            className: "jsx-4cc757b5c0e82252",
+                            className: "jsx-ecc1e3f61275c896",
                             children: [
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     style: {
                                         fontWeight: "600",
                                         fontSize: "18px",
-                                        color: "black"
+                                        color: "black",
+                                        fontFamily: "'Montserrat', sans-serif"
                                     },
-                                    className: "jsx-4cc757b5c0e82252",
+                                    className: "jsx-ecc1e3f61275c896",
                                     children: [
                                         filteredBusinesses.length,
-                                        "  Businesses"
+                                        " Businesses"
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
-                                    lineNumber: 450,
+                                    lineNumber: 551,
                                     columnNumber: 15
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -2700,17 +2851,17 @@ const StatenIslandMap = ({ businesses })=>{
                                     onMouseLeave: (e)=>{
                                         e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.2)";
                                     },
-                                    className: "jsx-4cc757b5c0e82252",
+                                    className: "jsx-ecc1e3f61275c896",
                                     children: "✕"
                                 }, void 0, false, {
                                     fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
-                                    lineNumber: 453,
+                                    lineNumber: 554,
                                     columnNumber: 15
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
-                            lineNumber: 440,
+                            lineNumber: 541,
                             columnNumber: 13
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2720,7 +2871,7 @@ const StatenIslandMap = ({ businesses })=>{
                                 overflowY: "auto",
                                 WebkitOverflowScrolling: "touch"
                             },
-                            className: "jsx-4cc757b5c0e82252",
+                            className: "jsx-ecc1e3f61275c896",
                             children: [
                                 filteredBusinesses.map((biz)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                         onClick: ()=>handleBusinessClick(biz),
@@ -2743,38 +2894,40 @@ const StatenIslandMap = ({ businesses })=>{
                                             e.currentTarget.style.transform = "translateY(0)";
                                             e.currentTarget.style.boxShadow = "none";
                                         },
-                                        className: "jsx-4cc757b5c0e82252",
+                                        className: "jsx-ecc1e3f61275c896",
                                         children: [
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 style: {
                                                     fontWeight: "600",
                                                     fontSize: "16px",
                                                     marginBottom: "6px",
-                                                    color: "#1f2937"
+                                                    color: "#1f2937",
+                                                    fontFamily: "'Montserrat', sans-serif"
                                                 },
-                                                className: "jsx-4cc757b5c0e82252",
+                                                className: "jsx-ecc1e3f61275c896",
                                                 children: biz.name
                                             }, void 0, false, {
                                                 fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
-                                                lineNumber: 513,
+                                                lineNumber: 614,
                                                 columnNumber: 19
                                             }, ("TURBOPACK compile-time value", void 0)),
                                             biz.address && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                                 style: {
                                                     fontSize: "14px",
-                                                    color: "#6b7280"
+                                                    color: "#6b7280",
+                                                    fontFamily: "'Raleway'"
                                                 },
-                                                className: "jsx-4cc757b5c0e82252",
+                                                className: "jsx-ecc1e3f61275c896",
                                                 children: biz.address
                                             }, void 0, false, {
                                                 fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
-                                                lineNumber: 516,
+                                                lineNumber: 617,
                                                 columnNumber: 35
                                             }, ("TURBOPACK compile-time value", void 0))
                                         ]
                                     }, biz.id, true, {
                                         fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
-                                        lineNumber: 490,
+                                        lineNumber: 591,
                                         columnNumber: 17
                                     }, ("TURBOPACK compile-time value", void 0))),
                                 filteredBusinesses.length === 0 && searchTerm && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2784,7 +2937,7 @@ const StatenIslandMap = ({ businesses })=>{
                                         color: "#6b7280",
                                         fontSize: "16px"
                                     },
-                                    className: "jsx-4cc757b5c0e82252",
+                                    className: "jsx-ecc1e3f61275c896",
                                     children: [
                                         'No businesses found matching "',
                                         searchTerm,
@@ -2792,42 +2945,38 @@ const StatenIslandMap = ({ businesses })=>{
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
-                                    lineNumber: 521,
+                                    lineNumber: 622,
                                     columnNumber: 17
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
-                            lineNumber: 481,
+                            lineNumber: 582,
                             columnNumber: 13
                         }, ("TURBOPACK compile-time value", void 0))
                     ]
                 }, void 0, true, {
                     fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
-                    lineNumber: 426,
+                    lineNumber: 527,
                     columnNumber: 11
                 }, ("TURBOPACK compile-time value", void 0))
             }, void 0, false, {
                 fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
-                lineNumber: 410,
+                lineNumber: 511,
                 columnNumber: 9
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                id: "24e1c2454854532c",
-                children: "@keyframes slideDown{0%{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}"
-            }, void 0, false, void 0, ("TURBOPACK compile-time value", void 0)),
-            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$si_app__copy$2f$node_modules$2f$styled$2d$jsx$2f$style$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                id: "f1e36c1802a9757",
-                children: ".gm-style-iw{max-width:280px!important;padding:0!important}.gm-style-iw-d{max-height:none!important;overflow:auto!important}.gm-ui-hover-effect{opacity:1!important;width:22px!important;height:22px!important;box-shadow:none!important;background:0 0!important;border-radius:0!important;justify-content:center!important;align-items:center!important;display:flex!important;top:4px!important;right:4px!important}.gm-ui-hover-effect>img{filter:brightness(0)saturate()invert(.2)!important;opacity:.8!important;width:18px!important;height:18px!important;margin:0!important}.gm-ui-hover-effect:hover{background:0 0!important}.gm-ui-hover-effect:hover>img{opacity:1!important;filter:brightness(0)saturate()invert(0)!important}.gm-style .gm-style-iw-c{padding:0!important}"
+                id: "ecc1e3f61275c896",
+                children: "@keyframes slideDown{0%{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}@keyframes slideUp{0%{opacity:0;transform:translate(-50%,20px)}to{opacity:1;transform:translate(-50%)}}"
             }, void 0, false, void 0, ("TURBOPACK compile-time value", void 0))
         ]
     }, void 0, true, {
         fileName: "[project]/si_app copy/src/components/StatenIslandMap.js",
-        lineNumber: 223,
+        lineNumber: 194,
         columnNumber: 5
     }, ("TURBOPACK compile-time value", void 0));
 };
-_s(StatenIslandMap, "It/tINbPFb1li6ciK7fegKlnsb4=");
+_s(StatenIslandMap, "n1Iyj2RcHg8olCSlkwq3NjldyoE=");
 _c = StatenIslandMap;
 const __TURBOPACK__default__export__ = StatenIslandMap;
 var _c;
