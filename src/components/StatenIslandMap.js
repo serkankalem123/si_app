@@ -11,6 +11,7 @@ const StatenIslandMap = ({ businesses }) => {
   const [searchTerm, setSearchTerm] = useState("")
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(-1)
+  const [selectedBusiness, setSelectedBusiness] = useState(null)
   const markersRef = useRef({})
 
   const STATEN_ISLAND_CENTER = { lat: 40.5795, lng: -74.1502 }
@@ -24,14 +25,12 @@ const StatenIslandMap = ({ businesses }) => {
   // Load Google Maps API
   useEffect(() => {
     const loadGoogleMaps = () => {
-      // Check if Google Maps is already loaded
       if (window.google && window.google.maps) {
         console.log("Google Maps already loaded");
         setIsLoaded(true);
         return;
       }
 
-      // Check if script is already being loaded
       const existingScript = document.querySelector('script[src*="maps.googleapis.com"]');
       if (existingScript) {
         console.log("Google Maps script already exists, waiting for load...");
@@ -41,7 +40,6 @@ const StatenIslandMap = ({ businesses }) => {
         return;
       }
 
-      // Load the script only if it doesn't exist
       console.log("Loading Google Maps script...");
       const script = document.createElement("script");
       script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyDbunv4FltSPw8q9_jQJoVDrCJ7dPjsVaw&libraries=places";
@@ -120,41 +118,14 @@ const StatenIslandMap = ({ businesses }) => {
         },
       })
 
-      const infoWindow = new window.google.maps.InfoWindow({
-        content: `
-          <div style="padding:12px; font-family:sans-serif; min-width:220px;">
-            <div style="display:flex; align-items:center; gap:12px;">
-              <img
-                src="${business.logo_url || "/placeholder.svg"}"
-                alt="${business.name}"
-                style="width:60px; height:60px; border-radius:8px; object-fit:cover;"
-              />
-              <div>
-                <div style="font-weight:bold; margin-bottom:4px; font-size:15px;">
-                  ${business.name}
-                </div>
-                ${
-                  business.address
-                    ? `<a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                        business.address,
-                      )}" target="_blank" rel="noopener noreferrer"
-                         style="color:#2563eb; text-decoration:underline; font-size:13px;">
-                         ${business.address}
-                       </a>`
-                    : ""
-                }
-              </div>
-            </div>
-          </div>
-        `,
-      })
-
       marker.addListener("click", () => {
-        infoWindow.open(map, marker)
+        setSelectedBusiness(business)
+        map.panTo({ lat, lng })
+        map.setZoom(Math.max(map.getZoom(), 15))
       })
 
       markers.push(marker)
-      markersRef.current[business.id] = { marker, infoWindow }
+      markersRef.current[business.id] = { marker }
     })
 
     return () => markers.forEach((m) => m.setMap(null))
@@ -406,6 +377,136 @@ const StatenIslandMap = ({ businesses }) => {
         </div>
       )}
 
+      {/* Custom Business Info Overlay */}
+      {selectedBusiness && (
+        <div
+          style={{
+            position: "absolute",
+            bottom: "20px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            background: "white",
+            borderRadius: "16px",
+            boxShadow: "0 8px 24px rgba(0,0,0,0.2)",
+            padding: "16px",
+            minWidth: "320px",
+            maxWidth: "400px",
+            zIndex: 1500,
+            animation: "slideUp 0.3s ease-out",
+          }}
+        >
+          <button
+            onClick={() => setSelectedBusiness(null)}
+            style={{
+              position: "absolute",
+              top: "12px",
+              right: "12px",
+              background: "#f3f4f6",
+              border: "none",
+              borderRadius: "50%",
+              width: "28px",
+              height: "28px",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: "18px",
+              color: "#6b7280",
+              fontWeight: "bold",
+              transition: "all 0.2s",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "#e5e7eb"
+              e.currentTarget.style.color = "#374151"
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "#f3f4f6"
+              e.currentTarget.style.color = "#6b7280"
+            }}
+          >
+            ×
+          </button>
+
+          <div style={{ display: "flex", alignItems: "center", gap: "16px", paddingRight: "30px" }}>
+            <img
+              src={selectedBusiness.logo_url || "/placeholder.svg"}
+              alt={selectedBusiness.name}
+              style={{
+                width: "80px",
+                height: "80px",
+                borderRadius: "12px",
+                objectFit: "cover",
+                flexShrink: 0,
+              }}
+            />
+            <div style={{ flex: 1 }}>
+              <div
+                style={{
+                  fontWeight: "600",
+                  fontSize: "18px",
+                  marginBottom: "6px",
+                  color: "#1f2937",
+                  fontFamily: "'Montserrat', sans-serif",
+                }}
+              >
+                {selectedBusiness.name}
+              </div>
+              {selectedBusiness.address && (
+                <a
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                    selectedBusiness.address
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    color: "#2563eb",
+                    textDecoration: "none",
+                    fontSize: "14px",
+                    fontFamily: "'Raleway', sans-serif",
+                    display: "block",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.textDecoration = "underline"
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.textDecoration = "none"
+                  }}
+                >
+                  {selectedBusiness.address}
+                </a>
+              )}
+            </div>
+          </div>
+
+          <button
+            onClick={() => handleBusinessClick(selectedBusiness)}
+            style={{
+              width: "100%",
+              marginTop: "16px",
+              background: "#4ba3d9",
+              color: "white",
+              border: "none",
+              borderRadius: "10px",
+              padding: "12px",
+              fontSize: "15px",
+              fontWeight: "600",
+              cursor: "pointer",
+              transition: "all 0.2s",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "#3d8bb8"
+              e.currentTarget.style.transform = "translateY(-1px)"
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "#4ba3d9"
+              e.currentTarget.style.transform = "translateY(0)"
+            }}
+          >
+            View Street View
+          </button>
+        </div>
+      )}
+
       {showList && (
         <div
           style={{
@@ -447,8 +548,8 @@ const StatenIslandMap = ({ businesses }) => {
                 alignItems: "center",
               }}
             >
-              <div style={{ fontWeight: "600", fontSize: "18px", color: "black" }}>
-                {filteredBusinesses.length}  Businesses
+              <div style={{ fontWeight: "600", fontSize: "18px", color: "black", fontFamily: "'Montserrat', sans-serif" }}>
+                {filteredBusinesses.length} Businesses
               </div>
               <button
                 onClick={() => setShowList(false)}
@@ -510,10 +611,10 @@ const StatenIslandMap = ({ businesses }) => {
                     e.currentTarget.style.boxShadow = "none"
                   }}
                 >
-                  <div style={{ fontWeight: "600", fontSize: "16px", marginBottom: "6px", color: "#1f2937" }}>
+                  <div style={{ fontWeight: "600", fontSize: "16px", marginBottom: "6px", color: "#1f2937", fontFamily: "'Montserrat', sans-serif" }}>
                     {biz.name}
                   </div>
-                  {biz.address && <div style={{ fontSize: "14px", color: "#6b7280" }}>{biz.address}</div>}
+                  {biz.address && <div style={{ fontSize: "14px", color: "#6b7280", fontFamily: "'Raleway'" }}>{biz.address}</div>}
                 </div>
               ))}
 
@@ -545,59 +646,15 @@ const StatenIslandMap = ({ businesses }) => {
             transform: translateY(0);
           }
         }
-      `}</style>
-
-      {/* ✅ Fixed InfoWindow styling - Close button now visible */}
-      <style jsx global>{`
-        /* InfoWindow container adjustments */
-        .gm-style-iw {
-          padding: 0 !important;
-          max-width: 280px !important;
-        }
-        
-        /* InfoWindow content wrapper */
-        .gm-style-iw-d {
-          overflow: auto !important;
-          max-height: none !important;
-        }
-        
-        /* Make close button visible - NO background */
-        .gm-ui-hover-effect {
-          opacity: 1 !important;
-          top: 4px !important;
-          right: 4px !important;
-          width: 22px !important;
-          height: 22px !important;
-          background: none !important;
-          border-radius: 0 !important;
-          box-shadow: none !important;
-          display: flex !important;
-          align-items: center !important;
-          justify-content: center !important;
-        }
-        
-        /* Style the X icon - dark and crisp */
-        .gm-ui-hover-effect > img {
-          width: 18px !important;
-          height: 18px !important;
-          margin: 0 !important;
-          filter: brightness(0) saturate(100%) invert(0.2) !important;
-          opacity: 0.8 !important;
-        }
-        
-        /* Hover effect - just darken the X */
-        .gm-ui-hover-effect:hover {
-          background: none !important;
-        }
-        
-        .gm-ui-hover-effect:hover > img {
-          opacity: 1 !important;
-          filter: brightness(0) saturate(100%) invert(0) !important;
-        }
-        
-        /* Remove default InfoWindow padding */
-        .gm-style .gm-style-iw-c {
-          padding: 0 !important;
+        @keyframes slideUp {
+          from {
+            opacity: 0;
+            transform: translate(-50%, 20px);
+          }
+          to {
+            opacity: 1;
+            transform: translate(-50%, 0);
+          }
         }
       `}</style>
     </div>

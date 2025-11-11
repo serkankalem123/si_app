@@ -1,5 +1,11 @@
 /* styles/globals.css */
 
+.highlighted-business-name {
+  font-family: 'Montserrat', sans-serif;
+  /* your other existing styles */
+}
+
+
 /* index.css or global.css */
 .highlighted-business-header h2 {
   font-family: 'Montserrat', sans-serif;
