@@ -1,16 +1,12 @@
 // src/MembershipCard.jsx
 import { useState } from "react"
-
 import '../../styles/App.css';
-
-
-
 
 const logo = "/Cartoon.PNG"
 
 const MembershipCard = ({ name }) => {
   const [expanded, setExpanded] = useState(false)
-
+  
   return (
     <div
       className={`${expanded ? "expanded-card" : "shake-animation glisten"}`}
@@ -19,7 +15,7 @@ const MembershipCard = ({ name }) => {
         borderRadius: 16,
         width: expanded ? "90vw" : "91%",
         maxWidth: expanded ? "1000px" : "420px",
-        aspectRatio: expanded ? "2.2" : "1.6", // landscape vs portrait
+        aspectRatio: expanded ? "2.2" : "1.6",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -58,8 +54,8 @@ const MembershipCard = ({ name }) => {
         src={logo || "/placeholder.svg"}
         alt="Logo"
         style={{
-          height: expanded ? 80 : 120, // smaller logo in landscape
-          marginBottom: expanded ? 8 : 12,
+          height: expanded ? 80 : 120,
+          marginBottom: expanded ? 8 : 2,
         }}
       />
 
@@ -75,6 +71,7 @@ const MembershipCard = ({ name }) => {
       >
         THE HIGHLIGHTING SI
       </h2>
+      
       <p
         style={{
           fontSize: expanded ? 12 : 14,
@@ -87,7 +84,7 @@ const MembershipCard = ({ name }) => {
         EXPERIENCE
       </p>
 
-      {/* Divider */}
+      {/* HR Line after EXPERIENCE */}
       <div
         style={{
           width: "92%",
@@ -97,21 +94,18 @@ const MembershipCard = ({ name }) => {
         }}
       ></div>
 
-      {/* Name + Expiration */}
+      {/* Name - Centered */}
       <div
         style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
           width: "92%",
-          fontSize: expanded ? 14 : 15,
+          fontSize: expanded ? 24 : 24,
           fontWeight: 700,
           color: "#111",
+          textAlign: "center",
           margin: "0 auto 8px auto",
         }}
       >
-        <span>{name || "Your Name"}</span>
-        <span>EXP 09/30/26</span>
+        {name || "Your Name"}
       </div>
 
       {/* Expand button (hidden in expanded mode) */}
@@ -138,4 +132,3 @@ const MembershipCard = ({ name }) => {
 }
 
 export default MembershipCard
-

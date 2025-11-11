@@ -1,9 +1,8 @@
-
 import React, { useEffect, useState } from 'react';
 import '@fontsource/montserrat/700.css'; 
 
 function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, onRatingUpdate }) {
-  const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [localPhotos, setLocalPhotos] = useState(business.photo_urls || []);
   const [localBusiness, setLocalBusiness] = useState(business);
@@ -159,8 +158,48 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, 
     allPhotos.push({ url, isLogo: false });
   });
 
+  // Navigate to previous photo
+  const goToPrevPhoto = (e) => {
+    e.stopPropagation();
+    setSelectedPhotoIndex((prev) => (prev > 0 ? prev - 1 : allPhotos.length - 1));
+  };
+
+  // Navigate to next photo
+  const goToNextPhoto = (e) => {
+    e.stopPropagation();
+    setSelectedPhotoIndex((prev) => (prev < allPhotos.length - 1 ? prev + 1 : 0));
+  };
+
   return (
     <>
+      <style>
+        {`
+          @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+          }
+          
+          /* Custom scrollbar for photo gallery */
+          .photo-gallery::-webkit-scrollbar {
+            height: 8px;
+          }
+          
+          .photo-gallery::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+          }
+          
+          .photo-gallery::-webkit-scrollbar-thumb {
+            background: #4ba3d9;
+            border-radius: 10px;
+          }
+          
+          .photo-gallery::-webkit-scrollbar-thumb:hover {
+            background: #3d8bb8;
+          }
+        `}
+      </style>
+      
       <div style={{
         position: 'fixed',
         inset: 0,
@@ -287,14 +326,17 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, 
             {/* Photos Gallery */}
             {allPhotos.length > 0 && (
               <div style={{ marginBottom: 28 }}>
-                <div style={{ 
-                  display: 'flex', 
-                  gap: 12, 
-                  overflowX: 'auto', 
-                  paddingBottom: 8,
-                  scrollbarWidth: 'thin',
-                  scrollbarColor: '#667eea #f1f1f1',
-                }}>
+                <div 
+                  className="photo-gallery"
+                  style={{ 
+                    display: 'flex', 
+                    gap: 12, 
+                    overflowX: 'auto', 
+                    paddingBottom: 8,
+                    scrollbarWidth: 'thin',
+                    scrollbarColor: '#4ba3d9 #f1f1f1',
+                  }}
+                >
                   {allPhotos.map((photo, i) => (
                     <div key={i} style={{ position: 'relative', flexShrink: 0 }}>
                       <img
@@ -309,7 +351,7 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, 
                           transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                           boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)',
                         }}
-                        onClick={() => setSelectedPhoto(photo.url)}
+                        onClick={() => setSelectedPhotoIndex(i)}
                         onMouseEnter={(e) => {
                           e.target.style.transform = 'scale(1.05) translateY(-4px)';
                           e.target.style.boxShadow = '0 20px 25px -5px rgba(0,0,0,0.15)';
@@ -452,7 +494,7 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, 
                     border: '1px solid #e5e7eb',
                   }}>
                     <div style={{ fontSize: 12, color: '#9ca3af', fontWeight: '600', marginBottom: 4 }}>
-                      🏷️    ZIP CODE
+                      🏷️ ZIP CODE
                     </div>
                     <div style={{ fontSize: 15, color: '#1f2937', fontWeight: '500' }}>
                       {business.zip_code}
@@ -468,7 +510,7 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, 
                     border: '1px solid #e5e7eb',
                   }}>
                     <div style={{ fontSize: 12, color: '#9ca3af', fontWeight: '600', marginBottom: 4 }}>
-                      📞  PHONE
+                      📞 PHONE
                     </div>
                     <div style={{ fontSize: 15, color: '#1f2937', fontWeight: '500' }}>
                       {business.phone_number}
@@ -517,8 +559,8 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, 
         </div>
       </div>
 
-      {/* Photo Popup */}
-      {selectedPhoto && (
+      {/* Photo Gallery Popup */}
+      {selectedPhotoIndex !== null && (
         <div 
           style={{
             position: 'fixed',
@@ -530,21 +572,13 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, 
             alignItems: 'center',
             zIndex: 1100,
             padding: 20,
-            cursor: 'zoom-out',
             animation: 'fadeIn 0.2s ease-out',
           }}
-          onClick={() => setSelectedPhoto(null)}
+          onClick={() => setSelectedPhotoIndex(null)}
         >
-          <style>
-            {`
-              @keyframes fadeIn {
-                from { opacity: 0; }
-                to { opacity: 1; }
-              }
-            `}
-          </style>
+          {/* Close Button */}
           <button
-            onClick={() => setSelectedPhoto(null)}
+            onClick={() => setSelectedPhotoIndex(null)}
             style={{
               position: 'absolute',
               right: 20,
@@ -577,12 +611,91 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, 
           >
             ×
           </button>
+
+          {/* Previous Button */}
+          {allPhotos.length > 1 && (
+            <button
+              onClick={goToPrevPhoto}
+              style={{
+                position: 'absolute',
+                left: 20,
+                top: '50%',
+                transform: 'translateY(-50%)',
+                background: 'rgba(255,255,255,0.95)',
+                border: 'none',
+                borderRadius: '50%',
+                width: 50,
+                height: 50,
+                fontSize: 32,
+                fontWeight: 'bold',
+                cursor: 'pointer',
+                color: '#333',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                zIndex: 1101,
+                boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+                transition: 'all 0.2s',
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.transform = 'translateY(-50%) scale(1.1)';
+                e.target.style.background = 'white';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.transform = 'translateY(-50%) scale(1)';
+                e.target.style.background = 'rgba(255,255,255,0.95)';
+              }}
+              aria-label="Previous photo"
+            >
+              ‹
+            </button>
+          )}
+
+          {/* Next Button */}
+          {allPhotos.length > 1 && (
+            <button
+              onClick={goToNextPhoto}
+              style={{
+                position: 'absolute',
+                right: 20,
+                top: '50%',
+                transform: 'translateY(-50%)',
+                background: 'rgba(255,255,255,0.95)',
+                border: 'none',
+                borderRadius: '50%',
+                width: 50,
+                height: 50,
+                fontSize: 32,
+                fontWeight: 'bold',
+                cursor: 'pointer',
+                color: '#333',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                zIndex: 1101,
+                boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+                transition: 'all 0.2s',
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.transform = 'translateY(-50%) scale(1.1)';
+                e.target.style.background = 'white';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.transform = 'translateY(-50%) scale(1)';
+                e.target.style.background = 'rgba(255,255,255,0.95)';
+              }}
+              aria-label="Next photo"
+            >
+              ›
+            </button>
+          )}
           
+          {/* Current Photo */}
           <img
-            src={selectedPhoto}
+            src={allPhotos[selectedPhotoIndex].url}
             alt="Enlarged view"
             style={{
-              maxWidth: '90%',
+              maxWidth: '95%',
               maxHeight: '90%',
               objectFit: 'contain',
               borderRadius: 16,
@@ -591,10 +704,31 @@ function BusinessProfile({ business, onClose, isAdmin, onPhotosUpdate, session, 
             }}
             onClick={(e) => e.stopPropagation()}
           />
+
+          {/* Photo Counter */}
+          {allPhotos.length > 1 && (
+            <div
+              style={{
+                position: 'absolute',
+                bottom: 30,
+                left: '50%',
+                transform: 'translateX(-50%)',
+                background: 'rgba(255,255,255,0.95)',
+                padding: '8px 16px',
+                borderRadius: 20,
+                fontSize: 14,
+                fontWeight: '600',
+                color: '#333',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+              }}
+            >
+              {selectedPhotoIndex + 1} / {allPhotos.length}
+            </div>
+          )}
         </div>
       )}
     </>
   );
 }
 
-export default BusinessProfile
+export default BusinessProfile;

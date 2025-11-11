@@ -148,31 +148,54 @@ export async function POST(request) {
         console.log('   - Subscription ID:', subscription.id);
         console.log('   - Status:', subscription.status);
         console.log('   - Customer:', subscription.customer);
+        console.log('   - Cancel At:', subscription.cancel_at);
+        console.log('   - Cancel At Period End:', subscription.cancel_at_period_end);
+        console.log('   - Current Period End:', subscription.current_period_end);
         console.log('   - Metadata:', JSON.stringify(subscription.metadata, null, 2));
 
-        const userId = subscription.metadata?.userId || subscription.metadata?.supabase_user_id;
+        // ✅ FIX: Find user by stripe_customer_id if metadata doesn't have userId
+        let userId = subscription.metadata?.userId || subscription.metadata?.supabase_user_id;
 
         if (!userId) {
-          console.error('❌ No userId in subscription metadata');
-          console.error('Available metadata:', subscription.metadata);
-          return NextResponse.json({ error: 'No userId found' }, { status: 400 });
+          console.log('⚠️  No userId in metadata, looking up by customer ID...');
+          const { data: profile, error: lookupError } = await supabase
+            .from('profiles')
+            .select('id')
+            .eq('stripe_customer_id', subscription.customer)
+            .single();
+
+          if (lookupError || !profile) {
+            console.error('❌ Could not find user by customer ID:', subscription.customer);
+            return NextResponse.json({ error: 'No user found' }, { status: 400 });
+          }
+
+          userId = profile.id;
+          console.log('✅ Found user by customer ID:', userId);
         }
 
         console.log('👤 User ID:', userId);
 
-        const isPremium = subscription.status === 'active' || subscription.status === 'trialing';
+        // ✅ FIX: Keep premium status true even when canceling (until period ends)
+        const isPremium = ['active', 'trialing', 'past_due'].includes(subscription.status);
+        const subscriptionStatus = subscription.cancel_at_period_end ? 'canceling' : subscription.status;
+        
         console.log('💎 Is Premium:', isPremium);
+        console.log('📊 Subscription Status:', subscriptionStatus);
+
+        const updatePayload = {
+          is_premium: isPremium,
+          subscription_status: subscriptionStatus,
+          subscription_cancel_at: subscription.cancel_at 
+            ? new Date(subscription.cancel_at * 1000).toISOString()
+            : null,
+          updated_at: new Date().toISOString(),
+        };
+
+        console.log('📦 Update payload:', updatePayload);
 
         const { data: updateData, error: updateError } = await supabase
           .from('profiles')
-          .update({
-            is_premium: isPremium,
-            subscription_status: subscription.status,
-            subscription_cancel_at: subscription.cancel_at 
-              ? new Date(subscription.cancel_at * 1000).toISOString()
-              : null,
-            updated_at: new Date().toISOString(),
-          })
+          .update(updatePayload)
           .eq('id', userId)
           .select();
 
@@ -187,7 +210,8 @@ export async function POST(request) {
         await supabase.auth.admin.updateUserById(userId, {
           user_metadata: {
             is_premium: isPremium,
-            subscription_status: subscription.status,
+            subscription_status: subscriptionStatus,
+            subscription_cancel_at: updatePayload.subscription_cancel_at,
           }
         });
 
@@ -199,13 +223,27 @@ export async function POST(request) {
         const subscription = event.data.object;
         console.log('❌ Subscription Deletion:');
         console.log('   - Subscription ID:', subscription.id);
+        console.log('   - Customer:', subscription.customer);
         console.log('   - Metadata:', JSON.stringify(subscription.metadata, null, 2));
 
-        const userId = subscription.metadata?.userId || subscription.metadata?.supabase_user_id;
+        // ✅ FIX: Find user by stripe_customer_id if metadata doesn't have userId
+        let userId = subscription.metadata?.userId || subscription.metadata?.supabase_user_id;
 
         if (!userId) {
-          console.error('❌ No userId in subscription metadata');
-          return NextResponse.json({ error: 'No userId found' }, { status: 400 });
+          console.log('⚠️  No userId in metadata, looking up by customer ID...');
+          const { data: profile, error: lookupError } = await supabase
+            .from('profiles')
+            .select('id')
+            .eq('stripe_customer_id', subscription.customer)
+            .single();
+
+          if (lookupError || !profile) {
+            console.error('❌ Could not find user by customer ID:', subscription.customer);
+            return NextResponse.json({ error: 'No user found' }, { status: 400 });
+          }
+
+          userId = profile.id;
+          console.log('✅ Found user by customer ID:', userId);
         }
 
         const { data: updateData, error: updateError } = await supabase
