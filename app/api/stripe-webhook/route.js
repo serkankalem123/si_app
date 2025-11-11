@@ -1,309 +1,190 @@
 // app/api/stripe-webhook/route.js
 import { NextResponse } from 'next/server';
-import Stripe from 'stripe';
 import { createClient } from '@supabase/supabase-js';
+import Stripe from 'stripe';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2023-10-16',
-});
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-// Initialize Supabase with service role key for admin access
-const supabase = createClient(
+const supabaseAdmin = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
 export async function POST(request) {
-  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-  console.log('🎯 WEBHOOK RECEIVED');
-  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-  
-  const body = await request.text();
-  const signature = request.headers.get('stripe-signature');
-
-  console.log('📝 Body length:', body.length);
-  console.log('🔑 Signature present:', !!signature);
-  console.log('🔑 Webhook secret configured:', !!process.env.STRIPE_WEBHOOK_SECRET);
-
-  if (!signature) {
-    console.error('❌ No signature found in request headers');
-    return NextResponse.json({ error: 'No signature' }, { status: 400 });
-  }
-
-  let event;
-
   try {
-    // Verify webhook signature
-    event = stripe.webhooks.constructEvent(
-      body,
-      signature,
-      process.env.STRIPE_WEBHOOK_SECRET
-    );
-    console.log('✅ Webhook signature verified');
-    console.log('📋 Event type:', event.type);
-    console.log('📋 Event ID:', event.id);
-  } catch (err) {
-    console.error('❌ Webhook signature verification failed');
-    console.error('Error message:', err.message);
-    return NextResponse.json(
-      { error: `Webhook Error: ${err.message}` },
-      { status: 400 }
-    );
-  }
+    const body = await request.text();
+    const signature = request.headers.get('stripe-signature');
 
-  // Handle the event
-  try {
-    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-    console.log('⚙️  PROCESSING EVENT:', event.type);
-    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('=== Webhook Received ===');
 
-    switch (event.type) {
-      case 'checkout.session.completed': {
-        const session = event.data.object;
-        console.log('💳 Checkout Session Details:');
-        console.log('   - Session ID:', session.id);
-        console.log('   - Customer Email:', session.customer_email);
-        console.log('   - Customer ID:', session.customer);
-        console.log('   - Subscription ID:', session.subscription);
-        console.log('   - Metadata:', JSON.stringify(session.metadata, null, 2));
-        
-        const userId = session.metadata?.userId || session.metadata?.supabase_user_id;
-        
-        if (!userId) {
-          console.error('❌ CRITICAL: No userId found in session metadata');
-          console.error('Available metadata:', session.metadata);
-          return NextResponse.json({ error: 'No userId found' }, { status: 400 });
-        }
+    if (!process.env.STRIPE_WEBHOOK_SECRET) {
+      console.error('❌ STRIPE_WEBHOOK_SECRET is missing');
+      return NextResponse.json(
+        { error: 'Webhook secret not configured' },
+        { status: 500 }
+      );
+    }
 
-        console.log('👤 User ID found:', userId);
+    let event;
 
-        // Get subscription details if available
-        const subscriptionId = session.subscription;
-        console.log('📋 Subscription ID:', subscriptionId);
+    try {
+      event = stripe.webhooks.constructEvent(
+        body,
+        signature,
+        process.env.STRIPE_WEBHOOK_SECRET
+      );
+    } catch (err) {
+      console.error('⚠️ Webhook signature verification failed:', err.message);
+      return NextResponse.json(
+        { error: `Webhook Error: ${err.message}` },
+        { status: 400 }
+      );
+    }
 
-        // Check if user exists before updating
-        const { data: existingUser, error: checkError } = await supabase
-          .from('profiles')
-          .select('id, email, is_premium')
-          .eq('id', userId)
-          .single();
+    console.log('✅ Webhook verified. Event type:', event.type);
 
-        if (checkError) {
-          console.error('❌ Error checking user:', checkError);
-        } else {
-          console.log('✅ User found:', existingUser);
-        }
+    // Handle successful checkout
+    if (event.type === 'checkout.session.completed') {
+      const session = event.data.object;
+      
+      console.log('💰 Checkout completed:', {
+        sessionId: session.id,
+        email: session.customer_email,
+        metadata: session.metadata
+      });
 
-        // Update user profile in database
-        console.log('🔄 Updating profile table...');
-        const { data: updateData, error: updateError } = await supabase
-          .from('profiles')
-          .update({
+      const userId = session.metadata?.userId || session.metadata?.supabase_user_id;
+
+      if (!userId) {
+        console.error('❌ No userId in metadata');
+        return NextResponse.json({ error: 'No userId in metadata' }, { status: 400 });
+      }
+
+      console.log('🔄 Updating user to premium:', userId);
+
+      // Update auth metadata
+      await supabaseAdmin.auth.admin.updateUserById(
+        userId,
+        {
+          user_metadata: {
             is_premium: true,
-            subscription_status: 'active',
             stripe_customer_id: session.customer,
-            subscription_id: subscriptionId,
-            updated_at: new Date().toISOString(),
-          })
-          .eq('id', userId)
-          .select();
-
-        if (updateError) {
-          console.error('❌ ERROR UPDATING PROFILE:', updateError);
-          console.error('Error details:', JSON.stringify(updateError, null, 2));
-          throw updateError;
+            subscription_id: session.subscription,
+            premium_since: new Date().toISOString(),
+            subscription_status: 'active',
+          }
         }
+      );
 
-        console.log('✅ PROFILE UPDATED SUCCESSFULLY');
-        console.log('Updated data:', JSON.stringify(updateData, null, 2));
+      // Update profiles table
+      await supabaseAdmin
+        .from('profiles')
+        .update({
+          is_premium: true,
+          stripe_customer_id: session.customer,
+          subscription_id: session.subscription,
+          premium_since: new Date().toISOString(),
+          subscription_status: 'active',
+          subscription_cancel_at: null,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', userId);
+
+      console.log('🎉 USER UPGRADED TO PREMIUM SUCCESSFULLY');
+    }
+
+    // Handle subscription updated (e.g., when user cancels but keeps access until period end)
+    if (event.type === 'customer.subscription.updated') {
+      const subscription = event.data.object;
+      
+      console.log('📝 Subscription updated:', subscription.id);
+
+      // Find user with this subscription ID
+      const { data: profile } = await supabaseAdmin
+        .from('profiles')
+        .select('id')
+        .eq('subscription_id', subscription.id)
+        .single();
+
+      if (profile) {
+        const isCanceling = subscription.cancel_at_period_end;
+        const cancelAt = subscription.cancel_at 
+          ? new Date(subscription.cancel_at * 1000).toISOString()
+          : null;
+
+        console.log(`${isCanceling ? '⚠️' : '✅'} Subscription ${isCanceling ? 'will be canceled' : 'is active'}`);
+        if (cancelAt) console.log('📅 Cancel at:', cancelAt);
 
         // Update auth metadata
-        console.log('🔄 Updating auth metadata...');
-        const { data: authData, error: authError } = await supabase.auth.admin.updateUserById(
-          userId,
+        await supabaseAdmin.auth.admin.updateUserById(
+          profile.id,
           {
             user_metadata: {
-              is_premium: true,
-              subscription_status: 'active',
+              subscription_status: isCanceling ? 'canceling' : 'active',
+              subscription_cancel_at: cancelAt,
             }
           }
         );
 
-        if (authError) {
-          console.error('❌ Error updating auth metadata:', authError);
-        } else {
-          console.log('✅ AUTH METADATA UPDATED SUCCESSFULLY');
-        }
-
-        console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-        console.log('✅ CHECKOUT COMPLETED SUCCESSFULLY');
-        console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-
-        break;
-      }
-
-      case 'customer.subscription.updated': {
-        const subscription = event.data.object;
-        console.log('🔄 Subscription Update Details:');
-        console.log('   - Subscription ID:', subscription.id);
-        console.log('   - Status:', subscription.status);
-        console.log('   - Customer:', subscription.customer);
-        console.log('   - Cancel At:', subscription.cancel_at);
-        console.log('   - Cancel At Period End:', subscription.cancel_at_period_end);
-        console.log('   - Current Period End:', subscription.current_period_end);
-        console.log('   - Metadata:', JSON.stringify(subscription.metadata, null, 2));
-
-        // ✅ FIX: Find user by stripe_customer_id if metadata doesn't have userId
-        let userId = subscription.metadata?.userId || subscription.metadata?.supabase_user_id;
-
-        if (!userId) {
-          console.log('⚠️  No userId in metadata, looking up by customer ID...');
-          const { data: profile, error: lookupError } = await supabase
-            .from('profiles')
-            .select('id')
-            .eq('stripe_customer_id', subscription.customer)
-            .single();
-
-          if (lookupError || !profile) {
-            console.error('❌ Could not find user by customer ID:', subscription.customer);
-            return NextResponse.json({ error: 'No user found' }, { status: 400 });
-          }
-
-          userId = profile.id;
-          console.log('✅ Found user by customer ID:', userId);
-        }
-
-        console.log('👤 User ID:', userId);
-
-        // ✅ FIX: Keep premium status true even when canceling (until period ends)
-        const isPremium = ['active', 'trialing', 'past_due'].includes(subscription.status);
-        const subscriptionStatus = subscription.cancel_at_period_end ? 'canceling' : subscription.status;
-        
-        console.log('💎 Is Premium:', isPremium);
-        console.log('📊 Subscription Status:', subscriptionStatus);
-
-        const updatePayload = {
-          is_premium: isPremium,
-          subscription_status: subscriptionStatus,
-          subscription_cancel_at: subscription.cancel_at 
-            ? new Date(subscription.cancel_at * 1000).toISOString()
-            : null,
-          updated_at: new Date().toISOString(),
-        };
-
-        console.log('📦 Update payload:', updatePayload);
-
-        const { data: updateData, error: updateError } = await supabase
+        // Update profile
+        await supabaseAdmin
           .from('profiles')
-          .update(updatePayload)
-          .eq('id', userId)
-          .select();
-
-        if (updateError) {
-          console.error('❌ Error updating profile:', updateError);
-          throw updateError;
-        }
-
-        console.log('✅ Profile updated:', updateData);
-
-        // Update auth metadata
-        await supabase.auth.admin.updateUserById(userId, {
-          user_metadata: {
-            is_premium: isPremium,
-            subscription_status: subscriptionStatus,
-            subscription_cancel_at: updatePayload.subscription_cancel_at,
-          }
-        });
-
-        console.log('✅ SUBSCRIPTION UPDATED SUCCESSFULLY');
-        break;
+          .update({
+            subscription_status: isCanceling ? 'canceling' : 'active',
+            subscription_cancel_at: cancelAt,
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', profile.id);
       }
+    }
 
-      case 'customer.subscription.deleted': {
-        const subscription = event.data.object;
-        console.log('❌ Subscription Deletion:');
-        console.log('   - Subscription ID:', subscription.id);
-        console.log('   - Customer:', subscription.customer);
-        console.log('   - Metadata:', JSON.stringify(subscription.metadata, null, 2));
+    // Handle subscription deletion (when it actually expires)
+    if (event.type === 'customer.subscription.deleted') {
+      const subscription = event.data.object;
+      
+      console.log('🚫 Subscription deleted:', subscription.id);
 
-        // ✅ FIX: Find user by stripe_customer_id if metadata doesn't have userId
-        let userId = subscription.metadata?.userId || subscription.metadata?.supabase_user_id;
+      // Find user with this subscription ID
+      const { data: profile } = await supabaseAdmin
+        .from('profiles')
+        .select('id')
+        .eq('subscription_id', subscription.id)
+        .single();
 
-        if (!userId) {
-          console.log('⚠️  No userId in metadata, looking up by customer ID...');
-          const { data: profile, error: lookupError } = await supabase
-            .from('profiles')
-            .select('id')
-            .eq('stripe_customer_id', subscription.customer)
-            .single();
-
-          if (lookupError || !profile) {
-            console.error('❌ Could not find user by customer ID:', subscription.customer);
-            return NextResponse.json({ error: 'No user found' }, { status: 400 });
+      if (profile) {
+        // Update auth metadata
+        await supabaseAdmin.auth.admin.updateUserById(
+          profile.id,
+          {
+            user_metadata: {
+              is_premium: false,
+              subscription_status: 'canceled',
+              subscription_cancelled: new Date().toISOString()
+            }
           }
+        );
 
-          userId = profile.id;
-          console.log('✅ Found user by customer ID:', userId);
-        }
-
-        const { data: updateData, error: updateError } = await supabase
+        // Update profile
+        await supabaseAdmin
           .from('profiles')
           .update({
             is_premium: false,
             subscription_status: 'canceled',
-            subscription_cancel_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
+            subscription_cancel_at: null,
+            updated_at: new Date().toISOString()
           })
-          .eq('id', userId)
-          .select();
+          .eq('id', profile.id);
 
-        if (updateError) {
-          console.error('❌ Error updating profile:', updateError);
-          throw updateError;
-        }
-
-        console.log('✅ Profile updated:', updateData);
-
-        // Update auth metadata
-        await supabase.auth.admin.updateUserById(userId, {
-          user_metadata: {
-            is_premium: false,
-            subscription_status: 'canceled',
-          }
-        });
-
-        console.log('✅ SUBSCRIPTION CANCELED SUCCESSFULLY');
-        break;
+        console.log('✅ User premium access removed:', profile.id);
       }
-
-      case 'invoice.payment_succeeded': {
-        console.log('✅ Payment succeeded for invoice:', event.data.object.id);
-        break;
-      }
-
-      case 'invoice.payment_failed': {
-        console.log('❌ Payment failed for invoice:', event.data.object.id);
-        break;
-      }
-
-      default:
-        console.log(`⚠️  Unhandled event type: ${event.type}`);
     }
 
-    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-    console.log('✅ WEBHOOK PROCESSED SUCCESSFULLY');
-    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-
-    return NextResponse.json({ received: true, processed: true });
+    return NextResponse.json({ received: true });
 
   } catch (err) {
-    console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-    console.error('❌ CRITICAL ERROR PROCESSING WEBHOOK');
-    console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-    console.error('Error:', err);
-    console.error('Stack:', err.stack);
+    console.error('❌ Webhook handler error:', err);
     return NextResponse.json(
-      { error: `Webhook handler failed: ${err.message}` },
+      { error: `Webhook Error: ${err.message}` },
       { status: 500 }
     );
   }
