@@ -1017,19 +1017,32 @@ const refreshUserData = async () => {
                     )}
                   </select>
                   <div className="highlighted-tag-input">
-                    <input
-                      type="text"
-                      placeholder=" 🏷️ Add tag..."
-                      value={newTag}
-                      onChange={(e) => setNewTag(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" && newTag.trim()) {
-                          setTags([...tags, newTag.trim()])
-                          setNewTag("")
-                        }
-                      }}
-                    />
-                  </div>
+  <input
+    type="text"
+    placeholder="🏷️   Add tag..."
+    value={newTag}
+    onChange={(e) => setNewTag(e.target.value)}
+    onKeyDown={(e) => {
+      if (e.key === "Enter" && newTag.trim()) {
+        setTags([...tags, newTag.trim()])
+        setNewTag("")
+      }
+    }}
+    style={{
+      paddingLeft: '12px', // Space for the emoji
+    }}
+  />
+  <span style={{
+    position: 'absolute',
+    left: '10px',
+    top: '50%',
+    transform: 'translateY(-50%)',
+    pointerEvents: 'none',
+    fontSize: '16px'
+  }}>
+    🏷️
+  </span>
+</div>
                 </div>
                 {tags.length > 0 && (
                   <div className="highlighted-tags-list">

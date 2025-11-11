@@ -1,153 +1,168 @@
-[00:00:01.139] Server  LOG      ✓ Ready in 831ms
-[00:00:06.863] Server  ERROR   (node:66686) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+[00:00:00.824] Server  LOG      ✓ Ready in 561ms
+[00:00:05.011] Server  ERROR   (node:69780) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-[00:00:07.155] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:07.365] Browser LOG     Firebase app initialized
-[00:00:07.365] Browser LOG     📍 Loading initial data...
-[00:00:07.365] Browser LOG     Fetching businesses from database...
-[00:00:07.365] Browser LOG     Notification permission granted
-[00:00:07.365] Browser LOG     FCM Token: ftwkK8QGxCB5dN66sZMJ5p:APA91bHvy3Tke8egLaCT2zTDYDAj_R9v3xLSmS5-UiIYtAeybqaKrUp1jOqkeDCV3RJu7LJBN5x3MYc1t3gvswRAfOW2HvJMAtADVEdf19V6W3R5WL0z_Ic
-[00:00:07.365] Browser LOG     FCM token received and set: ftwkK8QGxCB5dN66sZMJ5p:APA91bHvy3Tke8egLaCT2zTDYDAj_R9v3xLSmS5-UiIYtAeybqaKrUp1jOqkeDCV3RJu7LJBN5x3MYc1t3gvswRAfOW2HvJMAtADVEdf19V6W3R5WL0z_Ic
-[00:00:07.967] Browser LOG     🔔 Auth event: SIGNED_OUT
-[00:00:07.967] Browser ERROR   {"__isAuthError":true,"code":"refresh_token_not_found","name":"AuthApiError","status":400}
-[00:00:07.967] Browser LOG     🔔 Auth event: SIGNED_OUT
-[00:00:07.967] Browser LOG     📍 Session loaded: undefined
-[00:00:07.967] Browser LOG     🔔 Auth event: INITIAL_SESSION
-[00:00:08.423] Browser LOG     Fetched businesses: 93
-[00:00:34.625] Browser LOG     🔔 Auth event: SIGNED_IN
-[00:00:34.625] Browser LOG     ═══════════════════════════════════════
-[00:00:34.625] Browser LOG     User: serkankalem99@gmail.com
-[00:00:34.625] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031","subscription_status":"active"}
-[00:00:34.625] Browser LOG     Profile: null
-[00:00:34.625] Browser LOG     isPremium: true
-[00:00:34.625] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
-[00:00:34.625] Browser LOG     ═══════════════════════════════════════
-[00:00:35.036] Browser LOG     🔔 Profile updated from auth change
-[00:00:35.037] Browser LOG     ═══════════════════════════════════════
-[00:00:35.037] Browser LOG     User: serkankalem99@gmail.com
-[00:00:35.037] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031","subscription_status":"active"}
-[00:00:35.037] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":true,"premium_since":null,"stripe_customer_id":"cus_TOfX81gaoZJOLy","subscription_cancel_at":null,"subscription_id":"sub_1SRsCc050zwZ92QfZUpuJX9q","subscription_status":"active","updated_at":"2025-11-10T10:20:06.049588"}
-[00:00:35.037] Browser LOG     isPremium: true
-[00:00:35.037] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
-[00:00:35.037] Browser LOG     ═══════════════════════════════════════
-[00:00:35.159] Browser LOG     ═══════════════════════════════════════
-[00:00:35.159] Browser LOG     User: serkankalem99@gmail.com
-[00:00:35.159] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031","subscription_status":"active"}
-[00:00:35.159] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":true,"premium_since":null,"stripe_customer_id":"cus_TOfX81gaoZJOLy","subscription_cancel_at":null,"subscription_id":"sub_1SRsCc050zwZ92QfZUpuJX9q","subscription_status":"active","updated_at":"2025-11-10T10:20:06.049588"}
-[00:00:35.159] Browser LOG     isPremium: true
-[00:00:35.159] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
-[00:00:35.159] Browser LOG     ═══════════════════════════════════════
-[00:00:39.474] Browser LOG     Loading Google Maps script...
-[00:00:39.474] Browser LOG     Google Maps script already exists, waiting for load...
-[00:00:39.686] Browser WARN    Google Maps JavaScript API has been loaded directly without loading=async. This can result in suboptimal performance. For best-practice loading patterns please see https://goo.gle/js-api-loading
-[00:00:39.687] Browser LOG     Google Maps loaded successfully
-[00:00:39.909] Browser WARN    As of February 21st, 2024, google.maps.Marker is deprecated. Please use google.maps.marker.AdvancedMarkerElement instead. At this time, google.maps.Marker is not scheduled to be discontinued, but google.maps.marker.AdvancedMarkerElement is recommended over google.maps.Marker. While google.maps.Marker will continue to receive bug fixes for any major regressions, existing bugs in google.maps.Marker will not be addressed. At least 12 months notice will be given before support is discontinued. Please see https://developers.google.com/maps/deprecations for additional details and https://developers.google.com/maps/documentation/javascript/advanced-markers/migration for the migration guide.
-[00:01:28.444] Browser LOG     Firebase app initialized
-[00:01:28.444] Browser LOG     📍 Loading initial data...
-[00:01:28.444] Browser LOG     Fetching businesses from database...
-[00:01:28.444] Browser LOG     🔔 Auth event: SIGNED_IN
-[00:01:28.444] Browser LOG     Notification permission granted
-[00:01:28.444] Browser LOG     ═══════════════════════════════════════
-[00:01:28.444] Browser LOG     User: serkankalem99@gmail.com
-[00:01:28.444] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031","subscription_status":"active"}
-[00:01:28.444] Browser LOG     Profile: null
-[00:01:28.444] Browser LOG     isPremium: true
-[00:01:28.444] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
-[00:01:28.444] Browser LOG     ═══════════════════════════════════════
-[00:01:28.444] Browser LOG     FCM Token: ftwkK8QGxCB5dN66sZMJ5p:APA91bHvy3Tke8egLaCT2zTDYDAj_R9v3xLSmS5-UiIYtAeybqaKrUp1jOqkeDCV3RJu7LJBN5x3MYc1t3gvswRAfOW2HvJMAtADVEdf19V6W3R5WL0z_Ic
-[00:01:28.444] Browser LOG     FCM token received and set: ftwkK8QGxCB5dN66sZMJ5p:APA91bHvy3Tke8egLaCT2zTDYDAj_R9v3xLSmS5-UiIYtAeybqaKrUp1jOqkeDCV3RJu7LJBN5x3MYc1t3gvswRAfOW2HvJMAtADVEdf19V6W3R5WL0z_Ic
-[00:01:35.326] Browser LOG     Firebase app initialized
-[00:01:35.326] Browser LOG     📍 Loading initial data...
-[00:01:35.326] Browser LOG     Fetching businesses from database...
-[00:01:35.326] Browser LOG     Notification permission granted
-[00:01:35.326] Browser LOG     📍 Session loaded: serkankalem99@gmail.com
-[00:01:35.326] Browser LOG     ═══════════════════════════════════════
-[00:01:35.326] Browser LOG     User: serkankalem99@gmail.com
-[00:01:35.326] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031","subscription_status":"active"}
-[00:01:35.326] Browser LOG     Profile: null
-[00:01:35.326] Browser LOG     isPremium: true
-[00:01:35.326] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
-[00:01:35.326] Browser LOG     ═══════════════════════════════════════
-[00:01:35.326] Browser LOG     🔔 Auth event: INITIAL_SESSION
-[00:01:35.326] Browser LOG     ═══════════════════════════════════════
-[00:01:35.326] Browser LOG     User: serkankalem99@gmail.com
-[00:01:35.326] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031","subscription_status":"active"}
-[00:01:35.326] Browser LOG     Profile: null
-[00:01:35.326] Browser LOG     isPremium: true
-[00:01:35.326] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
-[00:01:35.326] Browser LOG     ═══════════════════════════════════════
-[00:01:35.326] Browser LOG     FCM Token: ftwkK8QGxCB5dN66sZMJ5p:APA91bHvy3Tke8egLaCT2zTDYDAj_R9v3xLSmS5-UiIYtAeybqaKrUp1jOqkeDCV3RJu7LJBN5x3MYc1t3gvswRAfOW2HvJMAtADVEdf19V6W3R5WL0z_Ic
-[00:01:35.326] Browser LOG     FCM token received and set: ftwkK8QGxCB5dN66sZMJ5p:APA91bHvy3Tke8egLaCT2zTDYDAj_R9v3xLSmS5-UiIYtAeybqaKrUp1jOqkeDCV3RJu7LJBN5x3MYc1t3gvswRAfOW2HvJMAtADVEdf19V6W3R5WL0z_Ic
-[00:01:35.326] Browser LOG     ✅ Profile loaded: {"email":"serkankalem99@gmail.com","is_premium":true,"subscription_status":"active"}
-[00:01:35.326] Browser LOG     ═══════════════════════════════════════
-[00:01:35.326] Browser LOG     User: serkankalem99@gmail.com
-[00:01:35.326] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031","subscription_status":"active"}
-[00:01:35.326] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":true,"premium_since":null,"stripe_customer_id":"cus_TOfX81gaoZJOLy","subscription_cancel_at":null,"subscription_id":"sub_1SRsCc050zwZ92QfZUpuJX9q","subscription_status":"active","updated_at":"2025-11-10T10:20:06.049588"}
-[00:01:35.326] Browser LOG     isPremium: true
-[00:01:35.326] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
-[00:01:35.326] Browser LOG     ═══════════════════════════════════════
-[00:01:35.326] Browser LOG     🔔 Profile updated from auth change
-[00:01:35.326] Browser LOG     ═══════════════════════════════════════
-[00:01:35.326] Browser LOG     User: serkankalem99@gmail.com
-[00:01:35.326] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031","subscription_status":"active"}
-[00:01:35.326] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":true,"premium_since":null,"stripe_customer_id":"cus_TOfX81gaoZJOLy","subscription_cancel_at":null,"subscription_id":"sub_1SRsCc050zwZ92QfZUpuJX9q","subscription_status":"active","updated_at":"2025-11-10T10:20:06.049588"}
-[00:01:35.326] Browser LOG     isPremium: true
-[00:01:35.326] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
-[00:01:35.326] Browser LOG     ═══════════════════════════════════════
-[00:01:35.440] Browser LOG     Fetched businesses: 93
-[00:01:39.928] Browser LOG     Firebase app initialized
-[00:01:39.928] Browser LOG     📍 Loading initial data...
-[00:01:39.928] Browser LOG     Fetching businesses from database...
-[00:01:39.928] Browser LOG     🔔 Auth event: SIGNED_IN
-[00:01:39.928] Browser LOG     Notification permission granted
-[00:01:39.928] Browser LOG     ═══════════════════════════════════════
-[00:01:39.928] Browser LOG     User: serkankalem99@gmail.com
-[00:01:39.928] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031","subscription_status":"active"}
-[00:01:39.928] Browser LOG     Profile: null
-[00:01:39.928] Browser LOG     isPremium: true
-[00:01:39.928] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
-[00:01:39.928] Browser LOG     ═══════════════════════════════════════
-[00:01:39.928] Browser LOG     FCM Token: ftwkK8QGxCB5dN66sZMJ5p:APA91bHvy3Tke8egLaCT2zTDYDAj_R9v3xLSmS5-UiIYtAeybqaKrUp1jOqkeDCV3RJu7LJBN5x3MYc1t3gvswRAfOW2HvJMAtADVEdf19V6W3R5WL0z_Ic
-[00:01:39.928] Browser LOG     FCM token received and set: ftwkK8QGxCB5dN66sZMJ5p:APA91bHvy3Tke8egLaCT2zTDYDAj_R9v3xLSmS5-UiIYtAeybqaKrUp1jOqkeDCV3RJu7LJBN5x3MYc1t3gvswRAfOW2HvJMAtADVEdf19V6W3R5WL0z_Ic
-[00:01:43.116] Browser LOG     Firebase app initialized
-[00:01:43.116] Browser LOG     📍 Loading initial data...
-[00:01:43.116] Browser LOG     Fetching businesses from database...
-[00:01:43.116] Browser LOG     🔔 Auth event: SIGNED_IN
-[00:01:43.116] Browser LOG     Notification permission granted
-[00:01:43.116] Browser LOG     ═══════════════════════════════════════
-[00:01:43.116] Browser LOG     User: serkankalem99@gmail.com
-[00:01:43.116] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031","subscription_status":"active"}
-[00:01:43.116] Browser LOG     Profile: null
-[00:01:43.116] Browser LOG     isPremium: true
-[00:01:43.116] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
-[00:01:43.116] Browser LOG     ═══════════════════════════════════════
-[00:01:43.116] Browser LOG     FCM Token: ftwkK8QGxCB5dN66sZMJ5p:APA91bHvy3Tke8egLaCT2zTDYDAj_R9v3xLSmS5-UiIYtAeybqaKrUp1jOqkeDCV3RJu7LJBN5x3MYc1t3gvswRAfOW2HvJMAtADVEdf19V6W3R5WL0z_Ic
-[00:01:43.116] Browser LOG     FCM token received and set: ftwkK8QGxCB5dN66sZMJ5p:APA91bHvy3Tke8egLaCT2zTDYDAj_R9v3xLSmS5-UiIYtAeybqaKrUp1jOqkeDCV3RJu7LJBN5x3MYc1t3gvswRAfOW2HvJMAtADVEdf19V6W3R5WL0z_Ic
-[00:01:46.315] Browser LOG     Firebase app initialized
-[00:01:46.315] Browser LOG     📍 Loading initial data...
-[00:01:46.315] Browser LOG     Fetching businesses from database...
-[00:01:46.315] Browser LOG     🔔 Auth event: SIGNED_IN
-[00:01:46.315] Browser LOG     Notification permission granted
-[00:01:46.315] Browser LOG     ═══════════════════════════════════════
-[00:01:46.315] Browser LOG     User: serkankalem99@gmail.com
-[00:01:46.315] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031","subscription_status":"active"}
-[00:01:46.315] Browser LOG     Profile: null
-[00:01:46.315] Browser LOG     isPremium: true
-[00:01:46.316] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
-[00:01:46.316] Browser LOG     ═══════════════════════════════════════
-[00:01:46.316] Browser LOG     FCM Token: ftwkK8QGxCB5dN66sZMJ5p:APA91bHvy3Tke8egLaCT2zTDYDAj_R9v3xLSmS5-UiIYtAeybqaKrUp1jOqkeDCV3RJu7LJBN5x3MYc1t3gvswRAfOW2HvJMAtADVEdf19V6W3R5WL0z_Ic
-[00:01:46.316] Browser LOG     FCM token received and set: ftwkK8QGxCB5dN66sZMJ5p:APA91bHvy3Tke8egLaCT2zTDYDAj_R9v3xLSmS5-UiIYtAeybqaKrUp1jOqkeDCV3RJu7LJBN5x3MYc1t3gvswRAfOW2HvJMAtADVEdf19V6W3R5WL0z_Ic
-[00:01:49.073] Browser LOG     Firebase app initialized
-[00:01:49.073] Browser LOG     📍 Loading initial data...
-[00:01:49.073] Browser LOG     Fetching businesses from database...
-[00:01:49.073] Browser LOG     🔔 Auth event: SIGNED_IN
-[00:01:49.073] Browser LOG     Notification permission granted
-[00:01:49.073] Browser LOG     ═══════════════════════════════════════
-[00:01:49.073] Browser LOG     User: serkankalem99@gmail.com
-[00:01:49.073] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031","subscription_status":"active"}
-[00:01:49.073] Browser LOG     Profile: null
-[00:01:49.073] Browser LOG     isPremium: true
-[00:01:49.073] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
-[00:01:49.073] Browser LOG     ═══════════════════════════════════════
-[00:01:49.073] Browser LOG     FCM Token: ftwkK8QGxCB5dN66sZMJ5p:APA91bHvy3Tke8egLaCT2zTDYDAj_R9v3xLSmS5-UiIYtAeybqaKrUp1jOqkeDCV3RJu7LJBN5x3MYc1t3gvswRAfOW2HvJMAtADVEdf19V6W3R5WL0z_Ic
-[00:01:49.073] Browser LOG     FCM token received and set: ftwkK8QGxCB5dN66sZMJ5p:APA91bHvy3Tke8egLaCT2zTDYDAj_R9v3xLSmS5-UiIYtAeybqaKrUp1jOqkeDCV3RJu7LJBN5x3MYc1t3gvswRAfOW2HvJMAtADVEdf19V6W3R5WL0z_Ic
+[00:00:05.268] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:05.401] Browser LOG     Firebase app initialized
+[00:00:05.401] Browser LOG     📍 Loading initial data...
+[00:00:05.401] Browser LOG     Fetching businesses from database...
+[00:00:05.401] Browser LOG     Notification permission granted
+[00:00:05.401] Browser LOG     📍 Session loaded: serkankalem99@gmail.com
+[00:00:05.401] Browser LOG     ═══════════════════════════════════════
+[00:00:05.401] Browser LOG     User: serkankalem99@gmail.com
+[00:00:05.401] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031","subscription_status":"active"}
+[00:00:05.401] Browser LOG     Profile: null
+[00:00:05.401] Browser LOG     isPremium: true
+[00:00:05.401] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
+[00:00:05.401] Browser LOG     ═══════════════════════════════════════
+[00:00:05.401] Browser LOG     🔔 Auth event: INITIAL_SESSION
+[00:00:05.401] Browser LOG     ═══════════════════════════════════════
+[00:00:05.401] Browser LOG     User: serkankalem99@gmail.com
+[00:00:05.401] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031","subscription_status":"active"}
+[00:00:05.401] Browser LOG     Profile: null
+[00:00:05.401] Browser LOG     isPremium: true
+[00:00:05.401] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
+[00:00:05.401] Browser LOG     ═══════════════════════════════════════
+[00:00:05.401] Browser LOG     FCM Token: ftwkK8QGxCB5dN66sZMJ5p:APA91bHvy3Tke8egLaCT2zTDYDAj_R9v3xLSmS5-UiIYtAeybqaKrUp1jOqkeDCV3RJu7LJBN5x3MYc1t3gvswRAfOW2HvJMAtADVEdf19V6W3R5WL0z_Ic
+[00:00:05.401] Browser LOG     FCM token received and set: ftwkK8QGxCB5dN66sZMJ5p:APA91bHvy3Tke8egLaCT2zTDYDAj_R9v3xLSmS5-UiIYtAeybqaKrUp1jOqkeDCV3RJu7LJBN5x3MYc1t3gvswRAfOW2HvJMAtADVEdf19V6W3R5WL0z_Ic
+[00:00:06.082] Browser LOG     ✅ Profile loaded: {"email":"serkankalem99@gmail.com","is_premium":true,"subscription_status":"active"}
+[00:00:06.083] Browser LOG     ═══════════════════════════════════════
+[00:00:06.083] Browser LOG     User: serkankalem99@gmail.com
+[00:00:06.083] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031","subscription_status":"active"}
+[00:00:06.083] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":true,"premium_since":null,"stripe_customer_id":"cus_TOfX81gaoZJOLy","subscription_cancel_at":null,"subscription_id":"sub_1SRsCc050zwZ92QfZUpuJX9q","subscription_status":"active","updated_at":"2025-11-10T10:20:06.049588"}
+[00:00:06.083] Browser LOG     isPremium: true
+[00:00:06.083] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
+[00:00:06.083] Browser LOG     ═══════════════════════════════════════
+[00:00:06.083] Browser LOG     Fetched businesses: 93
+[00:00:06.195] Browser LOG     🔔 Profile updated from auth change
+[00:00:06.195] Browser LOG     ═══════════════════════════════════════
+[00:00:06.195] Browser LOG     User: serkankalem99@gmail.com
+[00:00:06.195] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031","subscription_status":"active"}
+[00:00:06.195] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":true,"premium_since":null,"stripe_customer_id":"cus_TOfX81gaoZJOLy","subscription_cancel_at":null,"subscription_id":"sub_1SRsCc050zwZ92QfZUpuJX9q","subscription_status":"active","updated_at":"2025-11-10T10:20:06.049588"}
+[00:00:06.195] Browser LOG     isPremium: true
+[00:00:06.195] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
+[00:00:06.195] Browser LOG     ═══════════════════════════════════════
+[00:00:10.417] Browser LOG     🔘 Sign out button clicked
+[00:00:10.418] Browser LOG     🚪 Starting logout process...
+[00:00:10.548] Browser ERROR   ❌ Supabase signOut error: {"__isAuthError":true,"name":"AuthSessionMissingError","status":400}
+[00:00:10.548] Browser LOG     🔄 Reloading page...
+[00:00:10.747] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:10.859] Browser LOG     Firebase app initialized
+[00:00:10.859] Browser LOG     📍 Loading initial data...
+[00:00:10.859] Browser LOG     Fetching businesses from database...
+[00:00:10.859] Browser LOG     Notification permission granted
+[00:00:10.859] Browser LOG     📍 Session loaded: undefined
+[00:00:10.859] Browser LOG     FCM Token: ftwkK8QGxCB5dN66sZMJ5p:APA91bHvy3Tke8egLaCT2zTDYDAj_R9v3xLSmS5-UiIYtAeybqaKrUp1jOqkeDCV3RJu7LJBN5x3MYc1t3gvswRAfOW2HvJMAtADVEdf19V6W3R5WL0z_Ic
+[00:00:10.859] Browser LOG     FCM token received and set: ftwkK8QGxCB5dN66sZMJ5p:APA91bHvy3Tke8egLaCT2zTDYDAj_R9v3xLSmS5-UiIYtAeybqaKrUp1jOqkeDCV3RJu7LJBN5x3MYc1t3gvswRAfOW2HvJMAtADVEdf19V6W3R5WL0z_Ic
+[00:00:10.859] Browser LOG     🔔 Auth event: INITIAL_SESSION
+[00:00:10.979] Browser LOG     Fetched businesses: 93
+[00:00:35.327] Browser LOG     Firebase app initialized
+[00:00:35.327] Browser LOG     📍 Loading initial data...
+[00:00:35.327] Browser LOG     Fetching businesses from database...
+[00:00:35.327] Browser LOG     Notification permission granted
+[00:00:35.327] Browser LOG     📍 Session loaded: undefined
+[00:00:35.327] Browser LOG     🔔 Auth event: INITIAL_SESSION
+[00:00:35.327] Browser LOG     FCM Token: ftwkK8QGxCB5dN66sZMJ5p:APA91bHvy3Tke8egLaCT2zTDYDAj_R9v3xLSmS5-UiIYtAeybqaKrUp1jOqkeDCV3RJu7LJBN5x3MYc1t3gvswRAfOW2HvJMAtADVEdf19V6W3R5WL0z_Ic
+[00:00:35.327] Browser LOG     FCM token received and set: ftwkK8QGxCB5dN66sZMJ5p:APA91bHvy3Tke8egLaCT2zTDYDAj_R9v3xLSmS5-UiIYtAeybqaKrUp1jOqkeDCV3RJu7LJBN5x3MYc1t3gvswRAfOW2HvJMAtADVEdf19V6W3R5WL0z_Ic
+[00:00:35.495] Browser LOG     Fetched businesses: 93
+[00:01:22.620] Server  LOG      ✓ Compiled in 72ms
+[00:01:44.766] Server  LOG      ✓ Compiled in 22ms
+[00:01:52.408] Server  LOG      ✓ Compiled in 5ms
+[00:02:00.036] Server  LOG      ✓ Compiled in 4ms
+[00:02:07.688] Server  LOG      ✓ Compiled in 7ms
+[00:02:14.243] Server  LOG      ✓ Compiled in 2ms
+[00:02:26.266] Server  LOG      ✓ Compiled in 6ms
+[00:02:50.158] Server  LOG      ✓ Compiled in 6ms
+[00:02:59.841] Server  LOG      ✓ Compiled in 3ms
+[00:03:13.463] Server  LOG      ✓ Compiled in 7ms
+[00:03:19.262] Server  LOG      ✓ Compiled in 7ms
+[00:03:28.602] Server  LOG      ✓ Compiled in 5ms
+[00:03:37.100] Server  LOG      ✓ Compiled in 7ms
+[00:03:52.804] Server  LOG      ✓ Compiled in 8ms
+[00:04:24.569] Browser LOG     Firebase app initialized
+[00:04:24.569] Browser LOG     📍 Loading initial data...
+[00:04:24.569] Browser LOG     Fetching businesses from database...
+[00:04:24.569] Browser LOG     Notification permission granted
+[00:04:24.569] Browser LOG     📍 Session loaded: undefined
+[00:04:24.569] Browser LOG     FCM Token: ftwkK8QGxCB5dN66sZMJ5p:APA91bHvy3Tke8egLaCT2zTDYDAj_R9v3xLSmS5-UiIYtAeybqaKrUp1jOqkeDCV3RJu7LJBN5x3MYc1t3gvswRAfOW2HvJMAtADVEdf19V6W3R5WL0z_Ic
+[00:04:24.569] Browser LOG     FCM token received and set: ftwkK8QGxCB5dN66sZMJ5p:APA91bHvy3Tke8egLaCT2zTDYDAj_R9v3xLSmS5-UiIYtAeybqaKrUp1jOqkeDCV3RJu7LJBN5x3MYc1t3gvswRAfOW2HvJMAtADVEdf19V6W3R5WL0z_Ic
+[00:04:24.569] Browser LOG     🔔 Auth event: INITIAL_SESSION
+[00:04:24.965] Browser LOG     Fetched businesses: 93
+[00:05:28.007] Browser LOG     🔔 Auth event: SIGNED_IN
+[00:05:28.008] Browser LOG     ═══════════════════════════════════════
+[00:05:28.008] Browser LOG     User: serkankalem99@gmail.com
+[00:05:28.008] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031","subscription_status":"active"}
+[00:05:28.008] Browser LOG     Profile: null
+[00:05:28.008] Browser LOG     isPremium: true
+[00:05:28.008] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
+[00:05:28.008] Browser LOG     ═══════════════════════════════════════
+[00:05:28.370] Browser LOG     🔔 Profile updated from auth change
+[00:05:28.370] Browser LOG     ═══════════════════════════════════════
+[00:05:28.370] Browser LOG     User: serkankalem99@gmail.com
+[00:05:28.370] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031","subscription_status":"active"}
+[00:05:28.370] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":true,"premium_since":null,"stripe_customer_id":"cus_TOfX81gaoZJOLy","subscription_cancel_at":null,"subscription_id":"sub_1SRsCc050zwZ92QfZUpuJX9q","subscription_status":"active","updated_at":"2025-11-10T10:20:06.049588"}
+[00:05:28.370] Browser LOG     isPremium: true
+[00:05:28.370] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
+[00:05:28.370] Browser LOG     ═══════════════════════════════════════
+[00:05:28.370] Browser LOG     ═══════════════════════════════════════
+[00:05:28.370] Browser LOG     User: serkankalem99@gmail.com
+[00:05:28.370] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031","subscription_status":"active"}
+[00:05:28.370] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":true,"premium_since":null,"stripe_customer_id":"cus_TOfX81gaoZJOLy","subscription_cancel_at":null,"subscription_id":"sub_1SRsCc050zwZ92QfZUpuJX9q","subscription_status":"active","updated_at":"2025-11-10T10:20:06.049588"}
+[00:05:28.370] Browser LOG     isPremium: true
+[00:05:28.370] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
+[00:05:28.370] Browser LOG     ═══════════════════════════════════════
+[00:05:33.101] Browser LOG     Loading Google Maps script...
+[00:05:33.101] Browser LOG     Google Maps script already exists, waiting for load...
+[00:05:33.102] Browser WARN    Google Maps JavaScript API has been loaded directly without loading=async. This can result in suboptimal performance. For best-practice loading patterns please see https://goo.gle/js-api-loading
+[00:05:33.102] Browser LOG     Google Maps loaded successfully
+[00:05:33.528] Browser WARN    As of February 21st, 2024, google.maps.Marker is deprecated. Please use google.maps.marker.AdvancedMarkerElement instead. At this time, google.maps.Marker is not scheduled to be discontinued, but google.maps.marker.AdvancedMarkerElement is recommended over google.maps.Marker. While google.maps.Marker will continue to receive bug fixes for any major regressions, existing bugs in google.maps.Marker will not be addressed. At least 12 months notice will be given before support is discontinued. Please see https://developers.google.com/maps/deprecations for additional details and https://developers.google.com/maps/documentation/javascript/advanced-markers/migration for the migration guide.
+[00:06:32.788] Browser LOG     Google Maps already loaded
+[00:06:32.791] Browser LOG     Google Maps already loaded
+[00:12:07.191] Server  LOG      ✓ Compiled in 264ms
+[00:15:16.183] Server  LOG      ✓ Compiled in 44ms
+[00:15:28.034] Server  LOG      ✓ Compiled in 23ms
+[00:15:38.420] Server  LOG      ✓ Compiled in 27ms
+[00:15:43.707] Server  LOG      ✓ Compiled in 41ms
+[00:15:53.824] Server  LOG      ✓ Compiled in 32ms
+[00:16:00.020] Server  LOG      ✓ Compiled in 25ms
+[00:17:59.149] Server  LOG      ✓ Compiled in 201ms
+[00:18:29.553] Server  LOG      ✓ Compiled in 61ms
+[00:18:57.759] Server  LOG      ✓ Compiled in 65ms
+[00:19:09.532] Server  LOG      ✓ Compiled in 82ms
+[00:19:16.621] Server  LOG      ✓ Compiled in 29ms
+[00:19:53.634] Browser LOG     Google Maps already loaded
+[00:19:53.634] Browser LOG     Google Maps already loaded
+[00:22:13.165] Server  LOG      ✓ Compiled in 233ms
+[00:22:46.268] Server  LOG      ✓ Compiled in 213ms
+[00:24:36.108] Server  LOG      ✓ Compiled in 202ms
+[00:28:13.775] Server  LOG      ✓ Compiled in 186ms
+[00:28:16.706] Browser LOG     👁️ Page became visible, reloading data...
+[00:28:16.706] Browser LOG     📍 Loading initial data...
+[00:28:16.706] Browser LOG     📍 Session loaded: serkankalem99@gmail.com
+[00:28:16.706] Browser LOG     ═══════════════════════════════════════
+[00:28:16.706] Browser LOG     User: serkankalem99@gmail.com
+[00:28:16.706] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031","subscription_status":"active"}
+[00:28:16.706] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":true,"premium_since":null,"stripe_customer_id":"cus_TOfX81gaoZJOLy","subscription_cancel_at":null,"subscription_id":"sub_1SRsCc050zwZ92QfZUpuJX9q","subscription_status":"active","updated_at":"2025-11-10T10:20:06.049588"}
+[00:28:16.706] Browser LOG     isPremium: true
+[00:28:16.707] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
+[00:28:16.707] Browser LOG     ═══════════════════════════════════════
+[00:28:16.707] Browser LOG     🔔 Auth event: SIGNED_IN
+[00:28:16.707] Browser LOG     ═══════════════════════════════════════
+[00:28:16.707] Browser LOG     User: serkankalem99@gmail.com
+[00:28:16.707] Browser LOG     Auth Meta: {"display_name":"serk","email":"serkankalem99@gmail.com","email_verified":true,"is_premium":true,"phone_verified":false,"sub":"e4af7234-8bd5-421f-b572-351376d71031","subscription_status":"active"}
+[00:28:16.707] Browser LOG     Profile: {"avatar_url":"","display_name":"serk","email":"serkankalem99@gmail.com","full_name":"serk","id":"e4af7234-8bd5-421f-b572-351376d71031","is_premium":true,"premium_since":null,"stripe_customer_id":"cus_TOfX81gaoZJOLy","subscription_cancel_at":null,"subscription_id":"sub_1SRsCc050zwZ92QfZUpuJX9q","subscription_status":"active","updated_at":"2025-11-10T10:20:06.049588"}
+[00:28:16.707] Browser LOG     isPremium: true
+[00:28:16.707] Browser LOG     Nav Items: ["Highlighted Business","Map","Display My Card","Profile and Payment"]
+[00:28:16.707] Browser LOG     ═══════════════════════════════════════
+[00:29:25.060] Server  LOG      ✓ Compiled in 184ms
+[00:29:40.194] Server  LOG      ✓ Compiled in 51ms
+[00:30:07.033] Server  LOG      ✓ Compiled in 33ms
+[00:30:46.883] Server  LOG      ✓ Compiled in 29ms
+[00:31:11.467] Server  LOG      ✓ Compiled in 23ms
+[00:32:16.328] Server  LOG      ✓ Compiled in 25ms
+[00:32:23.734] Server  LOG      ✓ Compiled in 15ms
+[00:32:30.432] Server  LOG      ✓ Compiled in 14ms
+[00:32:43.776] Server  LOG      ✓ Compiled in 26ms
+[00:32:52.753] Server  LOG      ✓ Compiled in 14ms
+[00:33:00.918] Server  LOG      ✓ Compiled in 21ms
+[03:04:54.252] Browser LOG     👁️ Page became visible, reloading data...
+[03:04:54.259] Browser LOG     📍 Loading initial data...
