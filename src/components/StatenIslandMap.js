@@ -121,7 +121,7 @@ const StatenIslandMap = ({ businesses }) => {
       marker.addListener("click", () => {
         setSelectedBusiness(business)
         map.panTo({ lat, lng })
-        map.setZoom(Math.max(map.getZoom(), 15))
+        map.setZoom(15)
       })
 
       markers.push(marker)
@@ -130,6 +130,15 @@ const StatenIslandMap = ({ businesses }) => {
 
     return () => markers.forEach((m) => m.setMap(null))
   }, [map, businesses])
+
+  // Close popup and zoom out
+  const handleClosePopup = () => {
+    setSelectedBusiness(null)
+    if (map) {
+      map.setZoom(11)
+      map.panTo(STATEN_ISLAND_CENTER)
+    }
+  }
 
   // Jump to business
   const handleBusinessClick = (biz) => {
@@ -382,21 +391,22 @@ const StatenIslandMap = ({ businesses }) => {
         <div
           style={{
             position: "absolute",
-            bottom: "20px",
+            bottom: "80px",
             left: "50%",
             transform: "translateX(-50%)",
             background: "white",
             borderRadius: "16px",
             boxShadow: "0 8px 24px rgba(0,0,0,0.2)",
             padding: "16px",
-            minWidth: "320px",
-            maxWidth: "400px",
+            minWidth: "280px",
+            maxWidth: "90%",
+            width: "320px",
             zIndex: 1500,
             animation: "slideUp 0.3s ease-out",
           }}
         >
           <button
-            onClick={() => setSelectedBusiness(null)}
+            onClick={handleClosePopup}
             style={{
               position: "absolute",
               top: "12px",
