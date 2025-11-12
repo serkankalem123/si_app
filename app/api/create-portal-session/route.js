@@ -16,14 +16,46 @@ export async function POST(request) {
       );
     }
 
-    // Create portal session
-    const session = await stripe.billingPortal.sessions.create({
-      customer: customerId,
-      return_url: `${request.headers.get('origin')}/?nav=profile`,
+    // ✅ List all configurations to debug
+    const configs = await stripe.billingPortal.configurations.list();
+    console.log('📋 Available portal configurations:', configs.data.length);
+    
+    configs.data.forEach((config, index) => {
+      console.log(`Config ${index + 1}:`, {
+        id: config.id,
+        is_default: config.is_default,
+        subscription_cancel_enabled: config.features?.subscription_cancel?.enabled,
+        active: config.active,
+      });
     });
 
-    return NextResponse.json({ url: session.url });
+    // Find the configuration with cancellation enabled
+    const configWithCancel = configs.data.find(
+      c => c.features?.subscription_cancel?.enabled === true
+    );
 
+    if (!configWithCancel) {
+      console.warn('⚠️ No configuration found with cancellation enabled!');
+    } else {
+      console.log('✅ Using configuration:', configWithCancel.id);
+    }
+
+    // Create portal session
+    const sessionConfig = {
+      customer: customerId,
+      return_url: `${request.headers.get('origin')}/?nav=profile`,
+    };
+
+    // ✅ Use the config with cancellation if found
+    if (configWithCancel) {
+      sessionConfig.configuration = configWithCancel.id;
+    }
+
+    console.log('🔧 Creating portal session with config:', sessionConfig);
+
+    const session = await stripe.billingPortal.sessions.create(sessionConfig);
+
+    return NextResponse.json({ url: session.url });
   } catch (error) {
     console.error('Portal session error:', error);
     return NextResponse.json(
