@@ -10,12 +10,57 @@ const supabaseAdmin = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
+// Helper function to find user by subscription or customer ID
+async function findUserBySubscription(subscription) {
+  console.log('🔍 Looking up user...');
+  console.log('   Subscription ID:', subscription.id);
+  console.log('   Customer ID:', subscription.customer);
+  console.log('   Metadata:', subscription.metadata);
+
+  // Try 1: Look up by metadata userId
+  let userId = subscription.metadata?.userId || subscription.metadata?.supabase_user_id;
+  
+  if (userId) {
+    console.log('✅ Found userId in metadata:', userId);
+    return userId;
+  }
+
+  // Try 2: Look up by subscription_id in database
+  const { data: profileBySubId } = await supabaseAdmin
+    .from('profiles')
+    .select('id')
+    .eq('subscription_id', subscription.id)
+    .maybeSingle();
+
+  if (profileBySubId) {
+    console.log('✅ Found user by subscription_id:', profileBySubId.id);
+    return profileBySubId.id;
+  }
+
+  // Try 3: Look up by stripe_customer_id
+  const { data: profileByCustomerId } = await supabaseAdmin
+    .from('profiles')
+    .select('id')
+    .eq('stripe_customer_id', subscription.customer)
+    .maybeSingle();
+
+  if (profileByCustomerId) {
+    console.log('✅ Found user by stripe_customer_id:', profileByCustomerId.id);
+    return profileByCustomerId.id;
+  }
+
+  console.error('❌ Could not find user for subscription');
+  return null;
+}
+
 export async function POST(request) {
   try {
     const body = await request.text();
     const signature = request.headers.get('stripe-signature');
 
-    console.log('=== Webhook Received ===');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('🎯 WEBHOOK RECEIVED');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
 
     if (!process.env.STRIPE_WEBHOOK_SECRET) {
       console.error('❌ STRIPE_WEBHOOK_SECRET is missing');
@@ -41,17 +86,22 @@ export async function POST(request) {
       );
     }
 
-    console.log('✅ Webhook verified. Event type:', event.type);
+    console.log('✅ Webhook verified');
+    console.log('📋 Event type:', event.type);
+    console.log('📋 Event ID:', event.id);
 
     // Handle successful checkout
     if (event.type === 'checkout.session.completed') {
       const session = event.data.object;
       
-      console.log('💰 Checkout completed:', {
-        sessionId: session.id,
-        email: session.customer_email,
-        metadata: session.metadata
-      });
+      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.log('💰 CHECKOUT COMPLETED');
+      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.log('   Session ID:', session.id);
+      console.log('   Email:', session.customer_email);
+      console.log('   Customer ID:', session.customer);
+      console.log('   Subscription ID:', session.subscription);
+      console.log('   Metadata:', session.metadata);
 
       const userId = session.metadata?.userId || session.metadata?.supabase_user_id;
 
@@ -97,92 +147,110 @@ export async function POST(request) {
     if (event.type === 'customer.subscription.updated') {
       const subscription = event.data.object;
       
-      console.log('📝 Subscription updated:', subscription.id);
+      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.log('📝 SUBSCRIPTION UPDATED');
+      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.log('   Subscription ID:', subscription.id);
+      console.log('   Status:', subscription.status);
+      console.log('   Cancel at period end:', subscription.cancel_at_period_end);
+      console.log('   Cancel at:', subscription.cancel_at);
 
-      // Find user with this subscription ID
-      const { data: profile } = await supabaseAdmin
-        .from('profiles')
-        .select('id')
-        .eq('subscription_id', subscription.id)
-        .single();
+      const userId = await findUserBySubscription(subscription);
 
-      if (profile) {
-        const isCanceling = subscription.cancel_at_period_end;
-        const cancelAt = subscription.cancel_at 
-          ? new Date(subscription.cancel_at * 1000).toISOString()
-          : null;
+      if (!userId) {
+        console.error('❌ Could not find user for subscription');
+        return NextResponse.json({ error: 'User not found' }, { status: 400 });
+      }
 
-        console.log(`${isCanceling ? '⚠️' : '✅'} Subscription ${isCanceling ? 'will be canceled' : 'is active'}`);
-        if (cancelAt) console.log('📅 Cancel at:', cancelAt);
+      const isCanceling = subscription.cancel_at_period_end;
+      const cancelAt = subscription.cancel_at 
+        ? new Date(subscription.cancel_at * 1000).toISOString()
+        : null;
 
-        // Update auth metadata
-        await supabaseAdmin.auth.admin.updateUserById(
-          profile.id,
-          {
-            user_metadata: {
-              subscription_status: isCanceling ? 'canceling' : 'active',
-              subscription_cancel_at: cancelAt,
-            }
-          }
-        );
+      console.log(`${isCanceling ? '⚠️' : '✅'} Subscription ${isCanceling ? 'will be canceled' : 'is active'}`);
+      if (cancelAt) console.log('📅 Cancel at:', cancelAt);
 
-        // Update profile
-        await supabaseAdmin
-          .from('profiles')
-          .update({
+      // Update auth metadata
+      await supabaseAdmin.auth.admin.updateUserById(
+        userId,
+        {
+          user_metadata: {
             subscription_status: isCanceling ? 'canceling' : 'active',
             subscription_cancel_at: cancelAt,
-            updated_at: new Date().toISOString()
-          })
-          .eq('id', profile.id);
-      }
+          }
+        }
+      );
+
+      // Update profile
+      await supabaseAdmin
+        .from('profiles')
+        .update({
+          subscription_status: isCanceling ? 'canceling' : 'active',
+          subscription_cancel_at: cancelAt,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', userId);
+
+      console.log('✅ Subscription status updated');
     }
 
     // Handle subscription deletion (when it actually expires)
     if (event.type === 'customer.subscription.deleted') {
       const subscription = event.data.object;
       
-      console.log('🚫 Subscription deleted:', subscription.id);
+      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.log('🚫 SUBSCRIPTION DELETED');
+      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.log('   Subscription ID:', subscription.id);
+      console.log('   Customer ID:', subscription.customer);
 
-      // Find user with this subscription ID
-      const { data: profile } = await supabaseAdmin
-        .from('profiles')
-        .select('id')
-        .eq('subscription_id', subscription.id)
-        .single();
+      const userId = await findUserBySubscription(subscription);
 
-      if (profile) {
-        // Update auth metadata
-        await supabaseAdmin.auth.admin.updateUserById(
-          profile.id,
-          {
-            user_metadata: {
-              is_premium: false,
-              subscription_status: 'canceled',
-              subscription_cancelled: new Date().toISOString()
-            }
-          }
-        );
+      if (!userId) {
+        console.error('❌ Could not find user for subscription');
+        return NextResponse.json({ error: 'User not found' }, { status: 400 });
+      }
 
-        // Update profile
-        await supabaseAdmin
-          .from('profiles')
-          .update({
+      console.log('🔄 Removing premium access for user:', userId);
+
+      // Update auth metadata
+      await supabaseAdmin.auth.admin.updateUserById(
+        userId,
+        {
+          user_metadata: {
             is_premium: false,
             subscription_status: 'canceled',
-            subscription_cancel_at: null,
-            updated_at: new Date().toISOString()
-          })
-          .eq('id', profile.id);
+            subscription_cancelled: new Date().toISOString()
+          }
+        }
+      );
 
-        console.log('✅ User premium access removed:', profile.id);
-      }
+      // Update profile
+      await supabaseAdmin
+        .from('profiles')
+        .update({
+          is_premium: false,
+          subscription_status: 'canceled',
+          subscription_cancel_at: null,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', userId);
+
+      console.log('✅ USER PREMIUM ACCESS REMOVED SUCCESSFULLY');
     }
+
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('✅ WEBHOOK PROCESSED SUCCESSFULLY');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
 
     return NextResponse.json({ received: true });
 
   } catch (err) {
-    console.error('❌ Webhook handler error:', err);
+    console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.error('❌ WEBHOOK HANDLER ERROR');
+    console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.error('Error:', err);
+    console.error('Stack:', err.stack);
     return NextResponse.json(
       { error: `Webhook Error: ${err.message}` },
       { status: 500 }
