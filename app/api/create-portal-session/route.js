@@ -2,19 +2,32 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: '2023-10-16',
+});
 
 export async function POST(request) {
   try {
+    console.log('🔵 Creating Stripe Customer Portal session...');
+
     const body = await request.json();
     const { customerId } = body;
 
     if (!customerId) {
+      console.error('❌ Missing customerId');
       return NextResponse.json(
         { error: 'Customer ID is required' },
         { status: 400 }
       );
     }
+
+    // Get origin for return URL
+    const origin = request.headers.get('origin') || 
+                   process.env.NEXT_PUBLIC_SITE_URL || 
+                   'https://si-app.sigma.vercel.app';
+
+    console.log('🔵 Customer ID:', customerId);
+    console.log('🔵 Origin:', origin);
 
     // ✅ List all configurations to debug
     const configs = await stripe.billingPortal.configurations.list();
@@ -25,6 +38,7 @@ export async function POST(request) {
         id: config.id,
         is_default: config.is_default,
         subscription_cancel_enabled: config.features?.subscription_cancel?.enabled,
+        subscription_update_enabled: config.features?.subscription_update?.enabled,
         active: config.active,
       });
     });
@@ -36,14 +50,15 @@ export async function POST(request) {
 
     if (!configWithCancel) {
       console.warn('⚠️ No configuration found with cancellation enabled!');
+      console.warn('⚠️ Users will not be able to cancel their subscription');
     } else {
       console.log('✅ Using configuration:', configWithCancel.id);
     }
 
-    // Create portal session
+    // Create portal session configuration
     const sessionConfig = {
       customer: customerId,
-      return_url: `${request.headers.get('origin')}/?nav=profile`,
+      return_url: `${origin}/?nav=profile&updated=true`,
     };
 
     // ✅ Use the config with cancellation if found
@@ -51,16 +66,41 @@ export async function POST(request) {
       sessionConfig.configuration = configWithCancel.id;
     }
 
-    console.log('🔧 Creating portal session with config:', sessionConfig);
+    console.log('🔧 Creating portal session with config:', {
+      customer: sessionConfig.customer,
+      return_url: sessionConfig.return_url,
+      configuration: sessionConfig.configuration || 'default',
+    });
 
     const session = await stripe.billingPortal.sessions.create(sessionConfig);
 
+    console.log('✅ Portal session created:', session.id);
+    console.log('✅ Portal URL:', session.url);
+
     return NextResponse.json({ url: session.url });
+
   } catch (error) {
-    console.error('Portal session error:', error);
+    console.error('❌ Portal session error:', error);
+    console.error('❌ Error details:', {
+      type: error.type,
+      message: error.message,
+      code: error.code,
+    });
+    
     return NextResponse.json(
-      { error: error.message },
+      { error: error.message || 'Failed to create portal session' },
       { status: 500 }
     );
   }
+}
+
+export async function OPTIONS(request) {
+  return new NextResponse(null, {
+    status: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    },
+  });
 }
