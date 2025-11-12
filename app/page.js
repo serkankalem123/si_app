@@ -1,359 +1,1255 @@
-"use client";
+"use client"
+import { useState, useEffect } from "react"
+import { CompassFill, GeoAltFill, PersonFill } from "react-bootstrap-icons"
+import { initializeApp, getApps, getApp } from "firebase/app"
+import { getMessaging, getToken, onMessage } from "firebase/messaging"
+import Image from "next/image"
 
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { supabase } from "../src/supabaseClient";
+const logo = "/Cartoon.PNG"
 
-export default function PaymentSuccess() {
-  const router = useRouter();
-  const [isRefreshing, setIsRefreshing] = useState(true);
-  const [retryCount, setRetryCount] = useState(0);
-  const MAX_RETRIES = 5;
+import "../styles/App.css"
+import Auth from "../src/components/Auth"
+import { supabase } from "../src/supabaseClient"
+import MembershipCard from "../src/components/MembershipCard"
+import BusinessForm from "../src/components/BusinessForm"
+import BusinessProfile from "../src/components/BusinessProfile"
+import LandingPage from "../src/components/LandingPage"
+import StatenIslandMap from "../src/components/StatenIslandMap"
+import ProfileAndPayment from "../src/components/ProfileAndPayment"
 
-  useEffect(() => {
-    const refreshSessionAndCheck = async () => {
-      try {
-        console.log(`🔄 Attempt ${retryCount + 1}/${MAX_RETRIES}`);
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyC5NjB_yv61XLqCOazv8WVDooBVDmvQWC8",
+  authDomain: "si-app-be948.firebaseapp.com",
+  projectId: "si-app-be948",
+  storageBucket: "si-app-be948.firebasestorage.app",
+  messagingSenderId: "959224695369",
+  appId: "1:959224695369:web:96fd41e33c3c60b201cd98",
+  measurementId: "G-GK9X2XXJ9P",
+}
 
-        const {
-          data: { session },
-          error: sessionError,
-        } = await supabase.auth.refreshSession();
-
-        if (sessionError) throw sessionError;
-
-        const authPremium = session?.user?.user_metadata?.is_premium === true;
-
-        const { data: profile, error: profileError } = await supabase
-          .from("profiles")
-          .select("is_premium")
-          .eq("id", session.user.id)
-          .single();
-
-        if (profileError) console.warn("⚠️ Profile check failed:", profileError);
-
-        const profilePremium = profile?.is_premium === true;
-        const isPremium = authPremium || profilePremium;
-
-        if (isPremium) {
-          console.log("🎉 PREMIUM STATUS CONFIRMED!");
-          setIsRefreshing(false);
-          setTimeout(() => router.push("/?showCard=true"), 2000);
-        } else {
-          console.log("⏳ Not premium yet, retrying...");
-          if (retryCount < MAX_RETRIES) {
-            setTimeout(() => setRetryCount((prev) => prev + 1), 3000);
-          } else {
-            console.log("⚠️ Max retries reached");
-            setIsRefreshing(false);
-            setTimeout(() => router.push("/?showCard=true"), 2000);
-          }
-        }
-      } catch (error) {
-        console.error("❌ Error:", error);
-        setIsRefreshing(false);
-        setTimeout(() => router.push("/"), 3000);
-      }
-    };
-
-    refreshSessionAndCheck();
-  }, [router, retryCount]);
+// OPTIMIZED IMAGE COMPONENT
+function OptimizedImage({ src, alt, className, onClick }) {
+  const [isLoading, setIsLoading] = useState(true)
 
   return (
-    <>
-      <style jsx>{`
-        .payment-success-container {
-          min-height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-          padding: 16px;
-          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
-
-        .success-card {
-          background: white;
-          border-radius: 24px;
-          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-          padding: 48px 32px;
-          max-width: 420px;
-          width: 100%;
-          text-align: center;
-          position: relative;
-          overflow: hidden;
-        }
-
-        .gold-accent {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          height: 6px;
-          background: linear-gradient(90deg, #FFD700 0%, #FFA500 50%, #FFD700 100%);
-        }
-
-        .icon-container {
-          width: 100px;
-          height: 100px;
-          margin: 0 auto 24px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 48px;
-          transition: all 0.3s ease;
-        }
-
-        .icon-processing {
-          background: linear-gradient(135deg, #4ba3d9 0%, #357abd 100%);
-          box-shadow: 0 8px 24px rgba(75, 163, 217, 0.4);
-        }
-
-        .icon-success {
-          background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-          box-shadow: 0 8px 24px rgba(255, 215, 0, 0.5);
-        }
-
-        .title {
-          font-size: 28px;
-          font-weight: 700;
-          color: #1a1a1a;
-          margin-bottom: 12px;
-          line-height: 1.3;
-        }
-
-        .description {
-          font-size: 16px;
-          color: #666;
-          margin-bottom: 32px;
-          line-height: 1.5;
-        }
-
-        .progress-section {
-          margin-bottom: 24px;
-        }
-
-        .progress-bar-container {
-          width: 100%;
-          height: 8px;
-          background: #f0f0f0;
-          border-radius: 12px;
-          overflow: hidden;
-          margin-bottom: 16px;
-        }
-
-        .progress-bar {
-          height: 100%;
-          background: linear-gradient(90deg, #4ba3d9 0%, #FFD700 100%);
-          border-radius: 12px;
-          transition: width 0.5s ease;
-        }
-
-        .retry-text {
-          font-size: 14px;
-          color: #999;
-          margin-bottom: 16px;
-        }
-
-        .loading-dots {
-          display: flex;
-          justify-content: center;
-          gap: 8px;
-          margin-top: 16px;
-        }
-
-        .dot {
-          width: 10px;
-          height: 10px;
-          background: #4ba3d9;
-          border-radius: 50%;
-        }
-
-        .success-checklist {
-          text-align: left;
-          margin-top: 24px;
-        }
-
-        .checklist-item {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          margin-bottom: 16px;
-          font-size: 15px;
-          color: #333;
-        }
-
-        .check-icon {
-          width: 28px;
-          height: 28px;
-          background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: white;
-          font-size: 14px;
-          font-weight: bold;
-          flex-shrink: 0;
-        }
-
-        .footer-text {
-          margin-top: 32px;
-          font-size: 14px;
-          color: #999;
-        }
-
-        @media (max-width: 480px) {
-          .success-card {
-            padding: 36px 24px;
-          }
-
-          .icon-container {
-            width: 80px;
-            height: 80px;
-            font-size: 40px;
-          }
-
-          .title {
-            font-size: 24px;
-          }
-
-          .description {
-            font-size: 15px;
-          }
-        }
-      `}</style>
-
-      <div className="payment-success-container">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className="success-card"
-        >
-          <div className="gold-accent" />
-
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{
-              delay: 0.2,
-              type: "spring",
-              stiffness: 200,
-              damping: 15,
-            }}
-            className={`icon-container ${isRefreshing ? "icon-processing" : "icon-success"}`}
-          >
-            <motion.div
-              animate={{
-                rotate: isRefreshing ? 360 : 0,
-              }}
-              transition={{
-                repeat: isRefreshing ? Infinity : 0,
-                duration: 2,
-                ease: "linear",
-              }}
-            >
-              {isRefreshing ? "⚡" : "✓"}
-            </motion.div>
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="title"
-          >
-            {isRefreshing ? "Processing..." : "Payment Successful"}
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="description"
-          >
-            {isRefreshing ? "Activating your premium features" : "Your premium access is ready"}
-          </motion.p>
-
-          {isRefreshing && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="progress-section"
-            >
-              <div className="progress-bar-container">
-                <motion.div
-                  className="progress-bar"
-                  initial={{ width: "0%" }}
-                  animate={{
-                    width: `${(retryCount / MAX_RETRIES) * 100}%`,
-                  }}
-                  transition={{ duration: 0.5 }}
-                />
-              </div>
-
-              {retryCount > 0 && (
-                <p className="retry-text">
-                  Step {retryCount} of {MAX_RETRIES}
-                </p>
-              )}
-
-              <div className="loading-dots">
-                {[0, 1, 2].map((i) => (
-                  <motion.div
-                    key={i}
-                    className="dot"
-                    animate={{
-                      scale: [1, 1.5, 1],
-                      opacity: [0.3, 1, 0.3],
-                    }}
-                    transition={{
-                      duration: 1.5,
-                      repeat: Infinity,
-                      delay: i * 0.2,
-                    }}
-                  />
-                ))}
-              </div>
-            </motion.div>
-          )}
-
-          {!isRefreshing && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="success-checklist"
-            >
-              {["Payment confirmed", "Premium activated", "Redirecting..."].map((text, i) => (
-                <motion.div
-                  key={text}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.4 + i * 0.1 }}
-                  className="checklist-item"
-                >
-                  <div className="check-icon">✓</div>
-                  <span>{text}</span>
-                </motion.div>
-              ))}
-            </motion.div>
-          )}
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            className="footer-text"
-          >
-            Thank you for your purchase
-          </motion.p>
-        </motion.div>
-      </div>
-    </>
-  );
+    <div style={{ position: "relative", overflow: "hidden", borderRadius: "8px" }}>
+      <img
+        src={src || "/placeholder.svg"}
+        alt={alt}
+        className={className}
+        onClick={onClick}
+        onLoad={() => setIsLoading(false)}
+        style={{
+          opacity: isLoading ? 0.7 : 1,
+          transition: "opacity 0.3s ease-in-out",
+          backgroundColor: "#f0f0f0",
+        }}
+      />
+    </div>
+  )
 }
+
+async function compressImage(file) {
+  return new Promise((resolve) => {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      const img = new Image()
+      img.onload = () => {
+        const canvas = document.createElement("canvas")
+        const ctx = canvas.getContext("2d")
+
+        let width = img.width
+        let height = img.height
+        const maxWidth = 1200
+        const maxHeight = 1200
+
+        if (width > height) {
+          if (width > maxWidth) {
+            height *= maxWidth / width
+            width = maxWidth
+          }
+        } else {
+          if (height > maxHeight) {
+            width *= maxHeight / height
+            height = maxHeight
+          }
+        }
+
+        canvas.width = width
+        canvas.height = height
+        ctx.drawImage(img, 0, 0, width, height)
+
+        canvas.toBlob((blob) => resolve(blob), "image/jpeg", 0.85)
+      }
+      img.src = e.target.result
+    }
+    reader.readAsDataURL(file)
+  })
+}
+
+const uploadBusinessPhotos = async (businessId, files) => {
+  if (!files || files.length === 0) return []
+
+  try {
+    console.log("Starting photo upload for business ID:", businessId)
+
+    const { data: existingBusiness, error: checkError } = await supabase
+      .from("businesses")
+      .select("id, name, photo_urls")
+      .eq("id", businessId)
+      .maybeSingle()
+
+    if (!existingBusiness) {
+      console.error("Business not found")
+      alert("Error: Business not found")
+      return []
+    }
+
+    const uploadedUrls = []
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i]
+      console.log(`Compressing photo ${i + 1}/${files.length}...`)
+
+      const compressedBlob = await compressImage(file)
+      const compressedFile = new File([compressedBlob], file.name, { type: "image/jpeg" })
+
+      const fileExt = "jpg"
+      const fileName = `${businessId}-${Date.now()}-${i}.${fileExt}`
+      const filePath = fileName
+
+      console.log(`Uploading photo ${i + 1}/${files.length} to business-logos bucket:`, filePath)
+
+      const { error: uploadError, data: uploadData } = await supabase.storage
+        .from("business-logos")
+        .upload(filePath, compressedFile, {
+          upsert: true,
+          cacheControl: "31536000",
+        })
+
+      if (uploadError) {
+        console.error(`Upload error for photo ${i + 1}:`, uploadError)
+        continue
+      }
+
+      console.log(`Upload ${i + 1} successful:`, uploadData)
+
+      const { data: urlData } = supabase.storage.from("business-logos").getPublicUrl(filePath)
+
+      if (urlData?.publicUrl) {
+        uploadedUrls.push(urlData.publicUrl)
+      }
+    }
+
+    if (uploadedUrls.length === 0) {
+      alert("No photos were uploaded successfully")
+      return []
+    }
+
+    const currentPhotos = existingBusiness.photo_urls || []
+    const updatedPhotos = [...currentPhotos, ...uploadedUrls]
+
+    const { error: updateError, data: updatedBusiness } = await supabase
+      .from("businesses")
+      .update({ photo_urls: updatedPhotos })
+      .eq("id", businessId)
+      .select()
+
+    if (updateError) {
+      console.error("Database update error:", updateError)
+      alert("Failed to update database: " + updateError.message)
+      return []
+    }
+
+    console.log("Database updated successfully with new photos")
+    alert(`${uploadedUrls.length} photo(s) uploaded successfully!`)
+
+    return uploadedUrls
+  } catch (error) {
+    console.error("Error uploading photos:", error)
+    alert("Error: " + error.message)
+    return []
+  }
+}
+
+async function compressAndUploadImage(file) {
+  return new Promise((resolve) => {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      const img = new Image()
+      img.onload = () => {
+        const canvas = document.createElement("canvas")
+        const ctx = canvas.getContext("2d")
+
+        let width = img.width
+        let height = img.height
+        const maxWidth = 800
+        const maxHeight = 800
+
+        if (width > height) {
+          if (width > maxWidth) {
+            height *= maxWidth / width
+            width = maxWidth
+          }
+        } else {
+          if (height > maxHeight) {
+            width *= maxHeight / height
+            height = maxHeight
+          }
+        }
+
+        canvas.width = width
+        canvas.height = height
+        ctx.drawImage(img, 0, 0, width, height)
+
+        canvas.toBlob((blob) => resolve(blob), "image/jpeg", 0.8)
+      }
+      img.src = e.target.result
+    }
+    reader.readAsDataURL(file)
+  })
+}
+
+function App() {
+  const [showSplash, setShowSplash] = useState(true)
+  const [session, setSession] = useState(null)
+  const [profile, setProfile] = useState(null)
+  const [searchTerm, setSearchTerm] = useState("")
+  const [businesses, setBusinesses] = useState([])
+  const [justSignedUp, setJustSignedUp] = useState(false)
+  const [selectedBusiness, setSelectedBusiness] = useState(null)
+  const [showLanding, setShowLanding] = useState(false)
+  const [zipSearch, setZipSearch] = useState("")
+  const [isMobile, setIsMobile] = useState(false)
+  const [showRegister, setShowRegister] = useState(false)
+  const [shouldShake, setShouldShake] = useState(false)
+  const [showFilters, setShowFilters] = useState(false)
+  const [displayName, setDisplayName] = useState("")
+  const [editingName, setEditingName] = useState("")
+  const [avatarUrl, setAvatarUrl] = useState("")
+  const [isSaving, setIsSaving] = useState(false)
+  const [saveStatus, setSaveStatus] = useState(null)
+  const [uploading, setUploading] = useState(false)
+  const [userFcmToken, setUserFcmToken] = useState(null)
+  const [selectedBusinessId, setSelectedBusinessId] = useState(null)
+  const [mapPanTo, setMapPanTo] = useState(null)
+  const [sortBy, setSortBy] = useState("")
+  const [tags, setTags] = useState([])
+  const [newTag, setNewTag] = useState("")
+  const [categoryFilter, setCategoryFilter] = useState("")
+  const [zipFilter, setZipFilter] = useState("")
+  const [tagFilter, setTagFilter] = useState("")
+  const [isAdmin, setIsAdmin] = useState(false)
+
+  const isPremium = session?.user?.user_metadata?.is_premium === true || profile?.is_premium === true
+
+  useEffect(() => {
+  if (session?.user) {
+    console.log('═══════════════════════════════════════');
+    console.log('User:', session.user.email);
+    console.log('Auth Meta:', session.user.user_metadata);
+    console.log('Profile:', profile);
+    console.log('isPremium:', isPremium);
+    console.log('Nav Items:', navItems.map(n => n.label));
+    console.log('═══════════════════════════════════════');
+  }
+}, [session, profile, isPremium]);
+
+  const [selectedNav, setSelectedNav] = useState("Highlighted Business")
+
+  const navItems = [
+    { label: "Highlighted Business", icon: CompassFill },
+    { label: "Map", icon: GeoAltFill },
+    ...(isPremium ? [{ label: "Display My Card", icon: PersonFill }] : []),
+    { label: "Profile and Payment", icon: PersonFill },
+  ]
+
+  useEffect(() => {
+  const initializeFirebase = async () => {
+    try {
+      let app
+      if (getApps().length === 0) {
+        app = initializeApp(firebaseConfig)
+        console.log("Firebase app initialized")
+      } else {
+        app = getApp()
+        console.log("Firebase app already exists")
+      }
+
+      const messaging = getMessaging(app)
+
+      const permission = await Notification.requestPermission()
+      if (permission === "granted") {
+        console.log("Notification permission granted")
+
+        const token = await getToken(messaging, {
+          vapidKey: "BOgqakg5aBxNszM1Ji6H4ADnNMtexhho5CWWpijJqNxdyD8MtYGSc7ZX3yRz2ybsVs8YIHKi_NZ0mz8zAQ25lQk",
+        })
+
+        if (token) {
+          console.log("FCM Token:", token)
+          handleFcmTokenReceived(token)
+        } else {
+          console.log("No FCM token received")
+        }
+      } else {
+        console.log("Notification permission denied")
+      }
+
+      onMessage(messaging, (payload) => {
+        console.log("Message received in foreground:", payload)
+        if (payload.notification) {
+          new Notification(payload.notification.title, {
+            body: payload.notification.body,
+            icon: payload.notification.icon,
+          })
+        }
+      })
+    } catch (error) {
+      console.error("Error initializing Firebase messaging:", error)
+    }
+  }
+
+  initializeFirebase()
+}, [])
+
+  useEffect(() => {
+  if (session?.user?.email) {
+    const adminEmails = ["serkankalem99@gmail.com"]
+    setIsAdmin(adminEmails.includes(session.user.email.toLowerCase()))
+  }
+}, [session])
+
+  const getBusinessImage = (business, size = "small") => {
+    if (
+      business.logo_url &&
+      business.logo_url.trim() !== "" &&
+      business.logo_url !== "/placeholder.svg" &&
+      !business.logo_url.includes("placeholder")
+    ) {
+      const sizes = {
+        small: { width: 200, height: 200, quality: 75 },
+        medium: { width: 300, height: 300, quality: 80 },
+        large: { width: 500, height: 500, quality: 85 },
+      }
+      const sizeParams = sizes[size] || sizes.small
+
+      return `${business.logo_url}?width=${sizeParams.width}&height=${sizeParams.height}&quality=${sizeParams.quality}&format=webp`
+    }
+    return "/placeholder.svg"
+  }
+
+  const uploadBusinessLogo = async (businessId, file) => {
+    if (!file) return null
+
+    try {
+      console.log("Starting upload for business ID:", businessId)
+      console.log("Business ID type:", typeof businessId)
+
+      const { data: existingBusiness, error: checkError } = await supabase
+        .from("businesses")
+        .select("id, name")
+        .eq("id", businessId)
+        .maybeSingle()
+
+      console.log("Business lookup result:", existingBusiness)
+      console.log("Business lookup error:", checkError)
+
+      if (!existingBusiness) {
+        console.error("Business not found in database with ID:", businessId)
+        alert("Error: Cannot find business in database. ID might be incorrect.")
+        return null
+      }
+
+      console.log("Compressing image...")
+      const compressedBlob = await compressAndUploadImage(file)
+      const compressedFile = new File([compressedBlob], file.name, { type: "image/jpeg" })
+
+      const fileExt = "jpg"
+      const fileName = `${businessId}-${Date.now()}.${fileExt}`
+      const filePath = fileName
+
+      console.log("Uploading to business-logos bucket:", filePath)
+
+      const { error: uploadError, data: uploadData } = await supabase.storage
+        .from("business-logos")
+        .upload(filePath, compressedFile, {
+          upsert: true,
+          cacheControl: "31536000",
+        })
+
+      if (uploadError) {
+        console.error("Upload error:", uploadError)
+        alert("Upload failed: " + uploadError.message)
+        return null
+      }
+
+      console.log("Upload successful:", uploadData)
+
+      const { data: urlData } = supabase.storage.from("business-logos").getPublicUrl(filePath)
+
+      if (!urlData?.publicUrl) {
+        console.error("Failed to get public URL")
+        return null
+      }
+
+      console.log("Public URL:", urlData.publicUrl)
+
+      const { error: updateError, data: updatedBusiness } = await supabase
+        .from("businesses")
+        .update({ logo_url: urlData.publicUrl })
+        .eq("id", businessId)
+        .select()
+
+      if (updateError) {
+        console.error("Database update error:", updateError)
+        alert("Failed to update database: " + updateError.message)
+        return null
+      }
+
+      console.log("Database updated successfully:", updatedBusiness)
+
+      if (!updatedBusiness || updatedBusiness.length === 0) {
+        console.error("No business found with ID:", businessId)
+        alert("Error: Business not found in database")
+        return null
+      }
+
+      alert("Logo uploaded successfully!")
+
+      return urlData.publicUrl
+    } catch (error) {
+      console.error("Error uploading logo:", error)
+      alert("Error: " + error.message)
+      return null
+    }
+  }
+
+  const handleLogoUpload = async (businessId, file) => {
+    if (!file) return
+
+    setBusinesses((prev) => prev.map((biz) => (biz.id === businessId ? { ...biz, uploading: true } : biz)))
+
+    const logoUrl = await uploadBusinessLogo(businessId, file)
+
+    if (logoUrl) {
+      setBusinesses((prev) =>
+        prev.map((biz) => (biz.id === businessId ? { ...biz, logo_url: logoUrl, uploading: false } : biz)),
+      )
+      await fetchBusinesses()
+    } else {
+      setBusinesses((prev) => prev.map((biz) => (biz.id === businessId ? { ...biz, uploading: false } : biz)))
+    }
+  }
+
+  const handleNavClick = (label) => {
+    if (label === "Display My Card") {
+      setShouldShake(true)
+      setTimeout(() => setShouldShake(false), 600)
+    }
+    setSelectedNav(label)
+  }
+
+  const handleBusinessSelect = (e) => {
+    const businessId = e.target.value
+    setSelectedBusinessId(businessId)
+    const business = businesses.find((biz) => biz.id === businessId)
+    if (business && business.latitude && business.longitude) {
+      setMapPanTo({
+        lat: Number.parseFloat(business.latitude),
+        lng: Number.parseFloat(business.longitude),
+      })
+    }
+  }
+
+  const handleFcmTokenReceived = (token) => {
+    console.log("FCM token received and set:", token)
+    setUserFcmToken(token)
+  }
+
+  const handleAddBusiness = async (newBusiness) => {
+    setBusinesses((prev) => [newBusiness, ...prev])
+    setSelectedNav("Highlighted Business")
+    notifyNewBusiness(newBusiness, userFcmToken)
+  }
+
+  async function notifyNewBusiness(newBusiness, userFcmToken) {
+    if (!userFcmToken) {
+      console.warn("No FCM token available for notifications")
+      return
+    }
+    try {
+      console.log("Sending notification with token:", userFcmToken)
+      const response = await fetch("/api/send-notification", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fcmToken: userFcmToken,
+          title: "New Business Added!",
+          body: `${newBusiness.name} just joined our app!`,
+        }),
+      })
+      if (!response.ok) {
+        const errorText = await response.text()
+        console.error(`Notification send failed: ${response.status}`, errorText)
+        return
+      }
+      const data = await response.json()
+      console.log("Notification sent successfully:", data)
+    } catch (error) {
+      console.error("Error sending notification:", error)
+    }
+  }
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768 || /Mobi|Android/i.test(navigator.userAgent))
+    }
+    checkMobile()
+    window.addEventListener("resize", checkMobile)
+    return () => window.removeEventListener("resize", checkMobile)
+  }, [])
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSplash(false)
+      setShowLanding(true)
+    }, 2000)
+    return () => clearTimeout(timer)
+  }, [])
+
+ 
+// ✅ FIXED: Better session and profile loading
+useEffect(() => {
+  let mounted = true;
+
+  const loadData = async () => {
+    console.log('📍 Loading initial data...');
+    
+    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+    if (!mounted) return;
+    
+    if (sessionError) {
+      console.error('❌ Session error:', sessionError);
+      return;
+    }
+    
+    console.log('📍 Session loaded:', session?.user?.email);
+    setSession(session);
+    
+    if (session?.user) {
+      // Use maybeSingle() to handle case where profile doesn't exist yet
+      const { data: profileData, error: profileError } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', session.user.id)
+        .maybeSingle();
+      
+      if (profileError && profileError.code !== 'PGRST116') {
+        console.error('❌ Profile error:', profileError);
+      } else if (profileData) {
+        console.log('✅ Profile loaded:', {
+          email: profileData.email,
+          is_premium: profileData.is_premium,
+          subscription_status: profileData.subscription_status,
+        });
+        setProfile(profileData);
+      } else {
+        console.log('ℹ️ No profile found, user may need to complete signup');
+        // Set a minimal profile object to prevent null errors
+        setProfile({
+          id: session.user.id,
+          email: session.user.email,
+          is_premium: false,
+          subscription_status: null
+        });
+      }
+    } else {
+      setProfile(null);
+    }
+  };
+
+  loadData();
+
+  const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+    console.log('🔔 Auth event:', event);
+    if (!mounted) return;
+    
+    setSession(session);
+    
+    if (session?.user) {
+      const { data: profileData } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', session.user.id)
+        .maybeSingle();
+      
+      if (profileData) {
+        console.log('🔔 Profile updated from auth change');
+        setProfile(profileData);
+      } else {
+        // Ensure profile is never null when user exists
+        setProfile({
+          id: session.user.id,
+          email: session.user.email,
+          is_premium: false,
+          subscription_status: null
+        });
+      }
+    } else {
+      setProfile(null);
+    }
+  });
+
+  const handleVisibilityChange = () => {
+    if (document.visibilityState === 'visible') {
+      console.log('👁️ Page became visible, reloading data...');
+      loadData();
+    }
+  };
+
+  document.addEventListener('visibilitychange', handleVisibilityChange);
+
+  return () => {
+    mounted = false;
+    subscription?.unsubscribe();
+    document.removeEventListener('visibilitychange', handleVisibilityChange);
+  };
+}, []);
+
+// ✅ SIMPLIFIED: Only poll for premium status changes, not full profile
+useEffect(() => {
+  if (!session?.user?.id || !profile) return;
+
+  const pollInterval = setInterval(async () => {
+    try {
+      const { data: newProfile, error } = await supabase
+        .from('profiles')
+        .select('is_premium, subscription_status, subscription_cancel_at')
+        .eq('id', session.user.id)
+        .maybeSingle();
+
+      if (error || !newProfile) return;
+
+      const statusChanged = profile?.subscription_status !== newProfile?.subscription_status;
+      const premiumChanged = profile?.is_premium !== newProfile?.is_premium;
+
+      if (statusChanged || premiumChanged) {
+        console.log('🔄 Subscription status changed, updating profile');
+        setProfile(prev => ({ ...prev, ...newProfile }));
+      }
+    } catch (error) {
+      console.error('❌ Polling error:', error);
+    }
+  }, 5000); // Poll every 5 seconds
+
+  return () => clearInterval(pollInterval);
+}, [session?.user?.id, profile?.subscription_status, profile?.is_premium]);
+
+useEffect(() => {
+  // Check if user was redirected from payment success
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('showCard') === 'true' && isPremium) {
+    setSelectedNav("Display My Card");
+    window.history.replaceState({}, '', '/');
+  }
+}, [isPremium]);
+
+useEffect(() => {
+  // Check for navigation parameter
+  const urlParams = new URLSearchParams(window.location.search);
+  const navParam = urlParams.get('nav');
+  
+  if (navParam === 'profile') {
+    setSelectedNav('Profile and Payment');
+    window.history.replaceState({}, '', '/');
+  }
+}, []);
+
+  const fetchBusinesses = async () => {
+    console.log("Fetching businesses from database...")
+    const { data, error } = await supabase.from("businesses").select("*").order("created_at", { ascending: false })
+
+    if (!error && data) {
+      console.log("Fetched businesses:", data.length)
+      setBusinesses(data)
+      preloadImages(data)
+    } else if (error) {
+      console.error("Error fetching businesses:", error)
+    }
+  }
+
+  const preloadImages = (businessList) => {
+    if (typeof window === "undefined") return
+
+    businessList.forEach((business) => {
+      const img = new window.Image()
+      img.src = getBusinessImage(business, "small")
+    })
+  }
+
+  useEffect(() => {
+    fetchBusinesses()
+  }, [])
+
+  useEffect(() => {
+  if (profile) {
+    setDisplayName(profile.display_name || profile.full_name || "");
+    setEditingName(profile.display_name || profile.full_name || "");
+    setAvatarUrl(profile.avatar_url || "");
+  } else if (session?.user?.user_metadata) {
+    setDisplayName(session.user.user_metadata.display_name || "");
+    setEditingName(session.user.user_metadata.display_name || "");
+    setAvatarUrl(session.user.user_metadata.avatar_url || "");
+  }
+}, [session, profile]);
+
+  const saveName = async () => {
+  setIsSaving(true);
+  setSaveStatus(null);
+  
+  try {
+    // Update auth metadata
+    const { data: authData, error: authError } = await supabase.auth.updateUser({
+      data: {
+        display_name: editingName,
+        avatar_url: avatarUrl,
+      },
+    });
+    if (authError) throw authError;
+
+    // Update profile table
+    const { error: profileError } = await supabase
+      .from('profiles')
+      .update({
+        display_name: editingName,
+        full_name: editingName,
+        avatar_url: avatarUrl,
+      })
+      .eq('id', session.user.id);
+    if (profileError) throw profileError;
+
+    setDisplayName(editingName);
+    setSession((prev) => ({ ...prev, user: authData.user }));
+    setSaveStatus('success');
+  } catch (error) {
+    console.error('Save error:', error);
+    setSaveStatus('error');
+  }
+  setIsSaving(false);
+};
+
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0]
+    if (!file || !session?.user?.id) return
+    setUploading(true)
+    const fileExt = file.name.split(".").pop()
+    const filePath = `avatars/${session.user.id}-${Date.now()}.${fileExt}`
+    const { error: uploadError } = await supabase.storage.from("avatars").upload(filePath, file, { upsert: true })
+    if (uploadError) {
+      setUploading(false)
+      setSaveStatus("error")
+      return
+    }
+    const { data: urlData } = supabase.storage.from("avatars").getPublicUrl(filePath)
+    const publicUrl = urlData?.publicUrl || ""
+    if (!publicUrl) {
+      setUploading(false)
+      setSaveStatus("error")
+      return
+    }
+    const { error: metaErr, data: updated } = await supabase.auth.updateUser({
+      data: {
+        display_name: editingName || displayName,
+        avatar_url: publicUrl,
+      },
+    })
+    if (!metaErr && updated?.user) {
+      setAvatarUrl(publicUrl)
+      setSession((prev) => ({ ...prev, user: updated.user }))
+      setSaveStatus("success")
+    } else {
+      setSaveStatus("error")
+    }
+    setUploading(false)
+  }
+
+const handleLogout = async () => {
+  try {
+    console.log('🚪 Starting logout process...');
+    
+    const { error } = await supabase.auth.signOut();
+    
+    if (error) {
+      console.error('❌ Supabase signOut error:', error);
+    } else {
+      console.log('✅ Supabase signOut successful');
+    }
+    
+    setSession(null);
+    setProfile(null);
+    setDisplayName("");
+    setEditingName("");
+    setAvatarUrl("");
+    setSelectedNav("Highlighted Business");
+    
+    localStorage.clear();
+    sessionStorage.clear();
+    
+    console.log('🔄 Reloading page...');
+    
+    setTimeout(() => {
+      window.location.replace('/');
+    }, 100);
+    
+  } catch (err) {
+    console.error('❌ Logout error:', err);
+    window.location.replace('/');
+  }
+};
+
+const refreshUserData = async () => {
+  if (!session?.user?.id) return;
+  
+  try {
+    console.log('🔄 Refreshing user data...');
+    
+    const { data: newProfile, error: profileError } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', session.user.id)
+      .maybeSingle();
+    
+    if (profileError && profileError.code !== 'PGRST116') {
+      console.error('❌ Profile fetch error:', profileError);
+    } else if (newProfile) {
+      console.log('✅ Profile refreshed');
+      setProfile(newProfile);
+    }
+    
+    const { data: { session: newSession }, error: sessionError } = 
+      await supabase.auth.refreshSession();
+    
+    if (sessionError) {
+      console.error('❌ Session refresh error:', sessionError);
+    } else if (newSession) {
+      console.log('✅ Session refreshed');
+      setSession(newSession);
+    }
+  } catch (error) {
+    console.error('❌ Error refreshing data:', error);
+  }
+};
+
+  if (showSplash) {
+    return (
+      <div className="splash-screen">
+        <div className="sparkle sparkle-1">✦</div>
+        <div className="sparkle sparkle-2">✧</div>
+        <div className="sparkle sparkle-3">✦</div>
+        <div className="decorative-circle"></div>
+        <div className="logo-container">
+          <img src={logo || "/placeholder.svg"} alt="App logo" className="splash-logo" />
+        </div>
+        <div className="splash-tagline"></div>
+      </div>
+    )
+  }
+
+
+  if (showLanding && !session) {
+    return (
+      <LandingPage
+        onLoginClick={() => {
+          setShowLanding(false)
+          setShowRegister(false)
+        }}
+        onGetStarted={() => {
+          setShowLanding(false)
+          setShowRegister(true)
+        }}
+      />
+    )
+  }
+
+  if (!session) {
+    return (
+      <Auth
+        onAuthSuccess={(_data, isSignUp) => {
+          supabase.auth.getSession().then(({ data: { session } }) => {
+            setSession(session)
+            if (isSignUp) setJustSignedUp(true)
+          })
+        }}
+        isLoginProp={!showRegister}
+      />
+    )
+  }
+
+  if (justSignedUp) {
+    return (
+      <div style={{ width: "100vw", margin: 0, padding: 16, boxSizing: "border-box" }}>
+        <h2>Welcome to Staten Island!</h2>
+        <MembershipCard
+          email={session.user.email}
+          name={displayName}
+          avatar={avatarUrl}
+          style={{ width: "100%", maxWidth: "100%" }}
+        />
+        <button
+          onClick={() => setJustSignedUp(false)}
+          style={{
+            marginTop: 24,
+            padding: "12px 24px",
+            backgroundColor: "#007acc",
+            color: "#fff",
+            border: "none",
+            borderRadius: 8,
+            fontWeight: "600",
+            cursor: "pointer",
+            transition: "background 0.3s",
+            width: "100%",
+            maxWidth: 400,
+            display: "block",
+          }}
+          onMouseEnter={(e) => (e.target.style.backgroundColor = "#005fa3")}
+          onMouseLeave={(e) => (e.target.style.backgroundColor = "#007acc")}
+        >
+          Continue to App
+        </button>
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      <style>
+        {`
+          @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+          }
+        `}
+      </style>
+      <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+        <main style={{ flex: 1, padding: 0, overflowY: "auto" }}>
+          {selectedNav === "Display My Card" ? (
+            <div
+              style={{
+                padding: "40px 20px",
+                margin: 0,
+                width: "100vw",
+                minHeight: "calc(100vh - 60px)",
+                backgroundColor: "#ffffff",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "flex-start",
+                textAlign: "center",
+                boxSizing: "border-box",
+              }}
+            >
+              <MembershipCard
+                email={session.user.email}
+                name={displayName}
+                avatar={avatarUrl}
+                shouldShake={shouldShake}
+                style={{ width: "100%", maxWidth: 400, margin: "0 auto" }}
+              />
+            </div>
+          ) : selectedNav === "Add Your Business" ? (
+            <BusinessForm onAddBusiness={handleAddBusiness} />
+          ) : selectedNav === "Map" ? (
+            <div style={{ height: "100vh", display: "flex", flexDirection: "column" }}>
+              <div style={{ flexGrow: 1 }}>
+                <StatenIslandMap businesses={businesses} />
+              </div>
+            </div>
+          ) : selectedNav === "Profile and Payment" ? (
+            <div className="profile-page-backdrop">
+              <ProfileAndPayment
+                session={session}
+                profile={profile}
+                displayName={displayName}
+                onSaveName={saveName}
+                editingName={editingName}
+                setEditingName={setEditingName}
+                isSaving={isSaving}
+                saveStatus={saveStatus}
+                onLogout={handleLogout} 
+              />
+            </div>
+          ) : selectedNav === "Highlighted Business" ? (
+            <div>
+              <div className="highlighted-business-container">
+                <div className="highlighted-business-header">
+                  <h2>Hello, {displayName || "Guest"}!</h2>
+                </div>
+                <div className="highlighted-search-container">
+                  <span>🔍</span>
+                  <input
+                    type="text"
+                    placeholder="Search businesses..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="highlighted-filter-bar">
+                <div className="filter-controls-row">
+                  <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+                    <option value="">Sort By</option>
+                    <option value="az">A → Z</option>
+                    <option value="za">Z → A</option>
+                  
+                    <option value="rating">Highest Rating</option>
+                  </select>
+                  <select value={zipSearch} onChange={(e) => setZipSearch(e.target.value)}>
+                    <option value="">📍 Search by Zip</option>
+                    {[...new Set(businesses.map((biz) => biz.zip_code))].map(
+                      (zip, idx) =>
+                        zip && (
+                          <option key={idx} value={zip}>
+                            {zip}
+                          </option>
+                        ),
+                    )}
+                  </select>
+                  <div className="highlighted-tag-input">
+  <input
+    type="text"
+    placeholder="🏷️   Add tag..."
+    value={newTag}
+    onChange={(e) => setNewTag(e.target.value)}
+    onKeyDown={(e) => {
+      if (e.key === "Enter" && newTag.trim()) {
+        setTags([...tags, newTag.trim()])
+        setNewTag("")
+      }
+    }}
+    style={{
+      paddingLeft: '12px', // Space for the emoji
+    }}
+  />
+ 
+</div>
+                </div>
+                {tags.length > 0 && (
+                  <div className="highlighted-tags-list">
+                    {tags.map((tag, idx) => (
+                      <span key={idx}>
+                        {tag}
+                        <button onClick={() => setTags(tags.filter((_, i) => i !== idx))}>✕</button>
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+              {businesses
+                .filter((biz) => {
+                  const matchesSearch =
+                    (biz.name || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    (biz.description || "").toLowerCase().includes(searchTerm.toLowerCase())
+
+                  const matchesTag =
+                    tags.length === 0 ||
+                    (Array.isArray(biz.tags) &&
+                      tags.some((t) => biz.tags.some((tag) => tag.toLowerCase() === t.toLowerCase())))
+
+                  const matchesZip =
+                    !zipSearch || (biz.zip_code && biz.zip_code.toString().startsWith(zipSearch.trim()))
+
+                  return matchesSearch && matchesTag && matchesZip
+                })
+                .sort((a, b) => {
+                  if (sortBy === "az") return a.name.localeCompare(b.name)
+                  if (sortBy === "za") return b.name.localeCompare(a.name)
+                  if (sortBy === "oldest") return a.id - b.id
+                  if (sortBy === "newest") return b.id - a.id
+                  if (sortBy === "rating") return (b.rating || 0) - (a.rating || 0)
+                  return 0
+                })
+                .map((biz) => (
+                  <div
+                    key={biz.id}
+                    className="highlighted-business-card"
+                    onClick={() => setSelectedBusiness(biz)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    <div style={{ position: "relative" }}>
+                      {biz.uploading && (
+                        <div
+                          style={{
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            backgroundColor: "rgba(255,255,255,0.8)",
+                            borderRadius: "8px",
+                            zIndex: 10,
+                          }}
+                        >
+                          <div>Uploading...</div>
+                        </div>
+                      )}
+                      <OptimizedImage
+                        src={getBusinessImage(biz)}
+                        alt={biz.name}
+                        className="highlighted-business-logo"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setSelectedBusiness(biz)
+                        }}
+                      />
+                      {isAdmin && (
+                        <label
+                          style={{
+                            position: "absolute",
+                            bottom: -8,
+                            right: -8,
+                            backgroundColor: "#1e3a8a",
+                            color: "white",
+                            borderRadius: "50%",
+                            width: 28,
+                            height: 28,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            cursor: "pointer",
+                            fontSize: "14px",
+                            boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
+                          }}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          📷
+                          <input
+                            type="file"
+                            accept="image/*"
+                            style={{ display: "none" }}
+                            onChange={(e) => {
+                              if (e.target.files?.[0]) {
+                                handleLogoUpload(biz.id, e.target.files[0])
+                              }
+                            }}
+                          />
+                        </label>
+                      )}
+                    </div>
+
+                    <div className="highlighted-business-content">
+                      <div className="highlighted-business-name">{biz.name}</div>
+                      {biz.description && <div className="highlighted-business-description">{biz.description}</div>}
+
+                    <div
+  style={{ display: "flex", alignItems: "center", gap: 4 }}
+>
+  {[1, 2, 3, 4, 5].map((star) => (
+    <span
+      key={star}
+      style={{
+        color: (biz.rating || 0) >= star ? "#f59e0b" : "#ccc",
+        fontSize: 18,
+        cursor: "default",  // Changed from "pointer" to "default"
+      }}
+    >
+      ★
+    </span>
+  ))}
+  <span style={{ fontSize: 13, color: "#f59e0b", fontWeight: 500 }}>
+    {biz.rating || " 0.0"} ({biz.review_count || 0})
+  </span>
+</div>
+
+                      {Array.isArray(biz.tags) && biz.tags.length > 0 && (
+                        <div className="highlighted-business-tags">
+                          <span className="highlighted-tag-pill">
+                            <span>🏷️</span>
+                            <span>{biz.tags[0]}</span>
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+            </div>
+          ) : (
+            <div>{/* Any other routes */}</div>
+          )}
+        </main>
+        {selectedBusiness && (
+          <BusinessProfile
+            business={selectedBusiness}
+            onClose={() => setSelectedBusiness(null)}
+            isAdmin={isAdmin}
+            onPhotosUpdate={uploadBusinessPhotos}
+          />
+        )}
+        <nav
+          style={{
+            display: "flex",
+            justifyContent: "space-around",
+            backgroundColor: "white",
+            padding: "8px 4px",
+            borderTop: "1px solid #ccc",
+            minHeight: "60px",
+          }}
+        >
+          {navItems.map(({ label, icon: Icon }) => {
+            const isSelected = selectedNav === label
+            const shortLabel =
+              label === "Highlighted Business"
+                ? "Businesses "
+                : label === "Display My Card"
+                  ? "My Card"
+                  : label === "Profile and Payment"
+                    ? "Profile"
+                    : label
+            return (
+              <div
+                key={label}
+                onClick={() => handleNavClick(label)}
+                style={{
+                  cursor: "pointer",
+                  padding: "4px 2px",
+                  borderRadius: 6,
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: isSelected ? "#4ba3d9" : "#667",
+                  fontWeight: isSelected ? "bold" : "normal",
+                  transition: "color 0.3s",
+                  flex: 1,
+                  maxWidth: "80px",
+                }}
+              >
+                <Icon size={20} color={isSelected ? "#4ba3d9" : "#667"} />
+                <span
+                  style={{
+                    fontSize: "10px",
+                    marginTop: 2,
+                    textAlign: "center",
+                    lineHeight: "12px",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    maxWidth: "100%",
+                  }}
+                >
+                  {shortLabel}
+                </span>
+              </div>
+            )
+          })}
+        </nav>
+      </div>
+    </div>
+  )
+}
+
+export default App
