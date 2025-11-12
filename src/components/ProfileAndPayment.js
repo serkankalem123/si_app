@@ -1,5 +1,5 @@
 // ProfileAndPayment.js
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 
 function ProfileAndPayment({
   session,
@@ -11,6 +11,7 @@ function ProfileAndPayment({
   saveStatus,
   onLogout,
   profile,
+  onRefreshProfile,
 }) {
   const [isLoadingPortal, setIsLoadingPortal] = useState(false);
 
@@ -21,6 +22,36 @@ function ProfileAndPayment({
 
   // ✅ Check if subscription is ending soon
   const isCanceling = subscriptionStatus === 'canceling';
+
+  console.log('🔍 ProfileAndPayment - Current Status:', {
+    isPremium,
+    subscriptionStatus,
+    isCanceling,
+    cancelAt,
+  });
+
+  // ✅ Refresh profile when component mounts or becomes visible
+  useEffect(() => {
+    const refreshOnReturn = async () => {
+      if (onRefreshProfile) {
+        console.log('📱 ProfileAndPayment mounted, refreshing data...');
+        await onRefreshProfile();
+      }
+    };
+
+    refreshOnReturn();
+
+    // Also refresh when tab becomes visible (user returns from Stripe)
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible' && onRefreshProfile) {
+        console.log('👁️ Tab became visible, refreshing profile...');
+        onRefreshProfile();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+  }, [onRefreshProfile]);
 
   const handleUpgrade = async () => {
     if (!session?.user?.id || !session?.user?.email) {
@@ -55,7 +86,7 @@ function ProfileAndPayment({
     }
   }
 
-  // ✅ NEW: Open Stripe Customer Portal
+  // ✅ Open Stripe Customer Portal
   const handleManageSubscription = async () => {
     if (!stripeCustomerId) {
       alert("No customer ID found. Please contact support.");
@@ -130,7 +161,7 @@ function ProfileAndPayment({
 
       {/* Subscription Section */}
       <div className="profile-section">
-        <h3 className="section-title">Your Highlighting SI Epxerience Membership</h3>
+        <h3 className="section-title">Your Highlighting SI Experience Membership</h3>
         <div className="subscription-card">
           <div style={{ marginBottom: '16px', display: 'flex', justifyContent: 'center' }}>
             <span className="subscription-plan" style={{ fontSize: '16px', fontWeight: '600' }}>
@@ -224,9 +255,8 @@ function ProfileAndPayment({
               <li><span className="checkmark">✓</span> Access to new perks added each month.</li>
               <li><span className="checkmark">✓</span> Members only updates and event invites.</li>
               <p className="premium-note">
-      Your $5 per month membership keeps Staten Island saving local and supporting local.
-    </p>
-             
+                Your $5 per month membership keeps Staten Island saving local and supporting local.
+              </p>
             </ul>
           </div>
         )}

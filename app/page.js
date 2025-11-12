@@ -244,6 +244,29 @@ function App() {
 
   const isPremium = session?.user?.user_metadata?.is_premium === true || profile?.is_premium === true
 
+  // Add this useEffect in your App.js, near your other useEffects
+
+useEffect(() => {
+  // Refresh data when navigating to profile page
+  if (selectedNav === 'Profile and Payment') {
+    console.log('📍 Navigated to Profile page, refreshing data...');
+    refreshUserData();
+  }
+}, [selectedNav]);
+
+// Also add a URL parameter check for returns from Stripe
+useEffect(() => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const navParam = urlParams.get('nav');
+  
+  if (navParam === 'profile') {
+    console.log('🔗 Returned from Stripe, refreshing and navigating to profile...');
+    setSelectedNav('Profile and Payment');
+    refreshUserData(); // Refresh immediately
+    window.history.replaceState({}, '', '/'); // Clean up URL
+  }
+}, []);
+
   useEffect(() => {
   if (session?.user) {
     console.log('═══════════════════════════════════════');
@@ -815,19 +838,7 @@ const refreshUserData = async () => {
   try {
     console.log('🔄 Refreshing user data...');
     
-    const { data: newProfile, error: profileError } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', session.user.id)
-      .maybeSingle();
-    
-    if (profileError && profileError.code !== 'PGRST116') {
-      console.error('❌ Profile fetch error:', profileError);
-    } else if (newProfile) {
-      console.log('✅ Profile refreshed');
-      setProfile(newProfile);
-    }
-    
+    // First refresh the session to get updated auth metadata
     const { data: { session: newSession }, error: sessionError } = 
       await supabase.auth.refreshSession();
     
@@ -836,6 +847,23 @@ const refreshUserData = async () => {
     } else if (newSession) {
       console.log('✅ Session refreshed');
       setSession(newSession);
+    }
+
+    // Then get fresh profile data from database
+    const { data: newProfile, error: profileError } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', session.user.id)
+      .single();
+    
+    if (profileError) {
+      console.error('❌ Profile fetch error:', profileError);
+    } else if (newProfile) {
+      console.log('✅ Profile refreshed:', {
+        is_premium: newProfile.is_premium,
+        subscription_status: newProfile.subscription_status,
+      });
+      setProfile(newProfile);
     }
   } catch (error) {
     console.error('❌ Error refreshing data:', error);
@@ -978,6 +1006,7 @@ const refreshUserData = async () => {
                 isSaving={isSaving}
                 saveStatus={saveStatus}
                 onLogout={handleLogout} 
+                onRefreshProfile={refreshUserData}
               />
             </div>
           ) : selectedNav === "Highlighted Business" ? (
