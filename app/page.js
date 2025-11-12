@@ -1,10 +1,12 @@
 "use client";
 
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { supabase } from "../src/supabaseClient";
 
 export default function PaymentSuccess() {
+  const router = useRouter();
   const [isRefreshing, setIsRefreshing] = useState(true);
   const [retryCount, setRetryCount] = useState(0);
   const MAX_RETRIES = 5;
@@ -37,9 +39,7 @@ export default function PaymentSuccess() {
         if (isPremium) {
           console.log("🎉 PREMIUM STATUS CONFIRMED!");
           setIsRefreshing(false);
-          setTimeout(() => {
-            window.location.href = "/?showCard=true";
-          }, 2000);
+          setTimeout(() => router.push("/?showCard=true"), 2000);
         } else {
           console.log("⏳ Not premium yet, retrying...");
           if (retryCount < MAX_RETRIES) {
@@ -47,22 +47,18 @@ export default function PaymentSuccess() {
           } else {
             console.log("⚠️ Max retries reached");
             setIsRefreshing(false);
-            setTimeout(() => {
-              window.location.href = "/?showCard=true";
-            }, 2000);
+            setTimeout(() => router.push("/?showCard=true"), 2000);
           }
         }
       } catch (error) {
         console.error("❌ Error:", error);
         setIsRefreshing(false);
-        setTimeout(() => {
-          window.location.href = "/";
-        }, 3000);
+        setTimeout(() => router.push("/"), 3000);
       }
     };
 
     refreshSessionAndCheck();
-  }, [retryCount]);
+  }, [router, retryCount]);
 
   return (
     <>
