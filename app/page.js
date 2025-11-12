@@ -705,66 +705,6 @@ useEffect(() => {
   }
 }, [session, profile]);
 
-// Add this useEffect to your App component (add it after the other useEffects)
-
-useEffect(() => {
-  // Check if user returned from Stripe portal
-  const urlParams = new URLSearchParams(window.location.search);
-  const updated = urlParams.get('updated');
-  const nav = urlParams.get('nav');
-  
-  if (updated === 'true' && session?.user?.id) {
-    console.log('🔄 User returned from Stripe portal, refreshing data...');
-    
-    // Force refresh session and profile
-    const refreshData = async () => {
-      try {
-        // Refresh auth session
-        const { data: { session: newSession }, error: sessionError } = 
-          await supabase.auth.refreshSession();
-        
-        if (sessionError) {
-          console.error('❌ Session refresh error:', sessionError);
-        } else if (newSession) {
-          console.log('✅ Session refreshed after portal return');
-          setSession(newSession);
-        }
-        
-        // Refresh profile from database
-        const { data: newProfile, error: profileError } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', session.user.id)
-          .maybeSingle();
-        
-        if (profileError && profileError.code !== 'PGRST116') {
-          console.error('❌ Profile refresh error:', profileError);
-        } else if (newProfile) {
-          console.log('✅ Profile refreshed after portal return:', {
-            subscription_status: newProfile.subscription_status,
-            is_premium: newProfile.is_premium,
-            cancel_at: newProfile.subscription_cancel_at,
-          });
-          setProfile(newProfile);
-        }
-        
-        // Navigate to profile page
-        if (nav === 'profile') {
-          setSelectedNav('Profile and Payment');
-        }
-        
-        // Clean up URL
-        window.history.replaceState({}, '', '/');
-        
-      } catch (error) {
-        console.error('❌ Error refreshing data:', error);
-      }
-    };
-    
-    refreshData();
-  }
-}, [session?.user?.id]); // Only depend on user ID to avoid infinite loops
-
   const saveName = async () => {
   setIsSaving(true);
   setSaveStatus(null);
