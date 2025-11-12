@@ -978,6 +978,7 @@ const refreshUserData = async () => {
                 isSaving={isSaving}
                 saveStatus={saveStatus}
                 onLogout={handleLogout} 
+                onRefreshProfile={refreshUserData}
               />
             </div>
           ) : selectedNav === "Highlighted Business" ? (
