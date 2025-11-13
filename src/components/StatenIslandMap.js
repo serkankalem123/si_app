@@ -386,22 +386,22 @@ const StatenIslandMap = ({ businesses }) => {
         </div>
       )}
 
-      {/* Custom Business Info Overlay */}
+      {/* Custom Business Info Overlay - FIXED POSITION */}
       {selectedBusiness && (
         <div
           style={{
-            position: "absolute",
-            bottom: "80px",
+            position: "fixed",
+            bottom: "100px",
             left: "50%",
             transform: "translateX(-50%)",
             background: "white",
             borderRadius: "16px",
-            boxShadow: "0 8px 24px rgba(0,0,0,0.2)",
+            boxShadow: "0 8px 24px rgba(0,0,0,0.25)",
             padding: "16px",
             minWidth: "280px",
             maxWidth: "90%",
-            width: "320px",
-            zIndex: 1500,
+            width: "340px",
+            zIndex: 2500,
             animation: "slideUp 0.3s ease-out",
           }}
         >
@@ -414,13 +414,13 @@ const StatenIslandMap = ({ businesses }) => {
               background: "#f3f4f6",
               border: "none",
               borderRadius: "50%",
-              width: "28px",
-              height: "28px",
+              width: "32px",
+              height: "32px",
               cursor: "pointer",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              fontSize: "18px",
+              fontSize: "20px",
               color: "#6b7280",
               fontWeight: "bold",
               transition: "all 0.2s",
@@ -437,7 +437,7 @@ const StatenIslandMap = ({ businesses }) => {
             ×
           </button>
 
-          <div style={{ display: "flex", alignItems: "center", gap: "16px", paddingRight: "30px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "16px", paddingRight: "36px" }}>
             <img
               src={selectedBusiness.logo_url || "/placeholder.svg"}
               alt={selectedBusiness.name}
@@ -449,14 +449,15 @@ const StatenIslandMap = ({ businesses }) => {
                 flexShrink: 0,
               }}
             />
-            <div style={{ flex: 1 }}>
+            <div style={{ flex: 1, minWidth: 0 }}>
               <div
                 style={{
                   fontWeight: "600",
-                  fontSize: "18px",
+                  fontSize: "16px",
                   marginBottom: "6px",
                   color: "#1f2937",
                   fontFamily: "'Montserrat', sans-serif",
+                  wordBreak: "break-word",
                 }}
               >
                 {selectedBusiness.name}
@@ -471,9 +472,10 @@ const StatenIslandMap = ({ businesses }) => {
                   style={{
                     color: "#2563eb",
                     textDecoration: "none",
-                    fontSize: "14px",
+                    fontSize: "13px",
                     fontFamily: "'Raleway', sans-serif",
                     display: "block",
+                    wordBreak: "break-word",
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.textDecoration = "underline"
