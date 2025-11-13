@@ -1,5 +1,81 @@
 /* styles/globals.css */
 
+/* Fixed bottom navbar - Add this to your App.css or globals.css */
+
+/* Make the navbar stick to bottom on all devices */
+nav {
+  position: fixed !important;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  background-color: white;
+  padding: 8px 4px;
+  border-top: 1px solid #ccc;
+  min-height: 60px;
+  z-index: 1000;
+  /* Ensure it's above other content */
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  /* Optional: adds subtle shadow */
+}
+
+/* Add padding to main content so it doesn't get hidden behind navbar */
+main {
+  flex: 1;
+  padding: 0;
+  padding-bottom: 80px !important;
+  /* Add space for fixed navbar */
+  overflow-y: auto;
+}
+
+/* Ensure the app container doesn't interfere */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* For mobile devices - ensure navbar is always visible */
+@media (max-width: 768px) {
+  nav {
+    position: fixed !important;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    min-height: 60px;
+    padding: 10px 4px;
+    background-color: white;
+    border-top: 2px solid #e5e7eb;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  main {
+    padding-bottom: 80px !important;
+  }
+
+  /* Make nav items more tappable on mobile */
+  nav>div {
+    padding: 8px 4px !important;
+    min-width: 60px;
+  }
+}
+
+/* Prevent body scroll issues on iOS */
+body {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+html {
+  height: 100%;
+  overflow: hidden;
+}
+
 .highlighted-business-name {
   font-family: 'Montserrat', sans-serif;
   /* your other existing styles */
