@@ -667,31 +667,44 @@ useEffect(() => {
   }
 }, []);
 
-  const fetchBusinesses = async () => {
-    console.log("Fetching businesses from database...")
+const fetchBusinesses = async () => {
+  console.log("Fetching businesses from database...")
+  try {
     const { data, error } = await supabase.from("businesses").select("*").order("created_at", { ascending: false })
 
     if (!error && data) {
-      console.log("Fetched businesses:", data.length)
+      console.log("✅ Fetched businesses:", data.length)
       setBusinesses(data)
       preloadImages(data)
     } else if (error) {
-      console.error("Error fetching businesses:", error)
+      console.error("❌ Error fetching businesses:", error)
     }
+  } catch (err) {
+    console.error("❌ Exception fetching businesses:", err)
   }
+}
 
-  const preloadImages = (businessList) => {
-    if (typeof window === "undefined") return
+const preloadImages = (businessList) => {
+  if (typeof window === "undefined") return
 
-    businessList.forEach((business) => {
-      const img = new window.Image()
-      img.src = getBusinessImage(business, "small")
-    })
-  }
+  businessList.forEach((business) => {
+    const img = new window.Image()
+    img.src = getBusinessImage(business, "small")
+  })
+}
 
-  useEffect(() => {
+// Fetch businesses on mount AND when session changes
+useEffect(() => {
+  fetchBusinesses()
+}, [])
+
+// Re-fetch businesses when user signs in
+useEffect(() => {
+  if (session?.user) {
+    console.log("🔄 User session detected, refreshing businesses...")
     fetchBusinesses()
-  }, [])
+  }
+}, [session?.user?.id])
 
   useEffect(() => {
   if (profile) {
