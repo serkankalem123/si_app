@@ -1059,7 +1059,7 @@ const refreshUserData = async () => {
                     <option value="rating">Highest Rating</option>
                   </select>
                   <select value={zipSearch} onChange={(e) => setZipSearch(e.target.value)}>
-                    <option value="">📍 Search by Zip</option>
+                    <option value="">📍 Search Zip</option>
                     {[...new Set(businesses.map((biz) => biz.zip_code))].map(
                       (zip, idx) =>
                         zip && (
