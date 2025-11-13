@@ -521,80 +521,124 @@ function App() {
 
  
 // ✅ FIXED: Better session and profile loading
+// ✅ FIXED: Replace your session/profile loading useEffect with this
+
 useEffect(() => {
   let mounted = true;
 
   const loadData = async () => {
     console.log('📍 Loading initial data...');
     
-    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-    if (!mounted) return;
-    
-    if (sessionError) {
-      console.error('❌ Session error:', sessionError);
-      return;
-    }
-    
-    console.log('📍 Session loaded:', session?.user?.email);
-    setSession(session);
-    
-    if (session?.user) {
-      // Use maybeSingle() to handle case where profile doesn't exist yet
-      const { data: profileData, error: profileError } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', session.user.id)
-        .maybeSingle();
+    try {
+      // Get session
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
       
-      if (profileError && profileError.code !== 'PGRST116') {
-        console.error('❌ Profile error:', profileError);
-      } else if (profileData) {
-        console.log('✅ Profile loaded:', {
-          email: profileData.email,
-          is_premium: profileData.is_premium,
-          subscription_status: profileData.subscription_status,
-        });
-        setProfile(profileData);
-      } else {
-        console.log('ℹ️ No profile found, user may need to complete signup');
-        // Set a minimal profile object to prevent null errors
-        setProfile({
-          id: session.user.id,
-          email: session.user.email,
-          is_premium: false,
-          subscription_status: null
-        });
+      if (!mounted) return;
+      
+      if (sessionError) {
+        console.error('❌ Session error:', sessionError);
+        setSession(null);
+        setProfile(null);
+        return;
       }
-    } else {
-      setProfile(null);
+      
+      console.log('📍 Session loaded:', session?.user?.email || 'No session');
+      setSession(session);
+      
+      if (session?.user) {
+        console.log('📍 Fetching profile for user:', session.user.id);
+        
+        // Fetch profile with error handling
+        const { data: profileData, error: profileError } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', session.user.id)
+          .maybeSingle();
+        
+        if (!mounted) return;
+        
+        if (profileError) {
+          console.error('❌ Profile error:', profileError);
+          // Create minimal profile from auth metadata
+          const fallbackProfile = {
+            id: session.user.id,
+            email: session.user.email,
+            display_name: session.user.user_metadata?.display_name || '',
+            full_name: session.user.user_metadata?.display_name || '',
+            avatar_url: session.user.user_metadata?.avatar_url || '',
+            is_premium: session.user.user_metadata?.is_premium || false,
+            subscription_status: session.user.user_metadata?.subscription_status || null,
+          };
+          console.log('⚠️ Using fallback profile:', fallbackProfile);
+          setProfile(fallbackProfile);
+        } else if (profileData) {
+          console.log('✅ Profile loaded:', {
+            email: profileData.email,
+            is_premium: profileData.is_premium,
+            subscription_status: profileData.subscription_status,
+          });
+          setProfile(profileData);
+        } else {
+          console.log('ℹ️ No profile found, creating from metadata');
+          // Create profile from auth metadata
+          const newProfile = {
+            id: session.user.id,
+            email: session.user.email,
+            display_name: session.user.user_metadata?.display_name || '',
+            full_name: session.user.user_metadata?.display_name || '',
+            avatar_url: session.user.user_metadata?.avatar_url || '',
+            is_premium: session.user.user_metadata?.is_premium || false,
+            subscription_status: session.user.user_metadata?.subscription_status || null,
+          };
+          setProfile(newProfile);
+        }
+      } else {
+        console.log('ℹ️ No user session, clearing profile');
+        setProfile(null);
+      }
+    } catch (error) {
+      console.error('❌ Error loading data:', error);
+      if (mounted) {
+        setSession(null);
+        setProfile(null);
+      }
     }
   };
 
+  // Load data immediately
   loadData();
 
+  // Listen for auth changes
   const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
     console.log('🔔 Auth event:', event);
+    
     if (!mounted) return;
     
     setSession(session);
     
     if (session?.user) {
+      // Fetch profile on auth change
       const { data: profileData } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', session.user.id)
         .maybeSingle();
       
+      if (!mounted) return;
+      
       if (profileData) {
         console.log('🔔 Profile updated from auth change');
         setProfile(profileData);
       } else {
-        // Ensure profile is never null when user exists
+        // Fallback to auth metadata
         setProfile({
           id: session.user.id,
           email: session.user.email,
-          is_premium: false,
-          subscription_status: null
+          display_name: session.user.user_metadata?.display_name || '',
+          full_name: session.user.user_metadata?.display_name || '',
+          avatar_url: session.user.user_metadata?.avatar_url || '',
+          is_premium: session.user.user_metadata?.is_premium || false,
+          subscription_status: session.user.user_metadata?.subscription_status || null,
         });
       }
     } else {
@@ -602,6 +646,7 @@ useEffect(() => {
     }
   });
 
+  // Handle visibility changes
   const handleVisibilityChange = () => {
     if (document.visibilityState === 'visible') {
       console.log('👁️ Page became visible, reloading data...');
@@ -699,12 +744,7 @@ useEffect(() => {
 }, [])
 
 // Re-fetch businesses when user signs in
-useEffect(() => {
-  if (session?.user) {
-    console.log("🔄 User session detected, refreshing businesses...")
-    fetchBusinesses()
-  }
-}, [session?.user?.id])
+
 
   useEffect(() => {
   if (profile) {
