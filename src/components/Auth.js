@@ -1,9 +1,13 @@
 // src/Auth.js
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
+
 import '../../styles/App.css';
 
-const logo = "/Cartoon.PNG";
+
+
+
+const logo = "/Cartoon.PNG"
 
 function Auth({ onAuthSuccess, isLoginProp }) {
   // States for login/signup
@@ -11,12 +15,6 @@ function Auth({ onAuthSuccess, isLoginProp }) {
   const [password, setPassword] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [isLogin, setIsLogin] = useState(true);
-
-  // OTP verification states
-  const [awaitingOTP, setAwaitingOTP] = useState(false);
-  const [otpCode, setOtpCode] = useState('');
-  const [pendingPassword, setPendingPassword] = useState('');
-  const [pendingDisplayName, setPendingDisplayName] = useState('');
 
   // Forgot password states
   const [forgotPasswordMode, setForgotPasswordMode] = useState(false);
@@ -30,7 +28,6 @@ function Auth({ onAuthSuccess, isLoginProp }) {
   // UI messages
   const [error, setError] = useState(null);
   const [infoMessage, setInfoMessage] = useState(null);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (typeof isLoginProp === 'boolean') {
@@ -44,9 +41,12 @@ function Auth({ onAuthSuccess, isLoginProp }) {
       if (event === 'PASSWORD_RECOVERY') {
         setInPasswordRecovery(true);
         setForgotPasswordMode(false);
-        setAwaitingOTP(false);
         setError(null);
         setInfoMessage(null);
+        setEmail('');
+        setPassword('');
+        setDisplayName('');
+        setResetEmail('');
       }
     });
     const subscription = data?.subscription;
@@ -57,193 +57,72 @@ function Auth({ onAuthSuccess, isLoginProp }) {
     };
   }, []);
 
-  // Step 1: Send OTP code
+  // Handle login/register
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
     setInfoMessage(null);
-    setLoading(true);
 
     const trimmedEmail = email.trim();
 
     if (!trimmedEmail) {
       setError('Email must not be empty.');
-      setLoading(false);
       return;
     }
     if (!password) {
       setError('Password must not be empty.');
-      setLoading(false);
       return;
     }
     if (!isLogin && !displayName.trim()) {
       setError('Display name is required for registration.');
-      setLoading(false);
       return;
     }
 
     try {
       if (isLogin) {
-        // For login: Check if user exists and password is correct first
-        const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
+        const { data, error: loginError } = await supabase.auth.signInWithPassword({
           email: trimmedEmail,
           password,
         });
-
+      
         if (loginError) {
           setError(`Login failed: ${loginError.message}`);
-          setLoading(false);
-          return;
-        }
-
-        // If login successful, send OTP for verification
-        const { error: otpError } = await supabase.auth.signInWithOtp({
-          email: trimmedEmail,
-          options: {
-            shouldCreateUser: false,
+        } else if (!data.session) {
+          setInfoMessage('No active session received. Check if email confirmation is required.');
+        } else {
+          // 🩵 Fetch fresh user data including metadata
+          const { data: userData, error: userError } = await supabase.auth.getUser();
+          if (userError) {
+            console.error('Failed to fetch user data:', userError);
+          } else if (userData?.user) {
+            data.user = userData.user; // attach full user with metadata
           }
-        });
-
-        // Sign out immediately after sending OTP
-        await supabase.auth.signOut();
-
-        if (otpError) {
-          setError(`Failed to send verification code: ${otpError.message}`);
-          setLoading(false);
-          return;
+          onAuthSuccess(data, false);
         }
-
-        // Store password temporarily for final login after OTP verification
-        setPendingPassword(password);
-        setAwaitingOTP(true);
-        setInfoMessage('✉️ Verification code sent! Check your email.');
-        setLoading(false);
-
+      
+      
       } else {
-        // For signup: Send OTP first, then create account after verification
-        const { error: otpError } = await supabase.auth.signInWithOtp({
-          email: trimmedEmail,
-          options: {
-            shouldCreateUser: false, // Don't create yet
-          }
-        });
-
-        if (otpError) {
-          setError(`Failed to send verification code: ${otpError.message}`);
-          setLoading(false);
-          return;
-        }
-
-        // Store credentials temporarily
-        setPendingPassword(password);
-        setPendingDisplayName(displayName.trim());
-        setAwaitingOTP(true);
-        setInfoMessage('✉️ Verification code sent! Check your email.');
-        setLoading(false);
-      }
-    } catch (err) {
-      console.error('Unexpected error:', err);
-      setError('Unexpected error occurred. Check console.');
-      setLoading(false);
-    }
-  };
-
-  // Step 2: Verify OTP and complete authentication
-  const handleVerifyOTP = async (e) => {
-    e.preventDefault();
-    setError(null);
-    setInfoMessage(null);
-    setLoading(true);
-
-    if (!otpCode.trim()) {
-      setError('Please enter the verification code.');
-      setLoading(false);
-      return;
-    }
-
-    try {
-      // Verify the OTP code
-      const { data: otpData, error: otpError } = await supabase.auth.verifyOtp({
-        email: email.trim(),
-        token: otpCode.trim(),
-        type: 'email'
-      });
-
-      if (otpError) {
-        setError(`Invalid or expired code: ${otpError.message}`);
-        setLoading(false);
-        return;
-      }
-
-      // OTP verified successfully
-      if (isLogin) {
-        // For login: Sign in with password now
-        const { data, error: loginError } = await supabase.auth.signInWithPassword({
-          email: email.trim(),
-          password: pendingPassword,
-        });
-
-        if (loginError) {
-          setError(`Login failed: ${loginError.message}`);
-          setLoading(false);
-          return;
-        }
-
-        const { data: userData, error: userError } = await supabase.auth.getUser();
-        if (userError) {
-          console.error('Failed to fetch user data:', userError);
-        } else if (userData?.user) {
-          data.user = userData.user;
-        }
-
-        onAuthSuccess(data, false);
-
-      } else {
-        // For signup: Create the account now with verified email
         const { data, error: signUpError } = await supabase.auth.signUp({
-          email: email.trim(),
-          password: pendingPassword,
-          options: {
-            data: { display_name: pendingDisplayName },
-            emailRedirectTo: window.location.origin,
-          },
+          email: trimmedEmail,
+          password,
+          options: { data: { display_name: displayName.trim() } },
         });
-
         if (signUpError) {
           setError(`Sign-up failed: ${signUpError.message}`);
-          setLoading(false);
           return;
         }
-
+        if (data?.user && !data?.session) {
+          setInfoMessage('✉️ Account created! Please check your for verification.');
+          return;
+        }
         if (data?.session) {
           onAuthSuccess(data, true);
-        } else {
-          setInfoMessage('Account created! Please log in.');
-          resetToLogin();
         }
       }
-
-      setLoading(false);
-
     } catch (err) {
-      console.error('Unexpected error during OTP verification:', err);
-      setError('Unexpected error occurred. Check console.');
-      setLoading(false);
+      console.error('Unexpected error during authentication:', err);
+      setError('Unexpected error occurred during authentication. Check console.');
     }
-  };
-
-  // Reset to login state
-  const resetToLogin = () => {
-    setAwaitingOTP(false);
-    setOtpCode('');
-    setPendingPassword('');
-    setPendingDisplayName('');
-    setIsLogin(true);
-    setEmail('');
-    setPassword('');
-    setDisplayName('');
-    setError(null);
-    setInfoMessage(null);
   };
 
   // Forgot password flow
@@ -255,22 +134,12 @@ function Auth({ onAuthSuccess, isLoginProp }) {
       return;
     }
     setResettingPassword(true);
-    
-    // Send OTP for password reset
-    const { error } = await supabase.auth.signInWithOtp({
-      email: resetEmail.trim(),
-      options: {
-        shouldCreateUser: false,
-      }
+    const { error } = await supabase.auth.resetPasswordForEmail(resetEmail.trim(), {
+      redirectTo: window.location.origin,
     });
-    
     setResettingPassword(false);
-    if (error) {
-      setError(`Failed to send reset code: ${error.message}`);
-    } else {
-      setInfoMessage('✉️ Verification code sent! Check your email.');
-      // You could switch to an OTP entry mode here for password reset
-    }
+    if (error) setError(`Failed to send reset email: ${error.message}`);
+    else setInfoMessage('✉️ Password reset email sent! Check your inbox.');
   };
 
   // Update password after recovery
@@ -288,13 +157,14 @@ function Auth({ onAuthSuccess, isLoginProp }) {
       setInfoMessage('Password updated! You may now log in.');
       setInPasswordRecovery(false);
       setNewPassword('');
-      resetToLogin();
+      setIsLogin(true);
+      setEmail('');
+      setPassword('');
       setForgotPasswordMode(false);
       setResetEmail('');
     }
   };
 
-  // Password recovery screen
   if (inPasswordRecovery) {
     return (
       <div className="auth-container">
@@ -317,54 +187,6 @@ function Auth({ onAuthSuccess, isLoginProp }) {
     );
   }
 
-  // OTP verification screen
-  if (awaitingOTP) {
-    return (
-      <div className="auth-container">
-        <div className="auth-box">
-          <img src={logo} alt="App Logo" className="auth-logo" />
-          <h2 style={{ marginBottom: 20 }}>Enter Verification Code</h2>
-          <p style={{ marginBottom: 20, fontSize: 14, color: '#666' }}>
-            We sent a 6-digit code to <strong>{email}</strong>
-          </p>
-
-          <form onSubmit={handleVerifyOTP} style={{ width: '100%' }}>
-            <input
-              type="text"
-              placeholder="Enter 6-digit code"
-              value={otpCode}
-              onChange={(e) => setOtpCode(e.target.value)}
-              className="auth-input"
-              maxLength={6}
-              style={{ textAlign: 'center', fontSize: 20, letterSpacing: 4 }}
-            />
-            <button type="submit" disabled={loading} className="auth-button">
-              {loading ? 'Verifying...' : 'Verify Code'}
-            </button>
-          </form>
-
-          <p
-            onClick={() => {
-              setAwaitingOTP(false);
-              setOtpCode('');
-              setPendingPassword('');
-              setPendingDisplayName('');
-              setError(null);
-              setInfoMessage(null);
-            }}
-            style={{ color: 'blue', cursor: 'pointer', fontWeight: 'bold', marginTop: 16 }}
-          >
-            ← Back
-          </p>
-
-          {error && <div className="auth-message error">{error}</div>}
-          {infoMessage && <div className="auth-message success">{infoMessage}</div>}
-        </div>
-      </div>
-    );
-  }
-
-  // Main login/register screen
   return (
     <div className="auth-container">
       <div className="auth-box">
@@ -401,10 +223,9 @@ function Auth({ onAuthSuccess, isLoginProp }) {
                 required
                 onChange={(e) => setPassword(e.target.value)}
                 className="auth-input"
-                style={{ marginTop: 8 }}
               />
-              <button type="submit" disabled={loading} className="auth-button">
-                {loading ? 'Sending code...' : isLogin ? 'Continue' : 'Create Account'}
+              <button type="submit" className="auth-button">
+                {isLogin ? 'Login' : 'Register'}
               </button>
             </form>
 
@@ -437,6 +258,7 @@ function Auth({ onAuthSuccess, isLoginProp }) {
               </p>
             )}
 
+            {/* Styled message boxes */}
             {error && <div className="auth-message error">{error}</div>}
             {infoMessage && <div className="auth-message success">{infoMessage}</div>}
           </>
@@ -456,7 +278,7 @@ function Auth({ onAuthSuccess, isLoginProp }) {
               className="auth-button"
               style={{ marginTop: 10 }}
             >
-              {resettingPassword ? 'Sending...' : 'Send Reset Code'}
+              {resettingPassword ? 'Sending...' : 'Send Reset Email'}
             </button>
             <button
               onClick={() => {
@@ -471,6 +293,7 @@ function Auth({ onAuthSuccess, isLoginProp }) {
               Back
             </button>
 
+            {/* Styled message boxes */}
             {error && <div className="auth-message error">{error}</div>}
             {infoMessage && <div className="auth-message success">{infoMessage}</div>}
           </>
@@ -481,3 +304,4 @@ function Auth({ onAuthSuccess, isLoginProp }) {
 }
 
 export default Auth;
+
