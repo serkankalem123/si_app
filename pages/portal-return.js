@@ -8,9 +8,13 @@ export default function PortalReturn() {
   const [checking, setChecking] = useState(true);
 
   useEffect(() => {
+    let checkCount = 0;
+    const MAX_CHECKS = 10;
+    
     const checkSubscriptionStatus = async () => {
       try {
-        console.log('🔍 Checking what changed in portal...');
+        checkCount++;
+        console.log(`🔍 Checking subscription status (attempt ${checkCount}/${MAX_CHECKS})...`);
         
         // Get current session
         const { data: { session }, error: sessionError } = 
@@ -22,48 +26,59 @@ export default function PortalReturn() {
           return;
         }
 
-        // Wait a moment for webhook to process
-        await new Promise(resolve => setTimeout(resolve, 2000));
-
         // Refresh to get latest data
         await supabase.auth.refreshSession();
 
         // Check profile for subscription status
         const { data: profile, error: profileError } = await supabase
           .from('profiles')
-          .select('subscription_status, is_premium')
+          .select('subscription_status, is_premium, subscription_cancel_at')
           .eq('id', session.user.id)
-          .single();
+          .maybeSingle();
 
-        if (profileError) {
+        if (profileError && profileError.code !== 'PGRST116') {
           console.error('Profile check error:', profileError);
           router.push('/?nav=profile');
           return;
         }
 
-        console.log('📊 Current status:', profile.subscription_status);
+        console.log('📊 Current status:', {
+          subscription_status: profile?.subscription_status,
+          is_premium: profile?.is_premium,
+          cancel_at: profile?.subscription_cancel_at
+        });
 
-        // If subscription is canceling, show cancellation success
-        if (profile.subscription_status === 'canceling') {
+        // Check if cancellation was processed
+        const isCanceling = profile?.subscription_status === 'canceling';
+        const isCanceled = profile?.subscription_status === 'canceled';
+        const lostPremium = profile?.is_premium === false;
+
+        // If we detect a change, redirect to success page
+        if (isCanceling || isCanceled || lostPremium) {
+          console.log('✅ Cancellation detected! Redirecting...');
+          setChecking(false);
           router.push('/cancellation-success');
-        } 
-        // If fully canceled
-        else if (profile.subscription_status === 'canceled' || !profile.is_premium) {
-          router.push('/?nav=profile');
+          return;
         }
-        // Otherwise just go back to profile
-        else {
+
+        // If we haven't detected a change yet and haven't maxed out checks, try again
+        if (checkCount < MAX_CHECKS) {
+          setTimeout(() => checkSubscriptionStatus(), 2000);
+        } else {
+          // Max checks reached, just go to profile
+          console.log('⚠️ Max checks reached, redirecting to profile');
+          setChecking(false);
           router.push('/?nav=profile');
         }
 
       } catch (error) {
         console.error('Error checking status:', error);
-        router.push('/?nav=profile');
-      } finally {
         setChecking(false);
+        router.push('/?nav=profile');
       }
     };
 
+    // Start checking immediately
     checkSubscriptionStatus();
   }, [router]);
 
