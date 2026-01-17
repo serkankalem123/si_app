@@ -7,6 +7,8 @@ self.__BUILD_MANIFEST = {
   "sortedPages": [
     "/_app",
     "/_error",
-    "/payment-success"
+    "/cancellation-sucess",
+    "/payment-success",
+    "/portal-return"
   ]
 };self.__BUILD_MANIFEST_CB && self.__BUILD_MANIFEST_CB()
