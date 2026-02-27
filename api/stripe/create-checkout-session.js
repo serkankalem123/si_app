@@ -37,6 +37,7 @@ export default async function handler(req, res) {
         },
       ],
       mode: "subscription",
+      allow_promotion_codes: true,
       success_url: `${req.headers.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${req.headers.origin}/profile`,
       metadata: {
@@ -48,5 +49,6 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error("Stripe error:", error)
     return res.status(500).json({ error: "Internal server error" })
+  
   }
 }
